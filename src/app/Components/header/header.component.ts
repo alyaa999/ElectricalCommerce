@@ -4,7 +4,7 @@ import { CartSidebarComponent } from "../cart-sidebar/cart-sidebar.component";
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, CartSidebarComponent],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
