@@ -23,10 +23,7 @@ export class CartComponent implements OnInit {
        cartProducts: []
      }
     Shipping : shipping[] ;
-    SelectCity: shipping={
-      price: 0, to: "", from: "",
-      currency: ''
-    };
+    SelectValue: number=0;
     Subtotal:number = 0;
     Total : number = 0;
 
@@ -41,8 +38,8 @@ export class CartComponent implements OnInit {
     }
    UpdateTotals()
    {
-    this.Total =  this.Subtotal + this.SelectCity.price;
-    console.log(this.SelectCity.to);
+    this.Total =  Number(this.Subtotal) + Number(this.SelectValue);
+    console.log(this.Total);
    }
    setPrimaryImage()
     {
