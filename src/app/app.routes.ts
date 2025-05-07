@@ -10,6 +10,8 @@ export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, title: 'Home'},
     {path: 'products', component: ProductsComponent, title: 'Products'},
+    {path: 'filter', component: FilterComponent, title: 'Filter'},
+    {path: 'shop', component: ShopComponent, title: 'Shop'},
     {path: 'products/:id', component: ProductDetailsComponent, title: 'Product Details'},
     {path: 'about', component: AboutComponent, title: 'About'},
     {path: 'cart', loadComponent:()=>import('./Components/cart/cart.component').then(c => c.CartComponent) , title: 'Cart', canActivate: [authGuard]},
