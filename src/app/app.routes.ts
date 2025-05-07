@@ -5,6 +5,8 @@ import { ProductDetailsComponent } from './Components/product-details/product-de
 import { authGuard } from './Guards/auth.guard';
 import { ErrorComponent } from './Components/error/error.component';
 import { AboutComponent } from './Components/about/about.component';
+import { FilterComponent } from './Components/filter/filter.component';
+import { ShopComponent } from './Components/shop/shop.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
