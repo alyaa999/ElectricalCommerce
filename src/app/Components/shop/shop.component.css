@@ -1,0 +1,23 @@
+#container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+#filter {
+  width: 100%;
+} 
+
+@media (min-width: 768px) {
+  #container {
+    flex-direction: row;
+  }
+  
+  #filter {
+    flex: 0 0 280px;
+  }
+  
+  #prod {
+    flex: 1;
+  }
+}

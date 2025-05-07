@@ -1,1 +1,69 @@
-<p>filter works!</p>
+<div class="filters-container">
+  <!-- Price Filter -->
+  <div class="filter-section">
+    <h3 class="filter-title">Price Range</h3>
+    <div class="price-range">
+      <div class="price-display">
+        <span class="min-price">{{minPrice}} L.E</span>
+        <span class="max-price">{{maxPrice}} L.E</span>
+      </div>
+      <input 
+        type="range" 
+        min="{{minPrice}}" 
+        max="{{maxPrice}}" 
+        value="{{maxPrice/2}}" 
+        class="price-slider"
+      >
+    </div>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="filter-section">
+    <h3 class="filter-title">Categories</h3>
+    <ul class="category-list">
+      @for (cat of categories; track $index) 
+      {
+        <li class="category-item">
+          <label class="category-label">
+            <input type="checkbox" [checked]="cat.checked" class="category-checkbox">
+            <span class="custom-checkbox"></span>
+            <span class="category-name">{{cat.name}}</span>
+          </label>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Brand Filter -->
+  <div class="filter-section">
+    <h3 class="filter-title">Brands</h3>
+    <ul class="category-list">
+      @for (brand of brands; track $index) 
+      {
+        <li class="category-item">
+          <label class="category-label">
+            <input type="checkbox" [checked]="brand.checked" class="category-checkbox">
+            <span class="custom-checkbox"></span>
+            <span class="category-name">{{brand.name}}</span>
+          </label>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- Rating Filter-->
+  <div class="filter-section">
+    <h3 class="filter-title">Rating</h3>
+    <div class="rating-filter">
+      @for (rating of [5,4,3,2,1]; track rating) {
+        <div class="rating-option" [class.active]="selectedRating === rating" (click)="selectRating(rating)">
+          <div class="stars-container">
+            @for (star of [1,2,3,4,5]; track star) {
+              <span class="star" [class.filled]="star <= rating">★</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div> 
+</div>
