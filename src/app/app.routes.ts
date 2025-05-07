@@ -6,11 +6,13 @@ import { CartComponent } from './Components/cart/cart.component';
 import { authGuard } from './Guards/auth.guard';
 import { ErrorComponent } from './Components/error/error.component';
 import { AboutComponent } from './Components/about/about.component';
+import { TestSliderComponent } from './Components/test-slider/test-slider.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, title: 'Home'},
     {path: 'products', component: ProductsComponent, title: 'Products'},
+    {path: 'test', component: TestSliderComponent, title: 'test'},
     {path: 'products/:id', component: ProductDetailsComponent, title: 'Product Details'},
     {path: 'about', component: AboutComponent, title: 'About'},
     {path: 'cart', loadComponent:()=>import('./Components/cart/cart.component').then(c => c.CartComponent) , title: 'Cart', canActivate: [authGuard]},
