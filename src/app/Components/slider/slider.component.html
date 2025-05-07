@@ -1,0 +1,14 @@
+
+<div style="height: 400px;">
+
+
+  <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+  centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
+  @for (item of images; track $index) {
+    <swiper-slide>
+      <img [src]="item" alt="" srcset="">
+    </swiper-slide>
+  }
+  
+</swiper-container>
+</div>
