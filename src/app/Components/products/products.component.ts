@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,  // Required if using standalone
   imports: [RouterModule],
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css',]
 })
 export class ProductsComponent {
   public products = [
@@ -44,6 +44,6 @@ export class ProductsComponent {
   }
 
   AddToWishlist(){
-    
+    console.log("Added to wishlist");
   }
 }
