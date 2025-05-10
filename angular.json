@@ -10,7 +10,6 @@
           "skipTests": true
         }
       },
-
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -32,10 +31,20 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "F:/9-Months/Courses/Angular/AngularProject/ElectricalCommerce/node_modules/bootstrap/dist/css/bootstrap.min.css"
-            ],
+          "node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "node_modules/font-awesome/css/font-awesome.min.css",
+          "src/styles.css"]
+                ,
             "scripts": []
+
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "node_modules/material-design-iconic-font/dist/css/material-design-iconic-font.css",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+
+            ],
+        
+
           },
           "configurations": {
             "production": {
@@ -91,7 +100,8 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
             ],
             "scripts": []
           }

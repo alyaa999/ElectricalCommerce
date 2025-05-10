@@ -1,1 +1,50 @@
-<p class="bg-info-subtle text-center" style="margin-top: 40px;">footer works!</p>
+<footer class="bg-dark text-white pt-5 pb-3">
+    <div class="container">
+      <div class="row text-center text-md-start">
+
+        <!-- Categories -->
+        <div class="col-12 col-md-3 mb-4">
+          <h6 class="fw-bold text-uppercase mb-3">Categories</h6>
+          <ul class="list-unstyled">
+
+            <!-- ^ for loop of categories -->
+            <li><a routerLink="#" class="text-white-50 custom-hover text-decoration-none">Men</a></li>
+            <!-- ^ end loop -->
+
+          </ul>
+        </div>
+
+        <!-- Help -->
+        <div class="col-12 col-md-3 mb-4">
+          <h6 class="fw-bold text-uppercase mb-3">Help</h6>
+          <ul class="list-unstyled">
+            <li><a routerLink="#" class="text-white-50 custom-hover text-decoration-none">Track Order</a></li>
+            <li><a routerLink="#" class="text-white-50 custom-hover text-decoration-none">Returns</a></li>
+            <li><a routerLink="#" class="text-white-50 custom-hover text-decoration-none">Shipping</a></li>
+            <li><a routerLink="#" class="text-white-50 custom-hover text-decoration-none">FAQs</a></li>
+          </ul>
+        </div>
+
+        <!-- Get in Touch -->
+        <div class="col-12 col-md-3 mb-4">
+          <h6 class="fw-bold text-uppercase mb-3">Get in Touch</h6>
+          <p class="text-white-50 small mb-2">
+            Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879
+          </p>
+          <div>
+            <a routerLink="#" class="social-link facebook me-3"><fa-icon [icon]="faFacebook"></fa-icon></a>
+            <a routerLink="#" class="social-link instagram me-3"><fa-icon [icon]="faInstagram"></fa-icon></a>
+            <a routerLink="#" class="social-link pinterest"><fa-icon [icon]="faPinterest"></fa-icon></a>
+           </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="text-center mt-4 border-top border-secondary pt-3 small text-white-50">
+        © {{currentYear}} All rights reserved | Made with <span style="color: #ff6b81;">♡</span> by Our Team
+      </div>
+    </div>
+
+
+  </footer>
