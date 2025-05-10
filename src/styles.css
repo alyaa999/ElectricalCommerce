@@ -1,3 +1,4 @@
+
 /*//////////////////////////////////////////////////////////////////
 [ Block1 ]*/
 .block1 {
@@ -5068,3 +5069,24 @@ iframe {border: none;}
 .pointer-none {
 	pointer-events: none;
 }
+
+body,
+html {
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  color: #666666;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #fff;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+

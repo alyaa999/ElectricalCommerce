@@ -1,1 +1,40 @@
-<p>headre works!</p>
+<header>
+  <nav
+    class="navbar navbar-expand-lg ">
+    <div class="container d-flex justify-content-between align-items-center px-2">
+      <!-- LEFT: Logo + Menu -->
+      <div class="d-flex align-items-center gap-3">
+        <a class="navbar-brand fw-bold text-dark me-3" routerLink="/">
+          <img src="icons/ecommerce.png" alt="N/A" height="70" width="80" class="d-inline-block align-text-top me-2" />
+        </a>
+        <ul class="navbar-nav flex-row gap-2 mb-0">
+          <li class="nav-item">
+            <a class="nav-link nav-click" routerLink="home" routerLinkActive="active">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-click" routerLink="products" routerLinkActive="active">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-click" routerLink="about" routerLinkActive="active">About</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- RIGHT: Icons -->
+      <div class="d-flex align-items-center gap-3">
+        <a class="icon-link nav-click" routerLink="products">
+          <i class="zmdi zmdi-search "></i>
+        </a>
+        <a class="icon-link nav-click position-relative" (click)="onCartClick()" >
+          <i class="zmdi zmdi-shopping-cart"></i>
+          <span class="badge">{{cartItemsCount}}</span>
+        </a>
+
+        <a class="icon-link nav-click position-relative" routerLink="Wishing">
+          <i class="zmdi zmdi-favorite-outline"></i>
+          <span class="badge">{{wishlistItemsCount}}</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
