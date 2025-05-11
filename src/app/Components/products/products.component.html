@@ -1,7 +1,26 @@
+<!-- Pagination -->
+<div class="pagination-controls">
+  <button (click)="goToPage(1)" [disabled]="currentPage === 1">First</button>
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+
+  @for (page of getPages(); track $index)
+  {
+    <span (click)="goToPage(page)" [class.active]="page === currentPage" class="page-number"> {{ page }} </span>
+  }
+
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">Last</button>
+
+
+  <div class="page-info">
+    Page {{ currentPage }} of {{ totalPages }} ({{ totalItems }} items total)
+  </div>
+</div>
+
 <div class="product-grid">
   @for (p of products; track $index) {
     <div class="product-card">
-      <!-- Product Image -->
+      <!-- Product Image with Quick view -->
       <div class="product-image-container">
         <img src="{{p.pictureUrl}}" alt="{{p.name}}" class="product-image">
 
@@ -17,10 +36,16 @@
           </h3>
 
           <span class="product-price">{{ p.price }} L.E</span>
-          
-          <a class="wishlist-button" (mouseover)="changeHeartIcon($event)" (mouseout)="resetHeartIcon($event)" (click)="AddToWishlist()">
-            <img src="Icons/icon-heart-01.png" alt="Add to wishlist" class="heart-icon">
-          </a>
+
+          <button class="wishlist-button">
+            <!-- <img src="Icons/icon-heart-01.png" alt="Add to wishlist" class="heart-icon"> -->
+            <i class="bi fs-5 ms-4"
+              [class.bi-heart]="!p.isFavourited"
+              [class.bi-heart-fill]="p.isFavourited"
+              [class.text-danger]="p.isFavourited"
+              (click)="toggleWishlist(p)">
+            </i>
+          </button>
         </div>
       </div>
     </div>

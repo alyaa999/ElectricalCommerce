@@ -8,5 +8,6 @@ export interface Product {
   brand: string,
   brandId: number,
   type: string,
-  typeId: number
+  typeId: number,
+  isFavourited: boolean
 }
