@@ -75,5 +75,14 @@ export class ProductsComponent implements OnInit{
 
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
+
+    if(product.isFavourited)
+    {
+      this.productService.addProductToWishList(product);
+    }
+    else
+    {
+      this.productService.removeProductFromWishList(product.id);
+    }
   }
 }

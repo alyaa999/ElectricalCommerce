@@ -15,7 +15,7 @@ interface ProductApiResponse {
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = `${environment.apiBaseUrl}/Products`;
+  private apiUrl = `${environment.apiBaseUrl}`;
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +24,16 @@ export class ProductService {
       .set('index', index.toString())
       .set('pageSize', pageSize.toString());
 
-    return this.http.get<ProductApiResponse>(this.apiUrl, { params });
+    return this.http.get<ProductApiResponse>(`${this.apiUrl}/Products`, { params });
+  }
+
+  public addProductToWishList(product: Product)
+  {
+    this.http.post(`${this.apiUrl}/Baskets/favourite`, product).subscribe();
+  }
+
+  public removeProductFromWishList(productId: number)
+  {
+    this.http.delete(`${this.apiUrl}/Baskets/favourite/${productId}`).subscribe();
   }
 }
