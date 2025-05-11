@@ -20,6 +20,8 @@ interface userLogin{
 
 export class LoginComponent {
   userlogin: userLogin={Email:"" , Password:"",RememberMe:false}
+  errorResponceMsg:String=""
+
   constructor(private router:Router,private authService:AuthService){
 
   }
@@ -33,11 +35,13 @@ export class LoginComponent {
     this.authService.Login(this.FrmValidation.value).subscribe({
       next:(res)=>{
         console.log(res)
+        this.errorResponceMsg = ""
         this.router.navigate(['/home']);
       },
-      error:()=>{}
+      error:(res)=>{
+          this.errorResponceMsg = res.error.message 
+      }
     })
-    //console.log('Form submitted:', this.user);
   } else {
     Object.keys(this.FrmValidation.controls).forEach(key => {
       const control = this.FrmValidation.get(key);
