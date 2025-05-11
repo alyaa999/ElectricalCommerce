@@ -1,14 +1,34 @@
 import { Component } from '@angular/core';
+import { WishinglistService } from '../../Service/wishinglist.service';
+import { WishingListItems } from '../../Interfaces/Cart/Cart.models';
+import { RouterModule } from '@angular/router';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 
 @Component({
   selector: 'app-wishing-list',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './wishing-list.component.html',
   styleUrl: './wishing-list.component.css'
 })
 export class WishingListComponent {
 
-  
-  removeFromWishingList(){}
+  wishingListItems: WishingListItems[] = [];
+  constructor(private wishingList:CartWishingDataService,private wishingService: WishinglistService ) { }
+
+ 
+    ngOnInit() {
+    this.wishingList.wishingItems.subscribe((items: WishingListItems[]) => {
+      this.wishingListItems = items;
+    });
+  }
+
+
+
+  removeFromWishingList(id:number){
+    this.wishingService.removeFromWishingList(id).subscribe(() => {
+      // this.wishingListItems = this.wishingListItems.filter(item => item.id !== id); 
+      this.wishingList.wishingItems.next(this.wishingListItems.filter(item => item.id !== id));
+    });
+  }
 
 }
