@@ -1,5 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Product } from '../../Interfaces/Product/Product.models';
+import { ProductService } from '../../Service/product.service';
+import { environment } from '../../../environments/enviroment';
 
 @Component({
   selector: 'app-products',
@@ -8,11 +11,21 @@ import { RouterModule } from '@angular/router';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css',]
 })
-export class ProductsComponent {
-  public products = [
-    { id: 1, img: "1", name: "Classic Trench Coat", price: 200, category: "women" },
-    { id: 2, img: "2", name: "Front Pocket Jumper", price: 500, category: "women" }
-  ];
+export class ProductsComponent implements OnInit{
+  public products: Product[] = [];
+
+  constructor(private productService: ProductService) {}
+
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products.value.data.map(p => ({
+          ...p,
+          pictureUrl: p.pictureUrl.replace(environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3), '')
+          }));
+        }
+    });
+  }
 
   changeHeartIcon(event: MouseEvent): void {
     const target = event.currentTarget as HTMLElement;
