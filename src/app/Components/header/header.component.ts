@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartSidebarComponent } from "../cart-sidebar/cart-sidebar.component";
+import { AuthService } from '../../Service/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +9,22 @@ import { CartSidebarComponent } from "../cart-sidebar/cart-sidebar.component";
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
-  @Output() toggleCart = new EventEmitter<void>();
+export class HeaderComponent implements OnInit{
+  public isLogin:boolean=false;
+  constructor(private authService:AuthService){
 
+  }
+  ngOnInit(): void {
+    this.authService.isLoggIn.subscribe(
+      {
+        next:(behaviorvalue)=>{
+            this.isLogin = behaviorvalue;
+        }
+      }
+    )
+  }
+
+  @Output() toggleCart = new EventEmitter<void>();
   cartItemsCount: number = 0;
   cartItems: any[] = [];
 
@@ -18,6 +32,9 @@ export class HeaderComponent {
 
   onCartClick() {
     this.toggleCart.emit();
+  }
+  onLogOutClick(){
+    this.authService.logout();
   }
   
 }
