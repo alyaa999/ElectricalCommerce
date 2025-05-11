@@ -1,3 +1,6 @@
+  <div class="error-message" style="text-align: center;">
+      {{errorResponceMsg}}
+  </div>
 <div class="auth-container">
   <form [formGroup]="FrmValidation" (ngSubmit)="onSubmit()" class="auth-form">
     <h2 class="form-title">Welcome Back</h2>
@@ -56,3 +59,4 @@
     </div>
   </form>
 </div>
+<p>{{errorResponceMsg}}</p>

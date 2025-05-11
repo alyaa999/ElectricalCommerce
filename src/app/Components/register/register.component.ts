@@ -25,6 +25,8 @@ interface userRegisteration{
 
 export class RegisterComponent {
    user:userRegisteration={FirstName:"",LastName:"",Email:"",phoneNumber:"",Password:"",ConfirmPassword:""};
+     errorResponceMsg:String=""
+
    constructor(private router:Router,private authService:AuthService){
       
    }
@@ -53,7 +55,9 @@ export class RegisterComponent {
               console.log(Response)
               this.router.navigate(['/login']);
             },
-            error: (err:any)=>{console.log(err)}
+            error: (res)=>{ 
+              this.errorResponceMsg = res.error.message 
+            }
           });               
         } else {
         Object.keys(this.FrmValidation.controls).forEach(key => {

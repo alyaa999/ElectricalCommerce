@@ -6,21 +6,29 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService  {
   private apiUrl = `${environment.apiBaseUrl}/Accounts`; 
+  
   public isLoggIn:BehaviorSubject<boolean>=new BehaviorSubject<boolean>( this.isLoggedIn());
+  public userName :BehaviorSubject<string>=new BehaviorSubject<string>("");
 
   constructor(private httpClient:HttpClient) { 
+    this.isLoggIn.next(this.isLoggedIn());
+    this.userName.next(this.GetUserName())
+    console.log(this.userName.value)
   }
-
-
   register(requestData:any):Observable<any>{
     return this.httpClient.post(`${this.apiUrl}/Register`, requestData).pipe(
       tap((Response:any) => {
         console.log(Response.token)
         if (Response&&Response.token) {
+          /*
           localStorage.setItem('token', Response.token);
-          this.isLoggIn.next(true) ;                   
+          localStorage.setItem('userName', Response.displayName);
+          
+          this.isLoggIn.next(true) ;    
+          */               
         }
       })
     );
@@ -32,7 +40,9 @@ export class AuthService  {
         console.log(Response.token)
         if (Response&&Response.token) {
           localStorage.setItem('token', Response.token);  
-          this.isLoggIn.next(true) ;                   
+          localStorage.setItem('userName', Response.displayName);
+          this.isLoggIn.next(true) ;   
+          this.userName.next(this.GetUserName())                
         }
       })
     );
@@ -40,11 +50,15 @@ export class AuthService  {
   }
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('userName');
     this.isLoggIn.next(false) ;                   
   }
   isLoggedIn(): boolean {
     console.log(localStorage.getItem('token'));
     return !!localStorage.getItem('token');
+  }
+  GetUserName():string{
+    return localStorage.getItem('userName')||""
   }
 
 }
