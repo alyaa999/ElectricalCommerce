@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../Service/auth.service';
 
 
 interface userLogin{
@@ -19,7 +20,9 @@ interface userLogin{
 
 export class LoginComponent {
   userlogin: userLogin={Email:"" , Password:"",RememberMe:false}
-  constructor(private router:Router){
+  errorResponceMsg:String=""
+
+  constructor(private router:Router,private authService:AuthService){
 
   }
   FrmValidation:FormGroup=new FormGroup({
@@ -29,9 +32,16 @@ export class LoginComponent {
  })
  onSubmit(){
   if (this.FrmValidation.valid) {
-    this.userlogin = this.FrmValidation.value;
-    this.router.navigate(['/home']);
-    //console.log('Form submitted:', this.user);
+    this.authService.Login(this.FrmValidation.value).subscribe({
+      next:(res)=>{
+        console.log(res)
+        this.errorResponceMsg = ""
+        this.router.navigate(['/home']);
+      },
+      error:(res)=>{
+          this.errorResponceMsg = res.error.message 
+      }
+    })
   } else {
     Object.keys(this.FrmValidation.controls).forEach(key => {
       const control = this.FrmValidation.get(key);
