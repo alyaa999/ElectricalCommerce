@@ -1,11 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core'; 
-import { Product } from '../../Interfaces/Catgory/CatgoryModel'; 
-import { Productv2Service } from '../../Service/productv2.service';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/enviroment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ProductService } from '../../Service/product.service';
+import { Product } from '../../Interfaces/Product/Product.models';
 @Component({
   selector: 'app-product-details',
   imports: [
@@ -30,7 +30,8 @@ product:Product=
   brand: "",
   brandId: 0,
   type: "",
-  typeId: 0
+  typeId: 0,
+  isFavourited: false
 }
 counter=signal<number>(0)
 
@@ -46,7 +47,7 @@ plus()
   this.counter.update((old)=>++old)
 }
 
-constructor(private service:Productv2Service,   private route: ActivatedRoute)
+constructor(private service:ProductService,   private route: ActivatedRoute)
 {
 
 } 

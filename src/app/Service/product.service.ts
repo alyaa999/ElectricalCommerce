@@ -36,4 +36,24 @@ export class ProductService {
   {
     this.http.delete(`${this.apiUrl}/Baskets/favourite/${productId}`).subscribe();
   }
+
+  getproductbyID(id: number):Observable<Product>
+  {
+      return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
+  }
+  
+  addToCart(product: Product, quantity: number): Observable<any> {
+    const payload = {
+      id: product.id,
+      productName: product.name,
+      pictureUrl: product.pictureUrl,
+      brand: product.brand,
+      type: product.type,
+      price: product.price,
+      quantity: quantity
+    };
+
+    return this.http.post(`${environment.apiBaseUrl}/Baskets/basket`, payload);
+  }
+  
 }
