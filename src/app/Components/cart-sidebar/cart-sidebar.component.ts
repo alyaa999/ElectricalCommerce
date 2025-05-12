@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, EventEmitter, Input, Output, Signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../Service/cart.service';
-import { CartItems, CartProduct } from '../../Interfaces/Cart/Cart.models';
+import { CartItems } from '../../Interfaces/Cart/Cart.models';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 import { count } from 'rxjs';
 

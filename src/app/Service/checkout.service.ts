@@ -14,12 +14,12 @@ export class CheckoutService {
 
   }
     CreateOrder(orderData : OrderDto) {
-          return this.http.post(`${this.apiUrl}Order`, orderData); 
+          return this.http.post(`${this.apiUrl}/Order`, orderData); 
   }
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 
   {
-     return this.http.get<DeliveryMethods[]>(`${this.apiUrl}Order/DeliveryMethods`);
+     return this.http.get<DeliveryMethods[]>(`${this.apiUrl}/Order/DeliveryMethods`);
   }
 
   Credit() :Observable<any> {

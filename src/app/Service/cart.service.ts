@@ -11,7 +11,7 @@ import { CustomerBasket } from '../Interfaces/Cart/Cart.models';
   providedIn: 'root',
 })
 export class CartService {
-  private apiUrl = `${environment.apiBaseUrl}Baskets/basket`;
+  private apiUrl = `${environment.apiBaseUrl}/Baskets/basket`;
   constructor( private http : HttpClient) { 
   }
     getCart(): Observable<CustomerBasket> {
