@@ -3,7 +3,12 @@ export interface Catgoery {
   name:string;
   image: string;
 }
-
+export interface Brand {
+  
+  name:string;
+  id: number;
+ 
+}
 export interface Product {
   id: number,
   pictureUrl: string,

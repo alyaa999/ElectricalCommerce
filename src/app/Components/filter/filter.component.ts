@@ -1,35 +1,107 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CatgoryService } from '../../Service/catgory.service';
+import { Catgoery, Brand } from '../../Interfaces/Catgory/CatgoryModel';
+import { BrandService } from '../../Service/brand.service';
+import { FilterService } from '../../Service/filter.service'; // استيراد خدمة الفلتر
 
 @Component({
   selector: 'app-filter',
-  imports: [],
   templateUrl: './filter.component.html',
-  styleUrl: './filter.component.css'
+  styleUrls: ['./filter.component.css']
 })
-export class FilterComponent {
-  public categories: {id:number, name:string, checked:boolean}[] = [
-    {id:1, name:"Smart Screens", checked:false},
-    {id:2, name:"Head Phones", checked:false}
-  ]
+export class FilterComponent implements OnInit {
+  element: Catgoery = {
+    id: 0,
+    name: '',
+    image: ''
+  };
+  categories: Catgoery[] = [];
+  brand: Brand = {
+    name: '',
+    id: 0
+  };
+  Brands: Brand[] = [];
+  
+  public minPrice: number = 100;
+public Price: number = 1000;
 
-  public brands: {name:string, checked:boolean}[] = [
-    {name:"Samsung", checked:false},
-    {name:"LG", checked:false},
-    {name:"Huwie", checked:false},
-    {name:"Apple", checked:false}
-  ]
+  selectedCategoryId: number |null=null;  
+  selectedBrandId: number | null = null;  
+  selectedPriceRange:number =this.Price; ;  
 
-  public minPrice: number = 100
-  public maxPrice: number = 5000
+  constructor(
+    private service: CatgoryService,
+    private BrandSer: BrandService,
+    private filterService: FilterService 
+  ) {}
 
-  // Component logic
-  selectedRating: number | null = null;
-
-  selectRating(rating: number): void {
-    if (this.selectedRating === rating) {
-      this.selectedRating = null; // Deselect if same rating clicked again
-    } else {
-      this.selectedRating = rating;
-    }
+  ngOnInit(): void {
+    this.service.getCatgory().subscribe(
+      (data: Catgoery[]) => {
+        this.categories = data;
+        console.log("Categories received:", this.categories);
+      }
+    );
+    
+    this.BrandSer.getBrands().subscribe(
+      (data: Brand[]) => {
+        this.Brands = data;
+      }
+    );
   }
+
+  onCategoryChange(id:number) {
+    this.selectedCategoryId=id
+    this.filterService.updateFilter({
+      typeId: this.selectedCategoryId,
+      brandId: this.selectedBrandId,
+      price: this.selectedPriceRange
+    });
+  }
+
+  onBrandChange(id:number) {
+    this.selectedBrandId=id
+    this.filterService.updateFilter({
+      typeId: this.selectedCategoryId,
+      brandId: this.selectedBrandId,
+      price: this.selectedPriceRange
+    });
+  }
+
+
+  onPriceChange(event: any) {
+ const price = parseFloat(event.target.value); 
+  if (isNaN(price)) {
+    console.error('Invalid price value');
+    return;
+  }
+
+  this.selectedPriceRange = price;
+    this.filterService.updateFilter({
+    typeId: this.selectedCategoryId,
+    brandId: this.selectedBrandId,
+    price: this.selectedPriceRange
+  });
+}
+
+restCatgoryFilter()
+{
+  this.selectedCategoryId=null;
+  this.filterService.updateFilter({
+      typeId: this.selectedCategoryId,
+      brandId: this.selectedBrandId,
+      price: this.selectedPriceRange
+    });
+}
+restBrandFilter()
+{
+   this.selectedBrandId=null;
+  this.filterService.updateFilter({
+      typeId: this.selectedCategoryId,
+      brandId: this.selectedBrandId,
+      price: this.selectedPriceRange
+    });
+}
+
+
 }

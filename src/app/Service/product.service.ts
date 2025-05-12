@@ -5,10 +5,14 @@ import { Observable } from 'rxjs';
 import { Product } from '../Interfaces/Product/Product.models';
 
 interface ProductApiResponse {
-  value: {
+  data?: Product[];
+  count?: number;
+  value?: {
     data: Product[];
     count: number;
   };
+  items?: Product[];
+  totalCount?: number;
 }
 
 @Injectable({
@@ -19,31 +23,56 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  public getProducts(index: number = 1, pageSize: number = 9): Observable<ProductApiResponse> {
+
+  public getProducts(
+    index: number = 1,
+    pageSize: number = 9,
+    typeId?: number|null,
+    brandId?: number|null,
+
+    price?: number|null
+  ): Observable<ProductApiResponse> {
     let params = new HttpParams()
       .set('index', index.toString())
       .set('pageSize', pageSize.toString());
+
+    if (typeId) {
+      params = params.set('typeId', typeId.toString());
+    }
+
+    if (brandId) {
+      params = params.set('brandId', brandId.toString());
+    }
+
+
+
+    if (price) {
+      params = params.set('price', price.toString());
+    }
+      console.log("Params for getProducts:", params.toString());
 
     return this.http.get<ProductApiResponse>(`${this.apiUrl}/Products`, { params });
   }
 
 
-  public addProductToWishList(product: Product)
-  {
+  public addProductToWishList(product: Product): void {
     this.http.post(`${this.apiUrl}/Baskets/favourite`, product).subscribe();
   }
 
-  public removeProductFromWishList(productId: number)
-  {
+
+  public removeProductFromWishList(productId: number): void {
     this.http.delete(`${this.apiUrl}/Baskets/favourite/${productId}`).subscribe();
   }
 
-  getproductbyID(id: number):Observable<Product>
-  {
-      return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
+
+  public getProductByID(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
   }
 
   addToCart(product: Product, quantity: number): Observable<any> {
+
+
+  public addToCart(product: Product, quantity: number): Observable<any> {
     const payload = {
       id: product.id,
       productName: product.name,

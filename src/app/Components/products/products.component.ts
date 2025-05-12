@@ -1,18 +1,20 @@
-import { Component, EventEmitter, NgModule, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, NgModule, OnInit, Output, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Product } from '../../Interfaces/Product/Product.models';
 import { ProductService } from '../../Service/product.service';
 import { environment } from '../../../environments/enviroment';
 import { FormsModule } from '@angular/forms';
+import { FilterService } from '../../Service/filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
-  standalone: true,  // Required if using standalone
+  standalone: true,
   imports: [RouterModule, FormsModule],
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css',]
+  styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit{
+export class ProductsComponent implements OnInit, OnDestroy {
   public products: Product[] = [];
   public currentPage = 1;
   public itemsPerPage = 9;
@@ -22,10 +24,34 @@ export class ProductsComponent implements OnInit{
   // Loading state
   public isLoading = false;
 
-  constructor(private productService: ProductService) {}
+  private filterParams: {
+    typeId?: number | null,
+    brandId?: number | any,
+    price?: number | any
+  } = {};
+
+  private filterSubscription: Subscription | null = null;
+
+  constructor(
+    private productService: ProductService,
+    private filterService: FilterService
+  ) {}
 
   ngOnInit(): void {
+    this.filterSubscription = this.filterService.getFilterObservable().subscribe(
+      (params) => {
+        this.filterParams = params;
+        this.currentPage = 1;
+        this.loadProducts();
+      }
+    );
     this.loadProducts();
+  }
+
+  ngOnDestroy(): void {
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
+    }
   }
 
   loadProducts(): void {
@@ -53,6 +79,35 @@ export class ProductsComponent implements OnInit{
       }
     });
   }
+    this.productService.getProducts(
+      this.currentPage,
+      this.itemsPerPage,
+      this.filterParams.typeId,
+      this.filterParams.brandId,
+      this.filterParams.price
+    ).subscribe({
+      next: (response: any) => {
+        // التعديل الرئيسي هنا - استخدام response.data مباشرة أو response.value.data إذا كانت موجودة
+        const productsData = response.value?.data || response.data || [];
+        const totalCount = response.value?.count || response.count || 0;
+
+        this.products = productsData.map((p: Product) => ({
+          ...p,
+          pictureUrl: p.pictureUrl.replace(
+            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
+            ''
+          ),
+          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true'
+        }));
+
+        this.totalItems = totalCount;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+      },
+      error: (err) => {
+        console.error('Error loading products:', err);
+      }
+    });
+  }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -62,36 +117,26 @@ export class ProductsComponent implements OnInit{
   }
 
   getPages(): number[] {
-  const pagesToShow = 5; // Number of page numbers to show
-  const pages: number[] = [];
-
-  let startPage = Math.max(1, this.currentPage - Math.floor(pagesToShow / 2));
-  let endPage = startPage + pagesToShow - 1;
-
-  if (endPage > this.totalPages) {
-    endPage = this.totalPages;
-    startPage = Math.max(1, endPage - pagesToShow + 1);
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
-
-  return pages;
+    const pagesToShow = 5;
+    const pages: number[] = [];
+    let startPage = Math.max(1, this.currentPage - Math.floor(pagesToShow / 2));
+    let endPage = startPage + pagesToShow - 1;
+    if (endPage > this.totalPages) {
+      endPage = this.totalPages;
+      startPage = Math.max(1, endPage - pagesToShow + 1);
+    }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
-
-    // Add item to localstorage to save its favourite status
     localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
-
-    if(product.isFavourited)
-    {
+    if(product.isFavourited) {
       this.productService.addProductToWishList(product);
-    }
-    else
-    {
+    } else {
       this.productService.removeProductFromWishList(product.id);
     }
   }
