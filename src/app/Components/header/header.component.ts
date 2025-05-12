@@ -7,6 +7,7 @@ import { WishinglistService } from '../../Service/wishinglist.service';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 
 import { AuthService } from '../../Service/auth.service';
+import { combineLatest, Subscription } from 'rxjs';
 
 
 @Component({
@@ -20,38 +21,91 @@ export class HeaderComponent implements OnInit {
   public userName: string = "";
   constructor(private authService: AuthService, private router: Router, private cart: CartService, private wishing: WishinglistService, public cartWishingData: CartWishingDataService) {
   }
+
+
+  authSubscription!: Subscription;
+
   ngOnInit(): void {
-    this.authService.isLoggIn.subscribe(
-      {
-        next: (behaviorvalue) => {
-          this.isLogin = behaviorvalue;
-        }
-      }
-    )
-    this.authService.userName.subscribe(
-      {
-        next: (behaviorvalue) => {
-          this.userName = behaviorvalue;
-        }
-      }
-    )
+    this.authSubscription = combineLatest([
+      this.authService.isLoggIn,
+    ]).subscribe(([isLogin]) => {
+      this.isLogin = isLogin;
 
-    if (localStorage.getItem('token')) {
-      this.wishing.getWishinglist().subscribe((data) => {
-        this.cartWishingData.wishingItems.set(data.items);
-        // this.wishlistItemsCount = data.items.length;
-        this.cartWishingData.wishlistItemsCount.set(data.items.length);
-      });
-
-      this.cart.getCartProducts().subscribe(
-        (data) => {
-          this.cartWishingData.cartItems.set(data.items);
-          // this.cartItemsCount = data.items.length;
-          this.cartWishingData.cartItemsCount.set(data.items.length);
+      this.authService.userName.subscribe(
+        {
+          next: (behaviorvalue) => {
+            this.userName = behaviorvalue;
+          }
         }
-      );
+      )
+
+
+      if (this.isLogin && localStorage.getItem('token')) {
+
+        console.log(`Going to get the data from the cart and wishlist`);
+
+        this.wishing.getWishinglist().subscribe((data) => {
+          this.cartWishingData.wishingItems.set(data.items);
+          // this.wishlistItemsCount = data.items.length;
+          this.cartWishingData.wishlistItemsCount.set(data.items.length);
+        });
+
+        this.cart.getCartProducts().subscribe(
+          (data) => {
+            this.cartWishingData.cartItems.set(data.items);
+            // this.cartItemsCount = data.items.length;
+            this.cartWishingData.cartItemsCount.set(data.items.length);
+          }
+        );
+
+        console.log(`End Fetching`);
+
+
+      }
+
+    });
+  }
+
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
+
+
+  // ngOnInit(): void {
+  //   this.authService.isLoggIn.subscribe(
+  //     {
+  //       next: (behaviorvalue) => {
+  //         this.isLogin = behaviorvalue;
+  //       }
+  //     }
+  //   )
+  //   this.authService.userName.subscribe(
+  //     {
+  //       next: (behaviorvalue) => {
+  //         this.userName = behaviorvalue;
+  //       }
+  //     }
+  //   )
+
+  //   if (localStorage.getItem('token')) {
+  //     this.wishing.getWishinglist().subscribe((data) => {
+  //       this.cartWishingData.wishingItems.set(data.items);
+  //       // this.wishlistItemsCount = data.items.length;
+  //       this.cartWishingData.wishlistItemsCount.set(data.items.length);
+  //     });
+
+  //     this.cart.getCartProducts().subscribe(
+  //       (data) => {
+  //         this.cartWishingData.cartItems.set(data.items);
+  //         // this.cartItemsCount = data.items.length;
+  //         this.cartWishingData.cartItemsCount.set(data.items.length);
+  //       }
+  //     );
+  //   }
+  // }
 
   @Output() toggleCart = new EventEmitter<void>();
 
