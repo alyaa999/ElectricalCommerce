@@ -1,1 +1,130 @@
-<p>cart works!</p>
+<!-- Empty Cart State -->
+<div class="bg-light py-5 rounded-3 text-center" *ngIf="!EmptyCart">
+    <img src="Images/empty-cart.png" alt="Empty cart" class="img-fluid opacity-75" style="width: 100px;">
+    <p class="text-muted mt-3 mb-0">Your cart is currently empty</p>
+    <a routerLink="/products" class="btn btn-primary mt-3 px-4 py-2 rounded-pill">
+        Continue Shopping
+    </a>
+</div>
+
+<!-- Cart Content -->
+<div *ngIf="EmptyCart" class="bg-light py-5">
+    <div class="container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb mb-4 bg-white p-3 rounded shadow-sm">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/" class="text-decoration-none text-primary">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="row g-4">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0 fw-bold text-primary">
+                            <i class="bi bi-cart3 me-2"></i>Your Cart
+                            <span class="badge bg-primary rounded-pill ms-2">{{Cart.items.length}} items</span>
+                        </h4>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i> Clear Cart
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 100px;">Product</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col" class="text-end">Price</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of Cart.items">
+                                    <td>
+                                        <img [src]="item.pictureUrl" alt="{{item.productName}}"
+                                            class="img-fluid rounded border"
+                                            style="width: 80px; height: 80px; object-fit: cover;"
+                                            onerror="this.src='https://via.placeholder.com/80?text=Product'">
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-1">{{item.productName}}</h6>
+                                        <small class="text-muted">SKU: {{item.brand}}</small>
+                                    </td>
+                                    <td class="text-end">${{item.price | number:'1.2-2'}}</td>
+                                    <td class="text-center">
+                                        <div class="input-group quantity-selector" style="max-width: 120px;">
+                                            <button class="btn btn-outline-secondary" type="button">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <input type="number" class="form-control text-center"
+                                                [(ngModel)]="item.quantity" min="1">
+                                            <button class="btn btn-outline-secondary" type="button">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="text-end fw-bold">${{(item.quantity * item.price) | number:'1.2-2'}}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="bg-white p-4 rounded shadow-sm sticky-top" style="top: 20px;">
+                    <h4 class="mb-4 fw-bold text-primary border-bottom pb-3">Order Summary</h4>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>${{Subtotal | number:'1.2-2'}}</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Shipping Method</label>
+                            <select class="form-select" [(ngModel)]="SelectValue" name="shipping">
+                                <option *ngFor="let x of Shipping" [value]="x.price">
+                                    {{x.to}} (${{x.price | number:'1.2-2'}})
+                                </option>
+                            </select>
+                            <button class="btn btn-sm btn-outline-primary mt-2 w-100" (click)="UpdateTotals()">
+                                Update Shipping
+                            </button>
+                        </div>
+
+                        <div class="d-flex justify-content-between border-top pt-3 mt-3">
+                            <span class="fw-bold">Total:</span>
+                            <span class="text-primary fw-bold fs-5">${{Total | number:'1.2-2'}}</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold mt-3" routerLink="/checkout">
+                        <i class="bi bi-lock-fill me-2"></i> Proceed to Checkout
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <a routerLink="/products" class="text-decoration-none text-primary">
+                            <i class="bi bi-arrow-left me-1"></i> Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
