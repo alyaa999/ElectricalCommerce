@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Service/product.service';
 import { Product } from '../../Interfaces/Product/Product.models';
+
 @Component({
   selector: 'app-product-details',
   imports: [
@@ -54,7 +55,7 @@ constructor(private service:ProductService,   private route: ActivatedRoute)
 ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
-      this.service.getproductbyID(id).subscribe(
+      this.service.getProductByID(id).subscribe(
         (data) => {
           data.pictureUrl = data.pictureUrl.replace(
             environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
