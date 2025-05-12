@@ -1,25 +1,98 @@
-swiper-container {
-  width: 100%;
-  height: 100%;
-}
+.carousel-container {
+    position: relative;
+    height: 400px; /* Match your existing height */
+    width: 100%;
+    overflow: hidden;
+  }
 
-swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  swiper-container {
+    width: 100%;
+    height: 100%;
+  }
 
-swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+  swiper-slide {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
 
-swiper-container {
-  margin-left: auto;
-  margin-right: auto;
-}
+  swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .text-overlay {
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    max-width: 50%;
+    text-align: left;
+    color: #333; /* Adjust based on your background images */
+  }
+
+  .collection-tag {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+  }
+
+  .main-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+
+  .shop-btn {
+    background-color: #6f7aee; /* Match your site color scheme */
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .shop-btn:hover {
+    background-color: #5862d1;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .text-overlay {
+      left: 5%;
+      max-width: 70%;
+    }
+    
+    .collection-tag {
+      font-size: 1rem;
+    }
+    
+    .main-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+    
+    .collection-tag {
+      font-size: 0.9rem;
+    }
+    
+    .main-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .shop-btn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
