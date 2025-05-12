@@ -14,7 +14,7 @@ export class CheckoutService {
 
   }
     CreateOrder(orderData : OrderDto) {
-          return this.http.post(`${this.apiUrl}Order`, orderData); 
+          return this.http.post(`${this.apiUrl}/Order`, orderData); 
   }
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 

@@ -14,7 +14,7 @@
 
        @for (item of this.cart.cartItems(); track $index) {
       <div class="d-flex align-items-center mb-3">
-        <img src="https://img.freepik.com/free-psd/black-wireless-game-controller-ready-play_84443-35226.jpg?t=st=1746978023~exp=1746981623~hmac=64e02e83af9e6a28d9e921da099526501538c6b4ffa56bfbb5350466f0310ab3&w=826" width="60" height="60" class="me-3" />
+        <img src="{{item.pictureUrl}}" width="60" height="60" class="me-3" />
         <div>
           <h6 class="mb-1 fw-semibold">{{item.productName}}</h6>
           <small>{{item.quantity}} x ${{item.price}}</small>
