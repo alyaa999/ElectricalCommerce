@@ -6,26 +6,6 @@
   </div>
 }
 
-<!-- Pagination -->
-<div class="pagination-controls">
-  <button (click)="goToPage(1)" [disabled]="currentPage === 1">First</button>
-  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
-
-  @for (page of getPages(); track $index)
-  {
-    <span (click)="goToPage(page)" [class.active]="page === currentPage" class="page-number"> {{ page }} </span>
-  }
-
-  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
-  <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">Last</button>
-
-
-  <div class="page-info">
-    Page {{ currentPage }} of {{ totalPages }} ({{ totalItems }} items total)
-  </div>
-</div>
-
-
 <!-- Product List -->
 <div class="product-grid">
   @for (p of products; track $index)
@@ -67,4 +47,24 @@
 
     </div>
   }
+</div>
+
+
+<!-- Pagination -->
+<div class="pagination-controls">
+  <button (click)="goToPage(1)" [disabled]="currentPage === 1">First</button>
+  <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+
+  @for (page of getPages(); track $index)
+  {
+    <span (click)="goToPage(page)" [class.active]="page === currentPage" class="page-number"> {{ page }} </span>
+  }
+
+  <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  <button (click)="goToPage(totalPages)" [disabled]="currentPage === totalPages">Last</button>
+
+
+  <div class="page-info">
+    Page {{ currentPage }} of {{ totalPages }} ({{ totalItems }} items total)
+  </div>
 </div>
