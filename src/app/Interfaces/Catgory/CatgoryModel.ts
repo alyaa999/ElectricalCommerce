@@ -4,7 +4,12 @@ export interface Catgoery {
   image: string;
  
 }
-
+export interface Brand {
+  
+  name:string;
+  id: number;
+ 
+}
 export interface Product {
   id: number,
   pictureUrl: string,

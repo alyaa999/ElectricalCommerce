@@ -3,10 +3,14 @@
 <div class="category-box">
   
   <img [src]="item.image" alt="Accessories" >
-  <div class="overlay">
+  <div class="overlay"  (click)="filterProduct(item.id)">
     <h3>{{item.name}}</h3>
     <p>New Trend</p>
-    <a [href]="item.image" class="shop-btn">SHOP NOW</a>
+    
+    <a   
+         
+      routerLinkActive="router-link-active"    [href]="item.image" class="shop-btn">SHOP NOW
+    </a>
   </div>
 </div>
 
