@@ -1,26 +1,19 @@
-export interface ProductImage {
-  imageUrl: string;
-  isPrimary: boolean;
-}
-export interface Cart {
+export interface BasketItem {
   id: number;
-  totalPrice: number,
-  totalItemsNumber: number,
-  customerId: number,
-  createdDate: null,
-  cartProducts: CartProduct[]
+  productName: string;
+  pictureUrl: string;
+  brand: string;
+  type: string;
+  price: number;
+  quantity: number;
 }
 
-export interface CartProduct {
-  cartId: number;
-  productCode: number;
-  name: string;
-  code: string;
-  quantity: number;
-  unitPrice: number;
-  itemTotal: number;
-  PrimaryImage: string;
-  images?: ProductImage[];
+export interface CustomerBasket {
+  id: string;
+  items: BasketItem[];
+  paymentIntentId?: string;
+  clientSecret?: string;
+  deliveryMethodId?: number;
 }
 
 export interface shipping {
