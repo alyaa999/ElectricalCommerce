@@ -37,11 +37,6 @@
         <div class="text-details">
           <h3>
             <a routerLink="/products/{{p.id}}" class="product-name"> {{ p.name }} </a>
-
-            <a class="wishlist-button" (mouseover)="changeHeartIcon($event)" (mouseout)="resetHeartIcon($event)" (click)="AddToWishlist()">
-              <img src="Icons/icon-heart-01.png" alt="Add to wishlist" class="heart-icon">
-            </a>
-
           </h3>
 
           <span class="product-price">{{ p.price }} L.E</span>

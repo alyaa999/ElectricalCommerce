@@ -15,27 +15,42 @@ import { AuthService } from '../../Service/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent implements OnInit{
-  public isLogin:boolean=false;
-  public userName:string="";
-  constructor(private authService:AuthService,private router:Router, private cart: CartService, private wishing: WishinglistService, public cartWishingData: CartWishingDataService){
+export class HeaderComponent implements OnInit {
+  public isLogin: boolean = false;
+  public userName: string = "";
+  constructor(private authService: AuthService, private router: Router, private cart: CartService, private wishing: WishinglistService, public cartWishingData: CartWishingDataService) {
   }
   ngOnInit(): void {
     this.authService.isLoggIn.subscribe(
       {
-        next:(behaviorvalue)=>{
-            this.isLogin = behaviorvalue;
+        next: (behaviorvalue) => {
+          this.isLogin = behaviorvalue;
         }
       }
     )
     this.authService.userName.subscribe(
       {
-        next:(behaviorvalue)=>{
-            this.userName = behaviorvalue;
+        next: (behaviorvalue) => {
+          this.userName = behaviorvalue;
         }
       }
     )
-    console.log(this.userName);
+
+    if (localStorage.getItem('token')) {
+      this.wishing.getWishinglist().subscribe((data) => {
+        this.cartWishingData.wishingItems.set(data.items);
+        // this.wishlistItemsCount = data.items.length;
+        this.cartWishingData.wishlistItemsCount.set(data.items.length);
+      });
+
+      this.cart.getCartProducts().subscribe(
+        (data) => {
+          this.cartWishingData.cartItems.set(data.items);
+          // this.cartItemsCount = data.items.length;
+          this.cartWishingData.cartItemsCount.set(data.items.length);
+        }
+      );
+    }
   }
 
   @Output() toggleCart = new EventEmitter<void>();
@@ -47,56 +62,56 @@ export class HeaderComponent implements OnInit{
 
 
   // ngDoCheck() {
-    // if (localStorage.getItem('token')) {
-    //   this.wishing.getWishinglist().subscribe((data) => {
-    //     this.cartWishingData.wishingItems.set(data.items);
-    //     this.cartWishingData.wishlistItemsCount.set(data.items.length);
-    //   });
+  // if (localStorage.getItem('token')) {
+  //   this.wishing.getWishinglist().subscribe((data) => {
+  //     this.cartWishingData.wishingItems.set(data.items);
+  //     this.cartWishingData.wishlistItemsCount.set(data.items.length);
+  //   });
 
-    //   this.cart.getCartProducts().subscribe(
-    //     (data) => {
-    //       this.cartWishingData.cartItems.set(data.items);
-    //       this.cartWishingData.cartItemsCount.set(data.items.length);
-    //     }
-    //   );
-    // }
+  //   this.cart.getCartProducts().subscribe(
+  //     (data) => {
+  //       this.cartWishingData.cartItems.set(data.items);
+  //       this.cartWishingData.cartItemsCount.set(data.items.length);
+  //     }
+  //   );
+  // }
   // }
 
 
-  ngOnInit() {
+  // ngOnInit() {
 
-    this.wishing.getWishinglist().subscribe((data) => {
-      this.cartWishingData.wishingItems.set(data.items);
-      // this.wishlistItemsCount = data.items.length;
-      this.cartWishingData.wishlistItemsCount.set(data.items.length);
-    });
+  // this.wishing.getWishinglist().subscribe((data) => {
+  //   this.cartWishingData.wishingItems.set(data.items);
+  //   // this.wishlistItemsCount = data.items.length;
+  //   this.cartWishingData.wishlistItemsCount.set(data.items.length);
+  // });
 
-    this.cart.getCartProducts().subscribe(
-      (data) => {
-        this.cartWishingData.cartItems.set(data.items);
-        // this.cartItemsCount = data.items.length;
-        this.cartWishingData.cartItemsCount.set(data.items.length);
-      }
-    );
-
-
-    // this.wishing.getWishinglist().subscribe(
-    //   (data) => {
-    //     console.log(`dta:  ${data}`);
-    //     this.cartWishingData.wishingItems.next(data.items);
-    //     this.wishlistItemsCount = data.items.length;
-    //   },
-    //   (error) => {
-    //     console.error('Error fetching wishlist:', error);
-    //   }
-    // );
-  }
+  // this.cart.getCartProducts().subscribe(
+  //   (data) => {
+  //     this.cartWishingData.cartItems.set(data.items);
+  //     // this.cartItemsCount = data.items.length;
+  //     this.cartWishingData.cartItemsCount.set(data.items.length);
+  //   }
+  // );
 
 
-  onLogOutClick(){
+  // this.wishing.getWishinglist().subscribe(
+  //   (data) => {
+  //     console.log(`dta:  ${data}`);
+  //     this.cartWishingData.wishingItems.next(data.items);
+  //     this.wishlistItemsCount = data.items.length;
+  //   },
+  //   (error) => {
+  //     console.error('Error fetching wishlist:', error);
+  //   }
+  // );
+  // }
+
+
+  onLogOutClick() {
     this.authService.logout();
     this.router.navigate(['/home']);
 
   }
- 
+
 }
