@@ -57,28 +57,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
   loadProducts(): void {
     this.isLoading = true;
 
-    this.productService.getProducts(this.currentPage, this.itemsPerPage).subscribe({
-      next: (response) => {
-        this.products = response.value.data.map(p => ({
-          ...p,
-          pictureUrl: p.pictureUrl.replace(
-            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
-            ''
-          ),
-          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true' // Check localStorage for favorite status
-        }));
-
-        this.totalItems = response.value.count;
-        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-      },
-      error: (err) => {
-        console.log('Error loading products:', err);
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
-  }
     this.productService.getProducts(
       this.currentPage,
       this.itemsPerPage,
@@ -105,6 +83,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Error loading products:', err);
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

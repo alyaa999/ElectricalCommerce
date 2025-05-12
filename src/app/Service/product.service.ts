@@ -69,9 +69,6 @@ export class ProductService {
     return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
   }
 
-  addToCart(product: Product, quantity: number): Observable<any> {
-
-
   public addToCart(product: Product, quantity: number): Observable<any> {
     const payload = {
       id: product.id,
