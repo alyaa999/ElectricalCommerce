@@ -10,20 +10,12 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CartService {
-   
   private apiUrl = `${environment.apiBaseUrl}/Baskets/basket`; 
   constructor( private http : HttpClient) { 
   }
 
-  getCart(): Observable<Cart> {
-          return this.http.get<Cart>(`${this.apiUrl}`); 
-  }
-
-  // New Services
   
-
-
-
+  // New Services
   getCartProducts(): Observable<CartData> {
     return this.http.get<CartData>(`${this.apiUrl}`);
   }

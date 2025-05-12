@@ -27,6 +27,10 @@
         <a class="icon-link nav-click" routerLink="products">
           <i class="zmdi zmdi-search "></i>
         </a>
+
+
+@if(isLogin){
+
         <a class="icon-link nav-click position-relative" (click)="onCartClick()" >
           <i class="zmdi zmdi-shopping-cart"></i>
           <span class="badge">{{this.cartWishingData.cartItemsCount()}}</span>
@@ -36,6 +40,25 @@
           <i class="zmdi zmdi-favorite-outline"></i>
           <span class="badge">{{this.cartWishingData.wishlistItemsCount()}}</span>
         </a>
+        <a class="icon-link nav-click position-relative" routerLink="profile">
+          <i class="zmdi zmdi-account"></i>
+          <span class="username">{{userName}}</span>
+        </a>
+
+
+        <a class="icon-link nav-click position-relative" (click)="onLogOutClick()" >
+          <i class="zmdi zmdi-power"></i>
+        </a>
+}
+  @else{
+          <li class="nav-item">
+            <a class="nav-link nav-click" routerLink="login" routerLinkActive="active">login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-click" routerLink="register" routerLinkActive="active">Register</a>
+          </li>
+    }
+
       </div>
 
 
