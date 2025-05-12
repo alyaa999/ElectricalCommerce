@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit{
           environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
           ''
         ),
-        isFavourited:false
+        isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true' // Check localStorage for favorite status
       }));
 
       // Now this will work as count is properly typed
@@ -75,6 +75,9 @@ export class ProductsComponent implements OnInit{
 
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
+
+    // Add item to localstorage to save its favourite status
+    localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
 
     if(product.isFavourited)
     {

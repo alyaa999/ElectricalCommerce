@@ -1,4 +1,20 @@
-/* General Styling */
+/* Links (nav and icons) */
+.nav-link,
+.icon-link {
+  color: #666;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover,
+.icon-link:hover,
+.nav-link.active {
+  color: #717fe0;
+  text-decoration: none;
+}
+
+/* Pagination */
 .pagination-controls {
   display: flex;
   justify-content: center;
