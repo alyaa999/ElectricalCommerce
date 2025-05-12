@@ -14,34 +14,44 @@ import { CartWishingDataService } from '../../Service/cart-wishing-data.service'
 export class HeaderComponent {
   @Output() toggleCart = new EventEmitter<void>();
 
-  constructor(private cart: CartService, private wishing: WishinglistService, private cartWishingData: CartWishingDataService) { }
-
-  cartItemsCount: number = 0;
-  wishlistItemsCount: number = 0;
+  constructor(private cart: CartService, private wishing: WishinglistService, public cartWishingData: CartWishingDataService) { }
 
   onCartClick() {
     this.toggleCart.emit();
   }
 
+  // ngDoCheck() {
+    // if (localStorage.getItem('token')) {
+    //   this.wishing.getWishinglist().subscribe((data) => {
+    //     this.cartWishingData.wishingItems.set(data.items);
+    //     this.cartWishingData.wishlistItemsCount.set(data.items.length);
+    //   });
+
+    //   this.cart.getCartProducts().subscribe(
+    //     (data) => {
+    //       this.cartWishingData.cartItems.set(data.items);
+    //       this.cartWishingData.cartItemsCount.set(data.items.length);
+    //     }
+    //   );
+    // }
+  // }
+
+
   ngOnInit() {
 
     this.wishing.getWishinglist().subscribe((data) => {
-      this.cartWishingData.wishingItems.next(data.items);
+      this.cartWishingData.wishingItems.set(data.items);
       // this.wishlistItemsCount = data.items.length;
-      this.cartWishingData.wishlistItemsCount.next(data.items.length);
-      this.wishlistItemsCount = this.cartWishingData.wishlistItemsCount.getValue();
+      this.cartWishingData.wishlistItemsCount.set(data.items.length);
     });
 
     this.cart.getCartProducts().subscribe(
       (data) => {
-        this.cartWishingData.cartItems.next(data.items);
+        this.cartWishingData.cartItems.set(data.items);
         // this.cartItemsCount = data.items.length;
-        this.cartWishingData.cartItemsCount.next(data.items.length);
-        this.cartItemsCount = this.cartWishingData.cartItemsCount.getValue();
+        this.cartWishingData.cartItemsCount.set(data.items.length);
       }
     );
-
-
 
 
     // this.wishing.getWishinglist().subscribe(

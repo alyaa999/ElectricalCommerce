@@ -12,22 +12,23 @@ import { CartWishingDataService } from '../../Service/cart-wishing-data.service'
 })
 export class WishingListComponent {
 
-  wishingListItems: WishingListItems[] = [];
-  constructor(private wishingList:CartWishingDataService,private wishingService: WishinglistService ) { }
+  // wishingListItems: WishingListItems[] = [];
+  constructor(public wishingList:CartWishingDataService,private wishingService: WishinglistService ) { }
 
  
-    ngOnInit() {
-    this.wishingList.wishingItems.subscribe((items: WishingListItems[]) => {
-      this.wishingListItems = items;
-    });
-  }
+  //   ngOnInit() {
+  //   this.wishingList.wishingItems.subscribe((items: WishingListItems[]) => {
+  //     this.wishingListItems = items;
+  //   });
+  // }
 
 
 
   removeFromWishingList(id:number){
     this.wishingService.removeFromWishingList(id).subscribe(() => {
       // this.wishingListItems = this.wishingListItems.filter(item => item.id !== id); 
-      this.wishingList.wishingItems.next(this.wishingListItems.filter(item => item.id !== id));
+      this.wishingList.wishingItems.set(this.wishingList.wishingItems().filter(item => item.id !== id));
+      this.wishingList.wishlistItemsCount.set(this.wishingList.wishingItems().length);
     });
   }
 
