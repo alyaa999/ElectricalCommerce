@@ -1,3 +1,11 @@
+<!-- Loading Spinner -->
+@if(isLoading)
+{
+  <div class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+}
+
 <!-- Pagination -->
 <div class="pagination-controls">
   <button (click)="goToPage(1)" [disabled]="currentPage === 1">First</button>
@@ -20,7 +28,7 @@
 
 <!-- Product List -->
 <div class="product-grid">
-  @for (p of products; track $index) 
+  @for (p of products; track $index)
   {
     <div class="product-card">
 
@@ -44,7 +52,7 @@
           <a class="icon-link nav-click position-relative" >
             <i class="zmdi zmdi-shopping-cart fs-5"></i>
           </a>
-          
+
           <button class="wishlist-button">
             <!-- <img src="Icons/icon-heart-01.png" alt="Add to wishlist" class="heart-icon"> -->
             <i class="bi fs-5 ms-3"

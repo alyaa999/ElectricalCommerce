@@ -27,6 +27,7 @@ export class ProductService {
     return this.http.get<ProductApiResponse>(`${this.apiUrl}/Products`, { params });
   }
 
+
   public addProductToWishList(product: Product)
   {
     this.http.post(`${this.apiUrl}/Baskets/favourite`, product).subscribe();
@@ -41,7 +42,7 @@ export class ProductService {
   {
       return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
   }
-  
+
   addToCart(product: Product, quantity: number): Observable<any> {
     const payload = {
       id: product.id,
@@ -55,5 +56,5 @@ export class ProductService {
 
     return this.http.post(`${environment.apiBaseUrl}/Baskets/basket`, payload);
   }
-  
+
 }

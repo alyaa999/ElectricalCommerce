@@ -2,7 +2,6 @@ export interface Catgoery {
   id: number;
   name:string;
   image: string;
- 
 }
 
 export interface Product {

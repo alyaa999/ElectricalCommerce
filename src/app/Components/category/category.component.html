@@ -1,14 +1,12 @@
-
-@for (item of categories; track item.id; let i = $index) {
-<div class="category-box">
-  
-  <img [src]="item.image" alt="Accessories" >
-  <div class="overlay">
-    <h3>{{item.name}}</h3>
-    <p>New Trend</p>
-    <a [href]="item.image" class="shop-btn">SHOP NOW</a>
-  </div>
+<div class="category-container">
+  @for (item of categories; track item.id; let i = $index) {
+    <div class="category-box">
+      <img [src]="item.image" alt="{{item.name}}">
+      <div class="overlay">
+        <h1 class="category-title">{{ item.name }}</h1>
+        <p class="category-subtitle">New Trend</p>
+        <a [href]="item.image" class="shop-btn">SHOP NOW</a>
+      </div>
+    </div>
+  }
 </div>
-
-
-}

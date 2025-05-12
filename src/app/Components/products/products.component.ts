@@ -15,9 +15,12 @@ import { FormsModule } from '@angular/forms';
 export class ProductsComponent implements OnInit{
   public products: Product[] = [];
   public currentPage = 1;
-  public itemsPerPage = 9; // You can change this default
+  public itemsPerPage = 9;
   public totalItems = 0;
   public totalPages = 0;
+
+  // Loading state
+  public isLoading = false;
 
   constructor(private productService: ProductService) {}
 
@@ -26,26 +29,30 @@ export class ProductsComponent implements OnInit{
   }
 
   loadProducts(): void {
-  this.productService.getProducts(this.currentPage, this.itemsPerPage).subscribe({
-    next: (response) => {
-      this.products = response.value.data.map(p => ({
-        ...p,
-        pictureUrl: p.pictureUrl.replace(
-          environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
-          ''
-        ),
-        isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true' // Check localStorage for favorite status
-      }));
+    this.isLoading = true;
 
-      // Now this will work as count is properly typed
-      this.totalItems = response.value.count;
-      this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-    },
-    error: (err) => {
-      console.error('Error loading products:', err);
-    }
-  });
-}
+    this.productService.getProducts(this.currentPage, this.itemsPerPage).subscribe({
+      next: (response) => {
+        this.products = response.value.data.map(p => ({
+          ...p,
+          pictureUrl: p.pictureUrl.replace(
+            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
+            ''
+          ),
+          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true' // Check localStorage for favorite status
+        }));
+
+        this.totalItems = response.value.count;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+      },
+      error: (err) => {
+        console.log('Error loading products:', err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
