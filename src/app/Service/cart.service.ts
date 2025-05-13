@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { CartData, CartItems } from '../Interfaces/Cart/Cart.models';
 import { HttpClient } from '@angular/common/http';
 import { CustomerBasket } from '../Interfaces/Cart/Cart.models';
+import { CartWishingDataService } from './cart-wishing-data.service';
 
 
 @Injectable({
@@ -24,7 +25,8 @@ export class CartService {
   }
 
   addToCart(item: CartItems): Observable<CartData> {
-    return this.http.post<CartData>(`${this.apiUrl}`, { item });
+    console.log(item);
+    return this.http.post<CartData>(`${this.apiUrl}`, item );
   }
 
   removeFromCart(itemId: number): Observable<void> {

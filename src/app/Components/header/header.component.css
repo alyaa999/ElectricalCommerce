@@ -7,6 +7,9 @@
   --dark: #212529;         /* Rich black */
   --light: #f8f9fa;        /* Clean white */
   --gray: #6c757d;         /* Neutral gray */
+  --badge-bg: #fff;
+  --badge-text: #717fe0;
+  --badge-shadow: rgba(113, 127, 224, 0.4);
 }
 
 /* ===== GLASS MORPHISM NAVBAR ===== */
@@ -77,7 +80,7 @@
   justify-content: center;
   height: 20px;
   border-radius: 50%;
-  color: var(--dark);
+  color: #515abc;
   background: transparent;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
@@ -96,7 +99,6 @@
 }
 
 .search-btn:hover {
-  /* background: rgba(67, 97, 238, 0.1); */
   color: black;
 }
 .search-btn:hover i {
@@ -104,8 +106,6 @@
 }
 
 .cart-btn:hover {
-  /* background: rgba(67, 97, 238, 0.1);
-  color: var(--accent); */
   color: black;
 }
 .cart-btn:hover i {
@@ -121,14 +121,10 @@
 }
 
 .wishlist-btn.active {
-  /* background: rgba(67, 97, 238, 0.1);
-  color: var(--secondary); */
   color: black;
 }
 
 .profile-btn:hover {
-  /* background: rgba(58, 12, 163, 0.1); */
-  /* color: var(--primary-dark); */
   color: black;
 }
 
@@ -138,29 +134,36 @@
 }
 
 /* ===== NOTIFICATION BADGES ===== */
+
+/* Notification Badge CSS Matching Image Style */
+
 .notification-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 4px;
-  background: var(--accent);
-  color: white;
-  border-radius: 10px;
-  font-size: 0.65rem;
+  top: -8px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  animation: pulse 1.5s infinite;
+  border-radius: 50%;
+  padding: 0 4px;
+  color: white;
+  background-color: #8a8dff;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* For the cart icon badge */
+.cart-btn .notification-badge {
+  background-color: #8a8dff; /* Matching the blue in your image */
 }
+
+/* For the wishlist icon badge */
+.wishlist-btn .notification-badge {
+  background-color: #8a8dff; /* Matching the blue in your image */
+}
+
 
 /* ===== AUTH BUTTONS ===== */
 .auth-btn {
