@@ -13,9 +13,9 @@ import { OrdersComponent } from './Components/orders/orders.component';
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, title: 'Home'},
-    {path: 'products', component: ProductsComponent, title: 'Products'},
-    {path: 'filter', component: FilterComponent, title: 'Filter'},
-    {path: 'shop', component: ShopComponent, title: 'Shop'},
+    {path: 'products', component: ShopComponent, title: 'Products'},
+    // {path: 'filter', component: FilterComponent, title: 'Filter'},
+    // {path: 'shop', component: ShopComponent, title: 'Shop'},
     {path: 'products/:id', component: ProductDetailsComponent, title: 'Product Details'},
     {path: 'about', component: AboutComponent, title: 'About'},
     {path: 'cart', loadComponent:()=>import('./Components/cart/cart.component').then(c => c.CartComponent) , title: 'Cart', canActivate: [authGuard]},
@@ -23,7 +23,9 @@ export const routes: Routes = [
     {path: 'checkout', loadComponent: () => import('./Components/checkout/checkout.component').then(m => m.CheckoutComponent), title: 'Checkout', canActivate: [authGuard] },
     {path: 'login', loadComponent: () => import('./Components/login/login.component').then(m => m.LoginComponent), title: 'Login' },
     {path: 'register', loadComponent: () => import('./Components/register/register.component').then(m => m.RegisterComponent), title: 'Register' },
-    {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] 
-    },
+    {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] },
+    {path: 'confirmOrder', loadComponent: () => import('./Components/confirm-order/confirm-order.component').then(m => m.ConfirmOrderComponent), title: 'confirmOrder', canActivate: [authGuard] },
+    {path: 'thankyou', loadComponent: () => import('./Components/thankyou/thankyou.component').then(m => m.ThankyouComponent), title: 'thanks you', canActivate: [authGuard] },
+
     {path: '**', component: ErrorComponent, title: 'Error' }
 ];

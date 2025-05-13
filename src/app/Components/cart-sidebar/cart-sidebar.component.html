@@ -11,18 +11,21 @@
 
     <div class="cart-body p-3">
       <!-- ^ For Loop For Cart Items -->
+
+       @for (item of this.cart.cartItems(); track $index) {
       <div class="d-flex align-items-center mb-3">
-        <img src="AlAhly.bmp" width="60" height="60" class="me-3" />
+        <img src="{{item.pictureUrl}}" width="60" height="60" class="me-3" />
         <div>
-          <p class="mb-1 fw-semibold">White Shirt Pleat</p>
-          <small>1 x $19.00</small>
+          <h6 class="mb-1 fw-semibold">{{item.productName}}</h6>
+          <small>{{item.quantity}} x ${{item.price}}</small>
         </div>
       </div>
+    }
       <!-- ^ End Loop -->
       
       <div class="icon-footer">
           <hr />
-          <div class="fw-semibold mb-3">Total: $75.00</div>
+          <div class="fw-semibold mb-3">Total: ${{this.total()}}</div>
           
           <div class="d-flex gap-2 ">
               <a (click)="close()" routerLink="cart" class="btn btn-dark w-50 rounded-pill">View Cart</a>

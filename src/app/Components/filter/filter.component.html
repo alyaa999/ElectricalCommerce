@@ -5,15 +5,16 @@
     <div class="price-range">
       <div class="price-display">
         <span class="min-price">{{minPrice}} L.E</span>
-        <span class="max-price">{{maxPrice}} L.E</span>
+        <span class="max-price">{{Price}} L.E</span>
       </div>
-      <input 
-        type="range" 
-        min="{{minPrice}}" 
-        max="{{maxPrice}}" 
-        value="{{maxPrice/2}}" 
+      <input
+        type="range"
+        min="{{minPrice}}"
+        max="{{Price}}"
+        value="{{selectedPriceRange}}"
         class="price-slider"
-      >
+         (input)="onPriceChange($event)">
+
     </div>
   </div>
 
@@ -21,16 +22,26 @@
   <div class="filter-section">
     <h3 class="filter-title">Categories</h3>
     <ul class="category-list">
-      @for (cat of categories; track $index) 
+      @for (cat of categories; track $index)
       {
         <li class="category-item">
           <label class="category-label">
-            <input type="checkbox" [checked]="cat.checked" class="category-checkbox">
+
+            <input type="radio" name="Category" class="category-checkbox"  [checked]="selectedCategoryId==cat.id"  (change)="onCategoryChange(cat.id)" >
             <span class="custom-checkbox"></span>
             <span class="category-name">{{cat.name}}</span>
           </label>
         </li>
       }
+   <li class="category-item">
+          <label class="category-label">
+
+            <input type="radio" name="Category" class="category-checkbox"   (change)="restCatgoryFilter()" >
+            <span class="custom-checkbox"></span>
+            <span class="category-name">Rest</span>
+          </label>
+        </li>
+
     </ul>
   </div>
 
@@ -38,32 +49,29 @@
   <div class="filter-section">
     <h3 class="filter-title">Brands</h3>
     <ul class="category-list">
-      @for (brand of brands; track $index) 
+      @for (brand of Brands; track $index)
       {
         <li class="category-item">
           <label class="category-label">
-            <input type="checkbox" [checked]="brand.checked" class="category-checkbox">
+            <input type="radio"  name="Brand" class="category-checkbox"  [checked]="selectedBrandId==brand.id"   (change)="onBrandChange(brand.id)" >
+
+
             <span class="custom-checkbox"></span>
             <span class="category-name">{{brand.name}}</span>
           </label>
         </li>
       }
+      <li class="category-item">
+          <label class="category-label">
+
+            <input type="radio" name="Category" class="category-checkbox"   (change)="restBrandFilter()" >
+            <span class="custom-checkbox"></span>
+            <span class="category-name">Rest</span>
+          </label>
+        </li>
     </ul>
   </div>
 
   <!-- Rating Filter-->
-  <div class="filter-section">
-    <h3 class="filter-title">Rating</h3>
-    <div class="rating-filter">
-      @for (rating of [5,4,3,2,1]; track rating) {
-        <div class="rating-option" [class.active]="selectedRating === rating" (click)="selectRating(rating)">
-          <div class="stars-container">
-            @for (star of [1,2,3,4,5]; track star) {
-              <span class="star" [class.filled]="star <= rating">★</span>
-            }
-          </div>
-        </div>
-      }
-    </div>
-  </div> 
+
 </div>

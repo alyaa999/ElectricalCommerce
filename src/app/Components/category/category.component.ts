@@ -1,11 +1,46 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { Catgoery } from '../../Interfaces/Catgory/CatgoryModel';
+import { CatgoryService } from '../../Service/catgory.service';
+import { Router, RouterModule } from '@angular/router';
+import {  FilterService} from '../../Service/filter.service';
 @Component({
   selector: 'app-category',
-  imports: [],
   templateUrl: './category.component.html',
-  styleUrl: './category.component.css'
+  styleUrls: ['./category.component.css'] ,
+  imports:[RouterModule]
 })
-export class CategoryComponent {
+export class CategoryComponent implements OnInit {
+  element: Catgoery = {
+    id: 0,
+     name: '',
+    image: ''
 
+  };
+
+  categories: Catgoery[] = [];
+
+  constructor(private service: CatgoryService,private filter:FilterService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.service.getCatgory().subscribe(
+      (data: Catgoery[]) => {
+        this.categories = data;
+        console.log("Categories received:", this.categories);
+      }
+    );
+
+
+
+  }
+
+
+  filterProduct(id:number)
+  {
+this.filter.updateFilter({
+    typeId: id,
+    brandId: 0,
+    price: 1000
+  });
+    this.router.navigate(['/products']);
+}
 }

@@ -1,49 +1,124 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, NgModule, OnInit, Output, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Product } from '../../Interfaces/Product/Product.models';
+import { ProductService } from '../../Service/product.service';
+import { environment } from '../../../environments/enviroment';
+import { FormsModule } from '@angular/forms';
+import { FilterService } from '../../Service/filter.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products',
-  standalone: true,  // Required if using standalone
-  imports: [RouterModule],
+  standalone: true,
+  imports: [RouterModule, FormsModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent {
-  public products = [
-    { id: 1, img: "1", name: "Classic Trench Coat", price: 200, category: "women" },
-    { id: 2, img: "2", name: "Front Pocket Jumper", price: 500, category: "women" }
-  ];
+export class ProductsComponent implements OnInit, OnDestroy {
+  public products: Product[] = [];
+  public currentPage = 1;
+  public itemsPerPage = 9;
+  public totalItems = 0;
+  public totalPages = 0;
 
-  changeHeartIcon(event: MouseEvent): void {
-    const target = event.currentTarget as HTMLElement;
-    const img = target.querySelector('img');
+  // Loading state
+  public isLoading = false;
 
-    if (img) {
-      img.src = 'Icons/icon-heart-02.png';
+  private filterParams: {
+    typeId?: number | null,
+    brandId?: number | any,
+    price?: number | any
+  } = {};
+
+  private filterSubscription: Subscription | null = null;
+
+  constructor(
+    private productService: ProductService,
+    private filterService: FilterService
+  ) {}
+
+  ngOnInit(): void {
+    this.filterSubscription = this.filterService.getFilterObservable().subscribe(
+      (params) => {
+        this.filterParams = params;
+        this.currentPage = 1;
+        this.loadProducts();
+      }
+    );
+    this.loadProducts();
+  }
+
+  ngOnDestroy(): void {
+    if (this.filterSubscription) {
+      this.filterSubscription.unsubscribe();
     }
   }
 
-  resetHeartIcon(event: MouseEvent): void {
-    const target = event.currentTarget as HTMLElement;
-    const img = target.querySelector('img');
+  loadProducts(): void {
+    this.isLoading = true;
 
-    if (img) {
-      img.src = 'Icons/icon-heart-01.png';
+    this.productService.getProducts(
+      this.currentPage,
+      this.itemsPerPage,
+      this.filterParams.typeId,
+      this.filterParams.brandId,
+      this.filterParams.price
+    ).subscribe({
+      next: (response: any) => {
+        // التعديل الرئيسي هنا - استخدام response.data مباشرة أو response.value.data إذا كانت موجودة
+        const productsData = response.value?.data || response.data || [];
+        const totalCount = response.value?.count || response.count || 0;
+
+        this.products = productsData.map((p: Product) => ({
+          ...p,
+          pictureUrl: p.pictureUrl.replace(
+            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
+            ''
+          ),
+          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true'
+        }));
+
+        this.totalItems = totalCount;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+      },
+      error: (err) => {
+        console.error('Error loading products:', err);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadProducts();
     }
   }
 
-  @Output() quickViewClicked = new EventEmitter<number>();
-  @Output() wishlistToggled = new EventEmitter<number>();
-
-  openQuickView(productId: number) {
-    this.quickViewClicked.emit(productId);
+  getPages(): number[] {
+    const pagesToShow = 5;
+    const pages: number[] = [];
+    let startPage = Math.max(1, this.currentPage - Math.floor(pagesToShow / 2));
+    let endPage = startPage + pagesToShow - 1;
+    if (endPage > this.totalPages) {
+      endPage = this.totalPages;
+      startPage = Math.max(1, endPage - pagesToShow + 1);
+    }
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
   }
 
-  toggleWishlist(productId: number) {
-    this.wishlistToggled.emit(productId);
-  }
-
-  AddToWishlist(){
-    
+  toggleWishlist(product: Product) {
+    product.isFavourited = !product.isFavourited;
+    localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
+    if(product.isFavourited) {
+      this.productService.addProductToWishList(product);
+    } else {
+      this.productService.removeProductFromWishList(product.id);
+    }
   }
 }

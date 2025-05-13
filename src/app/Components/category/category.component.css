@@ -1,0 +1,139 @@
+.category-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow-x: auto;
+  gap: 40px;
+  padding: 50px 30px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  scroll-snap-type: x mandatory;
+}
+
+.category-container::-webkit-scrollbar {
+  display: none;
+}
+
+.category-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.category-box {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  width: 280px;
+  height: 280px;
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.category-box:hover {
+  transform: translateY(-5px);
+}
+
+.category-box img {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  display: block;
+}
+
+.category-box .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(47, 53, 176, 0.85);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.category-box:hover .overlay {
+  opacity: 0.8;
+}
+
+/* Text inside overlay */
+.category-title {
+  font-size: 1.7rem;
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
+
+.category-subtitle {
+  font-size: 1rem;
+  font-weight: 300;
+  margin-bottom: 50px;
+}
+
+/* SHOP NOW button animation from bottom */
+.shop-btn {
+  color: white;
+  text-decoration: none;
+  border: 2px solid white;
+  padding: 10px 24px;
+  font-weight: 500;
+  border-radius: 25px;
+  position: relative;
+  bottom: -30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+}
+
+.category-box:hover .shop-btn {
+  bottom: 0;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.shop-btn:hover {
+  background-color: white;
+  color: #2f35b0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .category-box {
+    width: 220px;
+    height: 220px;
+  }
+
+  .category-title {
+    font-size: 1.3rem;
+  }
+
+  .category-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .shop-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-box {
+    width: 200px;
+    height: 200px;
+  }
+
+  .shop-btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+  }
+}

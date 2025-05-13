@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { passwordMatchValidator } from './validationFns';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
 import { RegisterRequest } from '../../Interfaces/Auth/Auth.models';
 
@@ -22,7 +22,7 @@ interface userRegisteration{
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule,ReactiveFormsModule,CommonModule],
+  imports: [FormsModule,ReactiveFormsModule,CommonModule,RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -32,7 +32,7 @@ export class RegisterComponent {
      errorResponceMsg:String=""
 
    constructor(private router:Router,private authService:AuthService){
-      
+
    }
    FrmValidation:FormGroup=new FormGroup({
       FirstName:new FormControl(this.user.FirstName,[Validators.required,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
@@ -65,15 +65,15 @@ export class RegisterComponent {
               console.log(Response)
               this.router.navigate(['/login']);
             },
-            error: (res)=>{ 
-              this.errorResponceMsg = res.error.message 
+            error: (res)=>{
+              this.errorResponceMsg = res.error.message
             }
-          });               
+          });
         } else {
         Object.keys(this.FrmValidation.controls).forEach(key => {
           const control = this.FrmValidation.get(key);
           control?.markAsTouched();
-        });  
+        });
     }
   }
 }

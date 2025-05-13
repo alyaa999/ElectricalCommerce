@@ -1,14 +1,15 @@
-
-<div style="height: 400px;">
-
-
-  <swiper-container class="mySwiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
-  centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
-  @for (item of images; track $index) {
-    <swiper-slide>
-      <img [src]="item" alt="" srcset="">
-    </swiper-slide>
-  }
-  
-</swiper-container>
+<div class="slider-container">
+  <swiper-container class="coza-swiper" pagination="true" pagination-clickable="true" navigation="true" space-between="30"
+    centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
+    @for (item of images; track $index) {
+      <swiper-slide>
+        <img src="img/1.avif" alt="New Arrivals">
+        <div class="text-overlay">
+          <h3 class="collection-tag">New Collection</h3>
+          <h2 class="main-title">NEW ARRIVALS</h2>
+          <a routerLink="/products" class="shop-btn">SHOP NOW</a>
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
 </div>
