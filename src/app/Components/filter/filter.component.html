@@ -1,77 +1,89 @@
+<!-- Updated HTML with collapsible sections -->
 <div class="filters-container">
   <!-- Price Filter -->
   <div class="filter-section">
-    <h3 class="filter-title">Price Range</h3>
+    <h3 class="filter-title" (click)="toggleSection($event)">Price Range</h3>
     <div class="price-range">
       <div class="price-display">
-        <span class="min-price">{{minPrice}} L.E</span>
-        <span class="max-price">{{Price}} L.E</span>
+        <span class="min-price">{{ minPrice }} L.E</span>
+        <span class="max-price">{{ Price }} L.E</span>
       </div>
-      <input
-        type="range"
-        min="{{minPrice}}"
-        max="{{Price}}"
-        value="{{selectedPriceRange}}"
-        class="price-slider"
-         (input)="onPriceChange($event)">
-
+ 
+      <div class="slider-container">
+        <input
+          type="range"
+          [min]="minPrice"
+          [max]="Price"
+          [(ngModel)]="selectedPriceRange"
+          class="price-slider"
+          (input)="onPriceChange($event)">
+ 
+        <div
+          class="bubble"
+          [style.left.%]="getBubblePosition()">
+          {{ selectedPriceRange }} L.E
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Category Filter -->
   <div class="filter-section">
-    <h3 class="filter-title">Categories</h3>
+    <h3 class="filter-title" (click)="toggleSection($event)">Categories</h3>
     <ul class="category-list">
+      <div class="scroll-wrapper">
       @for (cat of categories; track $index)
       {
         <li class="category-item">
           <label class="category-label">
-
-            <input type="radio" name="Category" class="category-checkbox"  [checked]="selectedCategoryId==cat.id"  (change)="onCategoryChange(cat.id)" >
+            <input type="radio" name="Category" class="category-checkbox" [checked]="selectedCategoryId==cat.id" (change)="onCategoryChange(cat.id)">
             <span class="custom-checkbox"></span>
             <span class="category-name">{{cat.name}}</span>
           </label>
         </li>
       }
-   <li class="category-item">
-          <label class="category-label">
-
-            <input type="radio" name="Category" class="category-checkbox"   (change)="restCatgoryFilter()" >
-            <span class="custom-checkbox"></span>
-            <span class="category-name">Rest</span>
-          </label>
-        </li>
-
+      <li class="category-item">
+        <label class="category-label">
+          <button name="Category" class="btn-reset text-white btn" (click)="restCatgoryFilter()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="btn-icon bi bi-arrow-repeat" viewBox="0 0 16 16">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+            </svg>
+            Reset
+          </button>
+        </label>
+      </li>
+      </div>
     </ul>
   </div>
 
   <!-- Brand Filter -->
   <div class="filter-section">
-    <h3 class="filter-title">Brands</h3>
-    <ul class="category-list">
+    <h3 class="filter-title" (click)="toggleSection($event)">Brands</h3>
+    <ul class="brand-list">
+      <div class="scroll-wrapper">
       @for (brand of Brands; track $index)
       {
         <li class="category-item">
           <label class="category-label">
-            <input type="radio"  name="Brand" class="category-checkbox"  [checked]="selectedBrandId==brand.id"   (change)="onBrandChange(brand.id)" >
-
-
+            <input type="radio" name="Brand" class="category-checkbox" [checked]="selectedBrandId==brand.id" (change)="onBrandChange(brand.id)">
             <span class="custom-checkbox"></span>
             <span class="category-name">{{brand.name}}</span>
           </label>
         </li>
       }
       <li class="category-item">
-          <label class="category-label">
-
-            <input type="radio" name="Category" class="category-checkbox"   (change)="restBrandFilter()" >
-            <span class="custom-checkbox"></span>
-            <span class="category-name">Rest</span>
-          </label>
-        </li>
+        <label class="category-label">
+          <button name="Category" class="btn-reset text-white btn" (click)="restBrandFilter()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="btn-icon bi bi-arrow-repeat" viewBox="0 0 16 16">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+            </svg>
+            Reset
+          </button>
+        </label>
+      </li>
+      </div>
     </ul>
   </div>
-
-  <!-- Rating Filter-->
-
 </div>

@@ -10,18 +10,21 @@
     </div>
 
     <div class="cart-body p-3">
-      <!-- ^ For Loop For Cart Items -->
-
-       @for (item of this.cart.cartItems(); track $index) {
-      <div class="d-flex align-items-center mb-3">
-        <img src="{{item.pictureUrl}}" width="60" height="60" class="me-3" />
-        <div>
-          <h6 class="mb-1 fw-semibold">{{item.productName}}</h6>
-          <small>{{item.quantity}} x ${{item.price}}</small>
-        </div>
+      
+      
+      <div class="cart-items-list" style="max-height: 450px; overflow-y: auto;">
+        <!-- ^ For Loop For Cart Items -->
+        @for (item of this.cart.cartItems(); track $index) {
+          <div class="d-flex align-items-center mb-3">
+            <img src="{{item.pictureUrl}}" width="60" height="60" class="me-3" />
+            <div>
+              <h6 class="mb-1 fw-semibold">{{ item.productName | truncate:15 }}</h6>
+              <small>{{item.quantity}} x ${{item.price}}</small>
+            </div>
+          </div>
+        }
+        <!-- ^ End Loop -->
       </div>
-    }
-      <!-- ^ End Loop -->
       
       <div class="icon-footer">
           <hr />
