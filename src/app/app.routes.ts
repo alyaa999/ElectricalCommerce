@@ -18,7 +18,7 @@ export const routes: Routes = [
     // {path: 'shop', component: ShopComponent, title: 'Shop'},
     {path: 'products/:id', component: ProductDetailsComponent, title: 'Product Details'},
     {path: 'about', component: AboutComponent, title: 'About'},
-    {path: 'cart', loadComponent:()=>import('./Components/cart/cart.component').then(c => c.CartComponent) , title: 'Cart', canActivate: [authGuard]},
+    {path: 'cart', loadComponent:()=>import('./Components/cart/cart.component').then(c => c.CartComponent) , title: 'Cart'},//, canActivate: [authGuard]
     {path: 'Wishing', loadComponent: () => import('./Components/wishing-list/wishing-list.component').then(m => m.WishingListComponent), title: 'Wishing', canActivate: [authGuard] },
     {path: 'checkout', loadComponent: () => import('./Components/checkout/checkout.component').then(m => m.CheckoutComponent), title: 'Checkout', canActivate: [authGuard] },
     {path: 'login', loadComponent: () => import('./Components/login/login.component').then(m => m.LoginComponent), title: 'Login' },
@@ -26,6 +26,7 @@ export const routes: Routes = [
     {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] },
     {path: 'confirmOrder', loadComponent: () => import('./Components/confirm-order/confirm-order.component').then(m => m.ConfirmOrderComponent), title: 'confirmOrder', canActivate: [authGuard] },
     {path: 'thankyou', loadComponent: () => import('./Components/thankyou/thankyou.component').then(m => m.ThankyouComponent), title: 'thanks you', canActivate: [authGuard] },
+    {path: 'order/:id', loadComponent: () => import('./Components/order-detail/order-detail.component').then(m => m.OrderDetailComponent), title: 'Order', canActivate: [authGuard] },
 
     {path: '**', component: ErrorComponent, title: 'Error' }
 ];

@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.GetCustomerInfo().subscribe({
       next:(res)=>{
           this.userInfo=res;
-              console.log(this.userInfo)
+           console.log(this.userInfo)
       }
     })
     this.profileService.GetCustomerAddress().subscribe({
@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
       country:new FormControl(this.customerAddress.country,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       firstName:new FormControl(this.customerAddress.firstName,[Validators.required,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       lastName:new FormControl(this.customerAddress.lastName,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
+      
    })
 
    clickProfileTab(){
@@ -71,7 +72,7 @@ export class ProfileComponent implements OnInit {
         city:this.FrmValidation.value.city ,
         country:this.FrmValidation.value.country,  
         firstName:this.FrmValidation.value.firstName,
-        lastName:this.FrmValidation.value.lastName
+        lastName:this.FrmValidation.value.lastName,
       }
       this.profileService.UpdateCustomerAddress(this.FrmValidation.value).subscribe({
         next:(res)=>{
