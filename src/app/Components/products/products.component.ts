@@ -6,9 +6,7 @@ import { environment } from '../../../environments/enviroment';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../Service/filter.service';
 import { Subscription } from 'rxjs';
-import { WishinglistService } from '../../Service/wishinglist.service';
-import { WishingListItems } from '../../Interfaces/Cart/Cart.models';
-
+ 
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -22,9 +20,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public itemsPerPage = 9;
   public totalItems = 0;
   public totalPages = 0;
-  public wishingList: WishingListItems[] = [];
-
-  // Loading state
+ 
+    // Loading state
   public isLoading = false;
 
   private filterParams: {
@@ -32,15 +29,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
     brandId?: number | any,
     price?: number | any
   } = {};
-
+ 
   private filterSubscription: Subscription | null = null;
-
+ 
   constructor(
     private productService: ProductService,
-    private filterService: FilterService,
-    private wishingListService: WishinglistService
+    private filterService: FilterService
   ) {}
-
+ 
   ngOnInit(): void {
     this.filterSubscription = this.filterService.getFilterObservable().subscribe(
       (params) => {
@@ -49,72 +45,57 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.loadProducts();
       }
     );
-    // this.loadProducts();
   }
-
+ 
   ngOnDestroy(): void {
     if (this.filterSubscription) {
       this.filterSubscription.unsubscribe();
     }
   }
-
+ 
   loadProducts(): void {
-  this.isLoading = true;
+    this.isLoading = true;
 
-  this.wishingListService.getWishinglist().subscribe({
-    next: (response: any) => {
-      this.wishingList = response.items;
-      console.log(this.wishingList);
-
-      // Now that the wishlist is loaded, fetch the products
-      this.productService.getProducts(
-        this.currentPage,
-        this.itemsPerPage,
-        this.filterParams.typeId,
-        this.filterParams.brandId,
-        this.filterParams.price
-      ).subscribe({
-        next: (response: any) => {
-          const productsData = response.value?.data || response.data || [];
-          const totalCount = response.value?.count || response.count || 0;
-
-          const wishedProductIds = new Set(this.wishingList.map((item: any) => item.productId));
-
-          this.products = productsData.map((p: Product) => ({
-            ...p,
-            pictureUrl: p.pictureUrl.replace(
-              environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
-              ''
-            ),
-            isFavourited: wishedProductIds.has(p.id)
-          }));
-
-          this.totalItems = totalCount;
-          this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-        },
-        error: (err) => {
-          console.error('Error loading products:', err);
-        },
+    this.productService.getProducts(
+      this.currentPage,
+      this.itemsPerPage,
+      this.filterParams.typeId,
+      this.filterParams.brandId,
+      this.filterParams.price
+    ).subscribe({
+      next: (response: any) => {
+        // التعديل الرئيسي هنا - استخدام response.data مباشرة أو response.value.data إذا كانت موجودة
+        const productsData = response.value?.data || response.data || [];
+        const totalCount = response.value?.count || response.count || 0;
+ 
+        this.products = productsData.map((p: Product) => ({
+          ...p,
+          pictureUrl: p.pictureUrl.replace(
+            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
+            ''
+          ),
+          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true'
+        }));
+       
+        this.totalItems = totalCount;
+        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+      },
+      error: (err) => {
+        console.error('Error loading products:', err);
+      },
         complete: () => {
           this.isLoading = false;
         }
-      });
-    },
-    error: (err) => {
-      console.error('Error loading wishlist:', err);
-      this.isLoading = false;
-    }
-  });
-}
-
-
+    });
+  }
+ 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadProducts();
     }
   }
-
+ 
   getPages(): number[] {
     const pagesToShow = 5;
     const pages: number[] = [];
@@ -132,21 +113,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
-
-    // Casting product to wishListItem
-    const wishListItem : WishingListItems = {
-      id: product.id,
-      brand: product.brand,
-      description: product.description,
-      pictureUrl: product.pictureUrl,
-      price: parseFloat(product.price.toString()),
-      productName: product.name,
-      type: product.type
-    }
+    localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
     if(product.isFavourited) {
-      this.wishingListService.addToWishingList(wishListItem);
+      this.productService.addProductToWishList(product);
     } else {
-      this.wishingListService.removeFromWishingList(wishListItem.id);
+      this.productService.removeProductFromWishList(product.id);
     }
   }
 }

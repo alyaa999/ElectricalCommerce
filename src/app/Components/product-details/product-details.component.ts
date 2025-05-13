@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Service/product.service';
 import { Product } from '../../Interfaces/Product/Product.models';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+import { CartService } from '../../Service/cart.service';
+import { CartItems } from '../../Interfaces/Cart/Cart.models';
 
 @Component({
   selector: 'app-product-details',
@@ -34,6 +37,16 @@ product:Product=
   typeId: 0,
   isFavourited: false
 }
+cartItem: CartItems = {
+  id: 0,
+  productName: "",
+  pictureUrl: "",
+  description :  "",
+  brand:  "",
+  type:  "",
+  price: 0,
+  quantity: 0
+}
 counter=signal<number>(0)
 
 minus()
@@ -47,7 +60,7 @@ plus()
   this.counter.update((old)=>++old)
 }
 
-constructor(private service:ProductService,   private route: ActivatedRoute)
+constructor(private service:ProductService,   private route: ActivatedRoute, private cartWishingService: CartWishingDataService, private cartService: CartService)
 {
 
 } 
@@ -79,8 +92,22 @@ ngOnInit(): void {
     this.buttonText = 'Adding...';
 
     const qty = this.counter();
-    this.service.addToCart(this.product, qty).subscribe({
-      next: () => {
+    this.cartItem = {
+      id: this.product.id,
+      productName: this.product.name,
+      pictureUrl: this.product.pictureUrl,
+      description :  this.product.description,
+      brand:  this.product.brand,
+      type:  this.product.type,
+      price: this.product.price,
+      quantity: qty
+    }
+
+    this.cartService.addToCart(this.cartItem).subscribe({
+      next: (response) => {
+        this.cartWishingService.cartItems.set(response.items);
+        this.cartWishingService.cartItemsCount.set(response.items.length);
+
         // Success state
         this.buttonText = '✓ Added!';
         setTimeout(() => {

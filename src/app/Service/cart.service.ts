@@ -25,7 +25,8 @@ export class CartService {
   }
 
   addToCart(item: CartItems): Observable<CartData> {
-    return this.http.post<CartData>(`${this.apiUrl}`, { item });
+    console.log(item);
+    return this.http.post<CartData>(`${this.apiUrl}`, item );
   }
 
   removeFromCart(itemId: number): Observable<void> {
