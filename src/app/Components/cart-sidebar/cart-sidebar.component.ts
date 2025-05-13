@@ -5,10 +5,11 @@ import { CartService } from '../../Service/cart.service';
 import { CartItems } from '../../Interfaces/Cart/Cart.models';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 import { count } from 'rxjs';
+import { TruncatePipe } from '../../Pipes/truncate.pipe';
 
 @Component({
   selector: 'app-cart-sidebar',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TruncatePipe],
   templateUrl: './cart-sidebar.component.html',
   styleUrl: './cart-sidebar.component.css'
 })
