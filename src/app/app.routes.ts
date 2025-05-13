@@ -7,6 +7,8 @@ import { ErrorComponent } from './Components/error/error.component';
 import { AboutComponent } from './Components/about/about.component';
 import { FilterComponent } from './Components/filter/filter.component';
 import { ShopComponent } from './Components/shop/shop.component';
+import { ProfileComponent } from './Components/profile/profile.component';
+import { OrdersComponent } from './Components/orders/orders.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -21,6 +23,7 @@ export const routes: Routes = [
     {path: 'checkout', loadComponent: () => import('./Components/checkout/checkout.component').then(m => m.CheckoutComponent), title: 'Checkout', canActivate: [authGuard] },
     {path: 'login', loadComponent: () => import('./Components/login/login.component').then(m => m.LoginComponent), title: 'Login' },
     {path: 'register', loadComponent: () => import('./Components/register/register.component').then(m => m.RegisterComponent), title: 'Register' },
-    {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] },
+    {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] 
+    },
     {path: '**', component: ErrorComponent, title: 'Error' }
 ];

@@ -1,4 +1,191 @@
-<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Custom styles to enhance Bootstrap */
+        :root {
+            --primary-color: #4f46e5;
+            --primary-light: #e0e7ff;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+        }
+        
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4338ca 100%);
+        }
+        
+        .profile-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .profile-nav .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .profile-nav .nav-link:hover:not(.active) {
+            color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+        
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            background-color: #f8f9fa;
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 0.5rem;
+        }
+        
+        .address-box {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <div class="card shadow-sm">
+            <!-- Profile Header -->
+            <div class="profile-header text-white text-center  py-4">
+                <i class="fas fa-user-circle fa-3x mb-3"></i> 
+                <h1 class="mb-1">{{userInfo.displayName}}</h1>
+                <p class="mb-0">{{userInfo.email}}</p>
+            </div>        
 
+            <!-- Profile Navigation -->
+            <ul class="nav profile-nav">
+                <li class="nav-item flex-grow-1">
+                    <button (click)="clickProfileTab()" 
+                            [ngClass]="{'nav-link active': selectedTab === 0, 'nav-link': selectedTab !== 0}" 
+                            class="w-100">
+                        Profile
+                    </button>
+                </li>
+                <li class="nav-item flex-grow-1">
+                    <button (click)="clickOrdersTab()" 
+                            [ngClass]="{'nav-link active': selectedTab === 1, 'nav-link': selectedTab !== 1}" 
+                            class="w-100">
+                        Orders
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Profile Content -->
+            <div *ngIf="selectedTab===0" class="card-body p-4">
+                <div class="mb-4">
+                    <h2 class="section-title mb-3">Personal Information</h2>
+                    
+                    <div class="mb-3">
+                        <span class="info-label d-block mb-1">Full Name</span>
+                        <div class="info-value p-3 rounded">{{userInfo.displayName}}</div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="info-label d-block mb-1">Email</span>
+                        <div class="info-value p-3 rounded">{{userInfo.email}}</div>
+                    </div>
+                    <div class="mb-3">
+                        <span class="info-label d-block mb-1">Phone</span>
+                        <div class="info-value p-3 rounded">{{userInfo.phoneNumber}}</div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h2 class="section-title mb-3">Address</h2>
+                    
+                    <div>
+                        <div class="address-box p-3 rounded mb-3">
+                            <div *ngIf="!IsupdateAddress">
+                                <p class="mb-3">
+                                    <strong>Street </strong>{{customerAddress.street}}<br>
+                                    <strong>City </strong>{{customerAddress.city}}<br>
+                                    <strong>Country </strong>{{customerAddress.country}}<br>
+                                </p>
+                                <button class="btn btn-secondary" (click)="onUpdate()">
+                                    <i class="fas fa-edit me-2"></i>Edit
+                                </button>
+                            </div> 
+                            <div *ngIf="IsupdateAddress">
+                                <form [formGroup]="FrmValidation">
+                                    <div class="row g-3 mb-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" placeholder="First Name" formControlName="firstName">
+                                            <div class="invalid-feedback d-block" *ngIf="FrmValidation.get('firstName')?.touched && FrmValidation.get('firstName')?.invalid">
+                                                <small *ngIf="FrmValidation.get('firstName')?.errors?.['required']">First name is required</small>
+                                                <small *ngIf="FrmValidation.get('firstName')?.errors?.['pattern']">Invalid first name</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" placeholder="Last Name" formControlName="lastName">
+                                            <div class="invalid-feedback d-block" *ngIf="FrmValidation.get('lastName')?.touched && FrmValidation.get('lastName')?.invalid">
+                                                <small *ngIf="FrmValidation.get('lastName')?.errors?.['required']">Last name is required</small>
+                                                <small *ngIf="FrmValidation.get('lastName')?.errors?.['pattern']">Invalid last name</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Street" formControlName="street">
+                                        <div class="invalid-feedback d-block" *ngIf="FrmValidation.get('street')?.touched && FrmValidation.get('street')?.invalid">
+                                            <small *ngIf="FrmValidation.get('street')?.errors?.['required']">Street is required</small>
+                                        </div>
+                                    </div>
 
--->
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="City" formControlName="city">
+                                        <div class="invalid-feedback d-block" *ngIf="FrmValidation.get('city')?.touched && FrmValidation.get('city')?.invalid">
+                                            <small *ngIf="FrmValidation.get('city')?.errors?.['required']">City is required</small>
+                                            <small *ngIf="FrmValidation.get('city')?.errors?.['pattern']">Invalid City</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Country" formControlName="country">
+                                        <div class="invalid-feedback d-block" *ngIf="FrmValidation.get('country')?.touched && FrmValidation.get('country')?.invalid">
+                                            <small *ngIf="FrmValidation.get('country')?.errors?.['required']">Country is required</small>
+                                            <small *ngIf="FrmValidation.get('country')?.errors?.['pattern']">Invalid Country</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-primary" (click)="onSubmitAddress()">
+                                            <i class="fas fa-check me-2"></i>Submit
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" (click)="OnCancelAddress()">
+                                            <i class="fas fa-times me-2"></i>Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Content -->
+            <div *ngIf="selectedTab===1" class="card-body p-4">
+                <div class="profile-section">
+                    <app-orders></app-orders>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

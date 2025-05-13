@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Your Orders</h1>
+        </div>
+        
+        <!-- Orders List -->
+        <ul class="orders-list">
+            <!-- Order 1 -->
+            <li class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #1001</span>
+                        <span class="order-date"> - May 12, 2025</span>
+                    </div>
+                    <span class="order-status status-delivered">Delivered</span>
+                </div>
+                <div class="order-summary">
+                    <span class="order-items-count">3 items</span>
+                    <span class="order-total">$290.96</span>
+                </div>
+                <div class="order-actions">
+                    <button class="view-btn">View Order</button>
+                </div>
+            </li>
+            
+            <!-- Order 2 -->
+            <li class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #987</span>
+                        <span class="order-date"> - April 28, 2025</span>
+                    </div>
+                    <span class="order-status status-shipped">Shipped</span>
+                </div>
+                <div class="order-summary">
+                    <span class="order-items-count">1 item</span>
+                    <span class="order-total">$254.98</span>
+                </div>
+                <div class="order-actions">
+                    <button class="view-btn">View Order</button>
+                </div>
+            </li>
+            
+            <!-- Order 3 -->
+            <li class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #865</span>
+                        <span class="order-date"> - April 15, 2025</span>
+                    </div>
+                    <span class="order-status status-pending">Processing</span>
+                </div>
+                <div class="order-summary">
+                    <span class="order-items-count">2 items</span>
+                    <span class="order-total">$179.97</span>
+                </div>
+                <div class="order-actions">
+                    <button class="view-btn">View Order</button>
+                </div>
+            </li>
+        </ul>
+        
+        <!-- Empty State (hidden by default) -->
+        <!-- <div class="empty-state">
+            <i class="far fa-box-open"></i>
+            <h3>No Orders Yet</h3>
+            <p>You haven't placed any orders. Start shopping to see orders here.</p>
+        </div> -->
+    </div>
+</body>
+</html>

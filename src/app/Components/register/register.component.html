@@ -64,5 +64,30 @@
       <small *ngIf="FrmValidation.get('phoneNumber')?.errors?.['required']">Username is required</small>
     </div>
   </div>
+
+  <div class="form-group">
+    <input type="text" placeholder="Street" formControlName="Street" class="form-input">
+    <div class="error-message" *ngIf="FrmValidation.get('Street')?.touched && FrmValidation.get('Street')?.invalid">
+      <small *ngIf="FrmValidation.get('Street')?.errors?.['required']">Street is required</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <input type="text" placeholder="City" formControlName="City" class="form-input">
+      <div class="error-message" *ngIf="FrmValidation.get('City')?.touched && FrmValidation.get('City')?.invalid">
+        <small *ngIf="FrmValidation.get('City')?.errors?.['required']">City is required</small>
+        <small *ngIf="FrmValidation.get('City')?.errors?.['pattern']">Invalid City</small>
+      </div>
+  </div>
+
+  <div class="form-group">
+      <input type="text" placeholder="Country" formControlName="Country" class="form-input">
+      <div class="error-message" *ngIf="FrmValidation.get('Country')?.touched && FrmValidation.get('Country')?.invalid">
+        <small *ngIf="FrmValidation.get('Country')?.errors?.['required']">Country is required</small>
+        <small *ngIf="FrmValidation.get('Country')?.errors?.['pattern']">Invalid Country</small>
+      </div>
+  </div>
+
+
   <button type="submit" class="submit-btn">Register</button>
 </form>
