@@ -45,7 +45,7 @@ export class ConfirmOrderComponent implements OnInit{
     else 
     {
         this.checkoutService.Credit().subscribe((res) => {
-          location.href =res;
+          window.open(res, '_blank');
           console.log(res);
         });
     }
