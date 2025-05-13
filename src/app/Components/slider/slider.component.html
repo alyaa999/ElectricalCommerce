@@ -3,7 +3,7 @@
     centered-slides="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
     @for (item of images; track $index) {
       <swiper-slide>
-        <img src="img/1.avif" alt="New Arrivals">
+        <img [src]="item" alt="New Arrivals">
         <div class="text-overlay">
           <h3 class="collection-tag">New Collection</h3>
           <h2 class="main-title">NEW ARRIVALS</h2>

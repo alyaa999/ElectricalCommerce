@@ -6,6 +6,8 @@ import { environment } from '../../../environments/enviroment';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../Service/filter.service';
 import { Subscription } from 'rxjs';
+import { WishinglistService } from '../../Service/wishinglist.service';
+import { WishingListItems } from '../../Interfaces/Cart/Cart.models';
 
 @Component({
   selector: 'app-products',
@@ -20,6 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public itemsPerPage = 9;
   public totalItems = 0;
   public totalPages = 0;
+  public wishingList: WishingListItems[] = [];
 
   // Loading state
   public isLoading = false;
@@ -34,7 +37,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   constructor(
     private productService: ProductService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private wishingListService: WishinglistService
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +49,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.loadProducts();
       }
     );
-    this.loadProducts();
+    // this.loadProducts();
   }
 
   ngOnDestroy(): void {
@@ -55,40 +59,54 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   loadProducts(): void {
-    this.isLoading = true;
+  this.isLoading = true;
 
-    this.productService.getProducts(
-      this.currentPage,
-      this.itemsPerPage,
-      this.filterParams.typeId,
-      this.filterParams.brandId,
-      this.filterParams.price
-    ).subscribe({
-      next: (response: any) => {
-        // التعديل الرئيسي هنا - استخدام response.data مباشرة أو response.value.data إذا كانت موجودة
-        const productsData = response.value?.data || response.data || [];
-        const totalCount = response.value?.count || response.count || 0;
+  this.wishingListService.getWishinglist().subscribe({
+    next: (response: any) => {
+      this.wishingList = response.items;
+      console.log(this.wishingList);
 
-        this.products = productsData.map((p: Product) => ({
-          ...p,
-          pictureUrl: p.pictureUrl.replace(
-            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
-            ''
-          ),
-          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true'
-        }));
+      // Now that the wishlist is loaded, fetch the products
+      this.productService.getProducts(
+        this.currentPage,
+        this.itemsPerPage,
+        this.filterParams.typeId,
+        this.filterParams.brandId,
+        this.filterParams.price
+      ).subscribe({
+        next: (response: any) => {
+          const productsData = response.value?.data || response.data || [];
+          const totalCount = response.value?.count || response.count || 0;
 
-        this.totalItems = totalCount;
-        this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-      },
-      error: (err) => {
-        console.error('Error loading products:', err);
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
-  }
+          const wishedProductIds = new Set(this.wishingList.map((item: any) => item.productId));
+
+          this.products = productsData.map((p: Product) => ({
+            ...p,
+            pictureUrl: p.pictureUrl.replace(
+              environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
+              ''
+            ),
+            isFavourited: wishedProductIds.has(p.id)
+          }));
+
+          this.totalItems = totalCount;
+          this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+        },
+        error: (err) => {
+          console.error('Error loading products:', err);
+        },
+        complete: () => {
+          this.isLoading = false;
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Error loading wishlist:', err);
+      this.isLoading = false;
+    }
+  });
+}
+
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
@@ -114,11 +132,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
-    localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
+
+    // Casting product to wishListItem
+    const wishListItem : WishingListItems = {
+      id: product.id,
+      brand: product.brand,
+      description: product.description,
+      pictureUrl: product.pictureUrl,
+      price: parseFloat(product.price.toString()),
+      productName: product.name,
+      type: product.type
+    }
     if(product.isFavourited) {
-      this.productService.addProductToWishList(product);
+      this.wishingListService.addToWishingList(wishListItem);
     } else {
-      this.productService.removeProductFromWishList(product.id);
+      this.wishingListService.removeFromWishingList(wishListItem.id);
     }
   }
 }
