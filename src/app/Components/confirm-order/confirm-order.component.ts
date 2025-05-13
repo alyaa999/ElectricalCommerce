@@ -20,26 +20,15 @@ import { single } from 'rxjs';
 export class ConfirmOrderComponent implements OnInit{
   selectedPaymentMethod: 'cash' | 'card' | null = null;
 
- Order : OrderDto =
-  {basketId: '', shippingAddress :{
-    firstName :"",
-    lastName:"",
-    street :"",
-    country:"",
-    city:"",
-   } , deliveryMethodId :1}
  
- constructor( private sharedService : SharedServiceService , private router : Router,
-  private checkoutService : CheckoutService, private signal :CartWishingDataService ,private stripeService : StripeService) {
+ 
+ constructor( private router : Router,
+  private checkoutService : CheckoutService,private stripeService : StripeService) {
  
   
  }
   ngOnInit(): void {
-    this.sharedService.Order.subscribe((next) => {
-      this.Order = next;
-      console.log('Updated Order:', this.Order);
-    } );
-    console.log(this.Order);
+  
   }
   selectPayment(selectMethod : 'cash' | 'card' | null)
   {
@@ -51,26 +40,17 @@ export class ConfirmOrderComponent implements OnInit{
   {
     if(this.selectedPaymentMethod == 'cash')
     {  
-      console.log(this.Order);
-               // call api to create a new order
-            this.checkoutService.CreateOrder(this.Order).subscribe(async response => {
-              console.log('Order created successfully:', response);
-              this.router.navigate(['/thankyou']);
-
-            }, error => {
-              console.error('Error creating order:', error);
-            });
+          this.router.navigate(['/thankyou']);
     }
     else 
     {
         this.checkoutService.Credit().subscribe((res) => {
           location.href =res;
           console.log(res);
-          
         });
     }
-    this.signal.cartItemsCount.set(0);
-    this.signal.cartItems.set([]);
+   
+
     
   }
 }
