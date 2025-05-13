@@ -7,7 +7,7 @@
 
   swiper-container {
     width: 100%;
-    height: 100%;
+    height: 80vh;
   }
 
   swiper-slide {
@@ -19,8 +19,7 @@
   }
 
   swiper-slide img {
-    width: 100%;
-    height: 100%;
+    width: 38%;
     object-fit: cover;
     display: block;
   }
@@ -33,13 +32,11 @@
     z-index: 10;
     max-width: 50%;
     text-align: left;
-    color: #333; /* Adjust based on your background images */
   }
 
   .collection-tag {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    font-weight: normal;
   }
 
   .main-title {
@@ -48,6 +45,7 @@
     margin-top: 0;
     margin-bottom: 2rem;
     text-transform: uppercase;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   }
 
   .shop-btn {
@@ -60,6 +58,7 @@
     border-radius: 30px;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
   }
 
   .shop-btn:hover {
@@ -72,27 +71,14 @@
       left: 5%;
       max-width: 70%;
     }
-    
+
     .collection-tag {
       font-size: 1rem;
     }
-    
+
     .main-title {
       font-size: 2rem;
       margin-bottom: 1.5rem;
     }
   }
-    
-    .collection-tag {
-      font-size: 0.9rem;
-    }
-    
-    .main-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .shop-btn {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-    }
+

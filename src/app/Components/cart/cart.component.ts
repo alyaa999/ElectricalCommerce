@@ -37,7 +37,8 @@ export class CartComponent implements OnInit {
             this.Subtotal += x.price * x.quantity;
            });
            this.sharedService.SubTotal.next(this.Subtotal);
-           
+           if(this.Cart.items.length == 0)
+             this.EmptyCart= false;
          }, 
         error :(error)=>this.EmptyCart=false
       });

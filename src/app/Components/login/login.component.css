@@ -3,79 +3,92 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60vh;
-  background-color: white;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
   padding: 20px;
+  margin-top: -20px;
 }
 
 /* Form Styling */
 .auth-form {
   width: 100%;
-  max-width: 360px;
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  max-width: 400px;
+  background: #fff;
+  padding: 45px 35px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .form-title {
   text-align: center;
-  color: #666;
+  color: #2c3e50;
   margin-bottom: 10px;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 700;
 }
 
 .form-subtitle {
   text-align: center;
   color: #7f8c8d;
   margin-bottom: 30px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
-/* Form Groups */
 .form-group {
-  padding: 0;
-  margin: 0px 0px 20px 0px;
+  margin-bottom: 20px;
 }
 
+/* Label */
 label {
   display: block;
   margin-bottom: 8px;
-  font-weight: 500;
-  color: #666;
+  font-weight: 600;
+  color: #34495e;
   font-size: 14px;
 }
 
-/* Input Fields */
-.form-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 15px;
-  transition: all 0.3s;
-  box-sizing: border-box;
+/* Input with icon */
+.input-wrapper {
+  position: relative;
+}
 
+.input-wrapper i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 16px;
+}
+
+.input-wrapper .form-input {
+  width: 100%;
+  padding: 14px 16px 14px 38px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  background-color: #fefefe;
 }
 
 .form-input:focus {
+  border-color: #717fe0;
+  box-shadow: 0 0 0 3px rgba(113, 127, 224, 0.25);
   outline: none;
-  border-color: #666;
-  box-shadow: 0 0 0 2px rgba(113, 127, 224, 0.2);
 }
 
 .form-input.invalid {
   border-color: #e74c3c;
+  background-color: #fff6f6;
 }
 
 .form-input::placeholder {
-  color: #bdc3c7;
+  color: #b0b3b8;
 }
 
 /* Checkbox Styling */
 .remember-group {
-  margin: 20px 0;
+  margin: 25px 0;
 }
 
 .checkbox-option {
@@ -84,13 +97,13 @@ label {
   cursor: pointer;
   position: relative;
   padding-left: 30px;
-  user-select: none;
+  font-size: 14px;
+  color: #555;
 }
 
 .checkbox-option input {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
   height: 0;
   width: 0;
 }
@@ -98,29 +111,29 @@ label {
 .checkmark {
   position: absolute;
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: 18px;
+  width: 18px;
   background-color: #fff;
   border: 2px solid #bdc3c7;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
 }
 
 .checkbox-option:hover .checkmark {
-  border-color: #666;
+  border-color: #717fe0;
 }
 
 .checkbox-option input:checked ~ .checkmark {
-  background-color: #666;
-  border-color: #666;
+  background-color: #717fe0;
+  border-color: #717fe0;
 }
 
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
-  left: 6px;
-  top: 2px;
+  left: 5px;
+  top: 1px;
   width: 5px;
   height: 10px;
   border: solid white;
@@ -134,27 +147,24 @@ label {
 
 .checkbox-label {
   margin-left: 10px;
-  color: #666;
-  font-size: 14px;
 }
 
 /* Submit Button */
 .submit-btn {
   width: 100%;
   padding: 15px;
-  background-color: #999;
-  color: white;
+  background: #717fe0;
+  color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  transition: background 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #666;
+  background: #5b6ed6;
 }
 
 .submit-btn:disabled {
@@ -162,7 +172,7 @@ label {
   cursor: not-allowed;
 }
 
-/* Footer Links */
+/* Footer */
 .auth-footer {
   text-align: center;
   margin-top: 25px;
@@ -173,22 +183,7 @@ label {
 .auth-link {
   color: #717fe0;
   text-decoration: none;
-  font-weight: 500;
-}
-
-.auth-link:hover {
-  text-decoration: underline;
-}
-
-.forgot-link {
-  color: #717fe0;
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.forgot-link:hover {
-  text-decoration: underline;
+  font-weight: 600;
 }
 
 .flex-row {
@@ -199,19 +194,24 @@ label {
 
 /* Error Messages */
 .error-message {
-  color: #e53935;
+  color: #e74c3c;
   font-size: 13px;
-  margin-top: 5px;
-  height: 18px;
+  margin-top: 6px;
+  min-height: 18px;
 }
 
-/* Responsive Design */
+
+/* Responsive */
 @media (max-width: 480px) {
   .auth-form {
     padding: 30px 20px;
   }
-  
+
   .form-title {
     font-size: 24px;
+  }
+
+  .form-subtitle {
+    font-size: 14px;
   }
 }

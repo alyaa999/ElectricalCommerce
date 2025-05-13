@@ -19,7 +19,7 @@ export class CheckoutService {
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 
   {
-     return this.http.get<DeliveryMethods[]>(`${this.apiUrl}Order/DeliveryMethods`);
+     return this.http.get<DeliveryMethods[]>(`${this.apiUrl}/Order/DeliveryMethods`);
   }
 
   Credit() :Observable<any> {

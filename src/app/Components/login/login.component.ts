@@ -15,7 +15,8 @@ interface userLogin{
   selector: 'app-login',
   imports: [FormsModule,ReactiveFormsModule,CommonModule,RouterModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+
 })
 
 export class LoginComponent {
@@ -39,14 +40,13 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       },
       error:(res)=>{
-          this.errorResponceMsg = res.error.message 
+          this.errorResponceMsg = res.error.message
       }
     })
   } else {
     Object.keys(this.FrmValidation.controls).forEach(key => {
       const control = this.FrmValidation.get(key);
       control?.markAsTouched();
-    });  
- }
- }
+    });}
+  }
 }

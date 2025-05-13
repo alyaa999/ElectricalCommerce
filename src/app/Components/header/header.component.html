@@ -1,8 +1,6 @@
 <header>
-  <nav class="navbar navbar-expand-lg">
-    <div
-      class="container d-flex justify-content-between align-items-center px-2"
-    >
+  <nav class="navbar navbar-expand-lg glass-navbar">
+    <div class="container d-flex justify-content-between align-items-center px-2">
       <!-- LEFT: Logo + Menu -->
       <div class="d-flex align-items-center gap-3">
         <a class="navbar-brand fw-bold text-dark me-3" routerLink="/">
@@ -11,13 +9,13 @@
             alt="N/A"
             height="70"
             width="80"
-            class="d-inline-block align-text-top me-2"
+            class="d-inline-block align-text-top me-2 logo-hover-transform"
           />
         </a>
-        <ul class="navbar-nav flex-row gap-2 mb-0">
+        <ul class="navbar-nav flex-row gap-3 mb-0">
           <li class="nav-item">
             <a
-              class="nav-link nav-click"
+              class="nav-link nav-click nav-swipe"
               routerLink="home"
               routerLinkActive="active"
               >Home</a
@@ -25,7 +23,7 @@
           </li>
           <li class="nav-item">
             <a
-              class="nav-link nav-click"
+              class="nav-link nav-click nav-swipe"
               routerLink="products"
               routerLinkActive="active"
               >Products</a
@@ -33,7 +31,7 @@
           </li>
           <li class="nav-item">
             <a
-              class="nav-link nav-click"
+              class="nav-link nav-click nav-swipe"
               routerLink="about"
               routerLinkActive="active"
               >About</a
@@ -43,54 +41,46 @@
       </div>
 
       <!-- RIGHT: Icons -->
-
       <div class="d-flex align-items-center gap-3">
-        <a class="icon-link nav-click" routerLink="products">
+        <a class="icon-btn search-btn nav-click" routerLink="products" routerLinkActive="active">
           <i class="zmdi zmdi-search"></i>
         </a>
 
-        @if(isLogin){
+        @if(isLogin) {
 
         <a
-          class="icon-link nav-click position-relative"
+          class="icon-btn cart-btn nav-click position-relative"
           (click)="onCartClick()"
         >
           <i class="zmdi zmdi-shopping-cart"></i>
-          <span class="badge">{{ this.cartWishingData.cartItemsCount() }}</span>
+          <span class="notification-badge">{{ this.cartWishingData.cartItemsCount() }}</span>
         </a>
 
-        <a class="icon-link nav-click position-relative" routerLink="Wishing">
+        <a class="icon-btn wishlist-btn nav-click position-relative" routerLink="Wishing" routerLinkActive="active">
           <i class="zmdi zmdi-favorite-outline"></i>
-          <span class="badge">{{
-            this.cartWishingData.wishlistItemsCount()
-          }}</span>
+          <span class="notification-badge">{{ this.cartWishingData.wishlistItemsCount() }}</span>
         </a>
-        <a class="icon-link nav-click position-relative" routerLink="profile">
+
+        <a class="icon-btn profile-btn nav-click position-relative" routerLink="profile" routerLinkActive="active">
           <i class="zmdi zmdi-account"></i>
           <span class="username">{{ userName }}</span>
         </a>
 
         <a
-          class="icon-link nav-click position-relative"
+          class="icon-btn logout-btn nav-click position-relative"
           (click)="onLogOutClick()"
         >
           <i class="zmdi zmdi-power"></i>
         </a>
-        } @else{
+
+        } @else {
+
         <li class="nav-item">
           <a
-            class="nav-link nav-click"
+            class="nav-link nav-click auth-btn login-btn"
             routerLink="login"
             routerLinkActive="active"
-            >login</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link nav-click"
-            routerLink="register"
-            routerLinkActive="active"
-            >Register</a
+            >Login</a
           >
         </li>
         }
