@@ -1,70 +1,48 @@
 <main class="container">
-        <section class="product-section">
-            <div class="product-image">
-                <img [src]=product.pictureUrl [alt]="product.name"  style="width: 300px;">
-            </div>
-            <div class="product-info">
-                <h1 class="product-title">{{product.name|lowercase }}</h1>
-                <div class="product-price">{{product.price|currency}}</div>
-                <p class="product-description">
-                    {{product.description}}
-                </p>
-                <div class="product-options">
-                    
-                
-                    <div class="option-row">
-                        <div class="option-label"></div>
-                        <div class="quantity-control">
-                            <button class="qty-btn minus-btn" (click)="minus()">−</button>
-                                <span class="qty-input">{{counter()}}</span>
-
-                            <button class="qty-btn plus-btn" (click)="plus()">+</button>
-                        </div>
-                    </div>
-                </div>
-                <button class="add-to-cart" (click)="Add()">ADD TO CART</button>
-               
-            </div>
-        </section>
-
-
-        
-
-
-
-       <div class="product-tabs">
-  <ul class="tab-nav" style="padding: 5px;">
-    <li [class.active]="selectedTab === 'description'">
-      <a href="javascript:void(0)" (click)="selectedTab = 'description'">
-        Description
+  <section class="product-section">
+    <div class="product-image">
+      <a [href]="product.pictureUrl">
+        <img [src]="product.pictureUrl" [alt]="product.name">
       </a>
-    </li>
-    <li [class.active]="selectedTab === 'info'">
-      <a href="javascript:void(0)" (click)="selectedTab = 'info'">
-        Additional information
-      </a>
-    </li>
-  </ul>
-
-  <div class="tab-content">
-    <div *ngIf="selectedTab === 'description'" class="tab-pane active">
-      <p>{{ product.description }}</p>
     </div>
 
-    <div *ngIf="selectedTab === 'info'" class="tab-pane active">
-      <p> Brand: {{ product.brand }}  -  Category: {{ product.type }}</p>
-      
+    <div class="product-details-container">
+      <div class="product-info">
+        <h1 class="product-title">{{ product.name | titlecase }}</h1>
+        <div class="product-price">{{ product.price }} L.E</div>
+        <p class="product-description">{{ product.description }}</p>
+
+        <div class="quantity-control">
+          <button class="qty-btn minus-btn" (click)="minus()">−</button>
+          <span class="qty-input">{{ counter() }}</span>
+          <button class="qty-btn plus-btn" (click)="plus()">+</button>
+        </div>
+
+        <button class="add-to-cart" (click)="Add()" [disabled]="isButtonDisabled || counter()<1">
+          {{ buttonText }}
+        </button>
+        <span *ngIf="isLoading" class="spinner"></span>
+      </div>
+
+      <div class="product-tabs">
+        <ul class="tab-nav">
+          <li [class.active]="selectedTab === 'description'">
+            <a (click)="selectedTab = 'description'">Description</a>
+          </li>
+          <li [class.active]="selectedTab === 'info'">
+            <a (click)="selectedTab = 'info'">Additional information</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div *ngIf="selectedTab === 'description'" class="tab-pane active">
+            <p>{{ product.description }}</p>
+          </div>
+          <div *ngIf="selectedTab === 'info'" class="tab-pane active">
+            <p style="margin-left: 100px;"><span class="fw-bold">Brand:</span> {{ product.brand }} <span style="margin-left: 70px;">-</span> <span class="fw-bold" style="margin-left: 60px;"> Category:</span> {{ product.type }}</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-<div class="product-meta">
-  <div class="sku">SKU: JAK-01</div>
-  <div class="categories">
-    Brand:
-    <a href="#"> {{ product.brand }}</a>,
-  </div>
-</div>
-
-    
-    </main>
+  </section>
+</main>

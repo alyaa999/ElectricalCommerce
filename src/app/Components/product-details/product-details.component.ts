@@ -38,13 +38,12 @@ counter=signal<number>(0)
 
 minus()
 {
-   if(this.counter()>0){
+  if(this.counter()>0){
   this.counter.update((old)=>--old)
-   }
+}
 }
 plus()
 {
- 
   this.counter.update((old)=>++old)
 }
 
@@ -69,30 +68,34 @@ ngOnInit(): void {
     } 
   }
 
-  Add()
-  {
+    isLoading: boolean = false;
+    isButtonDisabled: boolean = false;
+    buttonText: string = 'Add To Cart'
+
+  Add() {
+    // Set loading state
+    this.isLoading = true;
+    this.isButtonDisabled = true;
+    this.buttonText = 'Adding...';
+
     const qty = this.counter();
-  if (qty < 1) {
-    alert('please Add Valid Quantity');
-    return;
-  }
-    
-    this.service.addToCart(this.product,qty).subscribe
-    ({
+    this.service.addToCart(this.product, qty).subscribe({
       next: () => {
-      alert('SucessFull');
-    }
-    }
-    
-    );
-
-
+        // Success state
+        this.buttonText = '✓ Added!';
+        setTimeout(() => {
+          this.buttonText = 'ADD TO CART';
+          this.isButtonDisabled = false;
+          this.isLoading = false;
+        }, 2000);
+      },
+      error: () => {
+        // Error state
+        this.buttonText = 'Try Again';
+        this.isButtonDisabled = false;
+        this.isLoading = false;
+      }
+    });
   }
-
-
-
-
 }
-
- 
 
