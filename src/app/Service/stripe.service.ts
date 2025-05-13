@@ -6,10 +6,6 @@ import { environment } from '../../environments/enviroment';
   providedIn: 'root',
 })
 export class StripeService {
-  stripePromise = loadStripe(environment.stripKey);
 
-  async redirectToCheckout(sessionId: string) {
-    const stripe = await this.stripePromise;
-    return await stripe?.redirectToCheckout({ sessionId });
-  }
+
 }

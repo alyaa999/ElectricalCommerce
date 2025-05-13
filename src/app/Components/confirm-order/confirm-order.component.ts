@@ -7,6 +7,8 @@ import { StripeService } from '../../Service/stripe.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, PristineChangeEvent } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-order',
@@ -28,7 +30,7 @@ export class ConfirmOrderComponent implements OnInit{
    } , deliveryMethodId :1}
  
  constructor( private sharedService : SharedServiceService , private router : Router,
-  private checkoutService : CheckoutService ,private stripeService : StripeService) {
+  private checkoutService : CheckoutService, private signal :CartWishingDataService ,private stripeService : StripeService) {
  
   
  }
@@ -61,11 +63,14 @@ export class ConfirmOrderComponent implements OnInit{
     }
     else 
     {
-        this.checkoutService.Credit().subscribe(async (res) => {
-          await this.stripeService.redirectToCheckout(res.id);
-          //save order after check success or failed
+        this.checkoutService.Credit().subscribe((res) => {
+          location.href =res;
+          console.log(res);
           
         });
     }
+    this.signal.cartItemsCount.set(0);
+    this.signal.cartItems.set([]);
+    
   }
 }

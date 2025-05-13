@@ -20,8 +20,7 @@
                                     <!-- Improved Image with Fallback and Loading State -->
                                     <div class="ratio ratio-16x9 bg-light">
                                         <img [src]="item.pictureUrl" class="d-block w-100 object-fit-cover"
-                                            alt="{{item.productName || 'Product image'}}"
-                                            onerror="this.src='https://via.placeholder.com/800x450?text=Product+Image';"
+                                            alt="{{item.productName || 'Product image'}}" onerror="this.src='';"
                                             loading="lazy" />
                                     </div>
 
@@ -145,7 +144,7 @@
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
                                 <input type="text" id="city" formControlName="city" class="form-control"
-                                    placeholder="City" 
+                                    placeholder="City"
                                     [class.is-invalid]="OrderForm.get('city')?.invalid && (OrderForm.get('city')?.dirty || OrderForm.get('city')?.touched)"
                                     required />
                                 <label for="city">City</label>
@@ -161,7 +160,7 @@
                                 <input type="text" id="country" formControlName="country" class="form-control"
                                     placeholder="Country"
                                     [class.is-invalid]="OrderForm.get('country')?.invalid && (OrderForm.get('country')?.dirty || OrderForm.get('country')?.touched)"
-                                     required />
+                                    required />
                                 <label for="country">Country</label>
                                 <div *ngIf="OrderForm.get('country')?.invalid && (OrderForm.get('country')?.dirty || OrderForm.get('country')?.touched)"
                                     class="invalid-feedback">

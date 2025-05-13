@@ -23,7 +23,8 @@ export class CheckoutService {
   }
 
   Credit() :Observable<any> {
-    return this.http.post<{ id: string }>('/api/create-checkout-session', {});
+    return this.http.post(`${this.apiUrl}/Payments`,{},    { responseType: 'text' as 'json' }
+    );
       
   }
 }
