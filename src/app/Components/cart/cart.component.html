@@ -31,7 +31,7 @@
                             <i class="bi bi-cart3 me-2"></i>Your Cart
                             <span class="badge bg-primary rounded-pill ms-2">{{Cart.items.length}} items</span>
                         </h4>
-                        <button class="btn btn-sm btn-outline-danger">
+                        <button class="btn btn-sm btn-outline-danger" (click)="ClearCart()">
                             <i class="bi bi-trash"></i> Clear Cart
                         </button>
                     </div>
@@ -63,20 +63,19 @@
                                     <td class="text-center">
                                         <div class="input-group quantity-selector" style="max-width: 250px;">
                                             <button class="btn btn-outline-secondary" type="button"
-                                                (click)="UpdateCart(item.quantity-1, item.id)">
+                                                (click)="UpdateCart(item.quantity-1, item)">
                                                 <i class="bi bi-dash"></i>
                                             </button>
                                             <input type="text" class="form-control text-center w-20"
                                                 [(ngModel)]="item.quantity" [value]="item.quantity">
                                             <button class="btn btn-outline-secondary" type="button"
-                                                (click)="UpdateCart(item.quantity+1 , item.id)"><i
-                                                    class="bi bi-plus"></i>
+                                                (click)="UpdateCart(item.quantity+1 , item)"><i class="bi bi-plus"></i>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="text-end fw-bold">${{(item.quantity * item.price) | number:'1.2-2'}}</td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-danger">
+                                        <button class="btn btn-sm btn-outline-danger" (click)="UpdateCart(0, item)">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     </td>
