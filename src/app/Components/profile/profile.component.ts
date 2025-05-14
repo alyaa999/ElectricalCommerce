@@ -44,7 +44,6 @@ export class ProfileComponent implements OnInit {
       country:new FormControl(this.customerAddress.country,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       firstName:new FormControl(this.customerAddress.firstName,[Validators.required,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       lastName:new FormControl(this.customerAddress.lastName,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
-      
    })
 
    clickProfileTab(){

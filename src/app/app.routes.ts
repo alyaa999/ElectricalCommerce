@@ -12,6 +12,7 @@ import { OrdersComponent } from './Components/orders/orders.component';
 import { UserComponent } from './Layouts/user/user.component';
 import { AdminComponent } from './Layouts/admin/admin.component';
 import { AdminHomeComponent } from './Components/admin-home/admin-home.component';
+import { AdminLoginComponent } from './Components/admin-login/admin-login.component';
 
 export const routes: Routes = [
  {
@@ -42,6 +43,11 @@ export const routes: Routes = [
   children: [
     { path: "home", component: AdminHomeComponent, title: 'Admin Home' }
   ]
+},
+{
+  path: "adminLogin",
+  component: AdminLoginComponent, 
+  title:'admin login'
 },
 {path: '**', component: ErrorComponent, title: 'Error' }
 ];

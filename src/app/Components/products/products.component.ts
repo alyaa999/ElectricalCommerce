@@ -6,6 +6,9 @@ import { environment } from '../../../environments/enviroment';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../Service/filter.service';
 import { Subscription } from 'rxjs';
+import { CartService } from '../../Service/cart.service';
+import { CartData, CartItems } from '../../Interfaces/Cart/Cart.models';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
  
 @Component({
   selector: 'app-products',
@@ -34,7 +37,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
  
   constructor(
     private productService: ProductService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private cartService:CartService,
+    private cartWishingService:CartWishingDataService
   ) {}
  
   ngOnInit(): void {
@@ -110,7 +115,24 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
     return pages;
   }
-
+  addProductToCart(p:Product){
+    const item: CartItems={
+      id: p.id,
+      productName: p.name,
+      pictureUrl: p.pictureUrl,
+      description : p.description,
+      brand: p.brand,
+      type: p.type,
+      price: p.price,
+      quantity: 1     
+    }
+    this.cartService.addToCart(item).subscribe({
+      next:(response)=>{
+        this.cartWishingService.cartItems.set(response.items);
+        this.cartWishingService.cartItemsCount.set(response.items.length);
+      }
+    })
+  }
   toggleWishlist(product: Product) {
     product.isFavourited = !product.isFavourited;
     localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
