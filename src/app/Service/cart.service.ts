@@ -18,7 +18,7 @@ export class CartService {
   constructor( private http : HttpClient,private authService:AuthService) { 
   }
     getCart(): Observable<CustomerBasket> {
-      if(!this.authService.IsAuthenticated)
+      if(!this.authService.IsAuthenticated())
         return EMPTY
       return this.http.get<CustomerBasket>(`${this.apiUrl}`); 
 
@@ -26,7 +26,7 @@ export class CartService {
   // New Services
   getCartProducts(): Observable<CartData> {
 
-    if(!this.authService.IsAuthenticated)
+    if(!this.authService.IsAuthenticated())
         return EMPTY
     return this.http.get<CartData>(`${this.apiUrl}`);
   }
@@ -34,14 +34,14 @@ export class CartService {
   addToCart(item: CartItems): Observable<CartData> {
     console.log(!this.authService.IsAuthenticated);
     console.log("thisauth");
-    if(!this.authService.IsAuthenticated)
+    if(!this.authService.IsAuthenticated())
         return EMPTY
     console.log(item);
     return this.http.post<CartData>(`${this.apiUrl}`, item );
   }
 
   removeFromCart(itemId: number): Observable<void> {
-    if(!this.authService.IsAuthenticated)
+    if(!this.authService.IsAuthenticated())
         return EMPTY
     return this.http.delete<void>(`${this.apiUrl}/${itemId}`);
   }
