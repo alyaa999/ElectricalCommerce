@@ -13,27 +13,15 @@ import { CartWishingDataService } from '../../Service/cart-wishing-data.service'
 })
 export class ThankyouComponent implements OnInit{
 
-  Order : OrderDto ={
-    basketId: "",
-    deliveryMethodId: 0,
-    shippingAddress: {
-      street: "",
-      firstName: '',
-      lastName: '',
-      city: '',
-      country: ''
-    },
-  }
+
   constructor( private checkoutService:CheckoutService ,
-     private sharedService : SharedServiceService, private signal : CartWishingDataService) {
+      private signal : CartWishingDataService) {
 
     
   }
 
   
   ngOnInit(): void {
-   this.sharedService.Order.subscribe((data)=> this.Order = data);
-    this.checkoutService.CreateOrder(this.Order).subscribe({});
     this.signal.cartItemsCount.set(0);
     this.signal.cartItems.set([]);
    

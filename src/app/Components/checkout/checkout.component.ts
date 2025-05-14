@@ -65,11 +65,13 @@ export class CheckoutComponent implements OnInit {
       const Order :OrderDto={
 
         basketId:this.cart.id,
+        isCredit : false,
         deliveryMethodId:formValues.deliveryMethodId,
         shippingAddress :shippingAddress,
       }
     
-      this.sharedService.Order.next(Order) ;
+      this.sharedService.Order = Order;
+      console.log(this.sharedService);
 
       
     }

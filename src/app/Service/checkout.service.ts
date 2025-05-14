@@ -16,15 +16,19 @@ export class CheckoutService {
     CreateOrder(orderData : OrderDto) {
           return this.http.post(`${this.apiUrl}/Order`, orderData); 
   }
+  DeleteOrder(id: string  | null) {
+    return this.http.delete(`${this.apiUrl}/Order?id=${id}`);
+  }
+  
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 
   {
      return this.http.get<DeliveryMethods[]>(`${this.apiUrl}/Order/DeliveryMethods`);
   }
 
-  Credit() :Observable<any> {
-    return this.http.post(`${this.apiUrl}/Payments`,{},    { responseType: 'text' as 'json' }
-    );
+  Credit(basketId :string ) :Observable<any> {
+    return this.http.post(`${this.apiUrl}/Payments/create-checkout-session?orderId=${basketId}` , {});
+    
       
   }
 }

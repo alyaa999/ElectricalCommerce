@@ -51,6 +51,8 @@ export class CartComponent implements OnInit {
     
        this.Total = this.Subtotal;
       console.log(this.Cart);
+      //this.signal.cartItemsCount.set(this.Cart.items.length);
+
       
       
     }

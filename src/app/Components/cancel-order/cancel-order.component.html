@@ -1,0 +1,24 @@
+<div class="order-cancelled bg-white p-4 p-md-5 text-center rounded-3 shadow-sm"
+    style="max-width: 800px; margin: 0 auto;">
+
+    <!-- Cross mark icon -->
+    <div class="crossmark-container mx-auto mb-4" style="width: 100px; height: 100px; position: relative;">
+        <svg viewBox="0 0 100 100" style="position: absolute; top: 0; left: 0;">
+            <circle cx="50" cy="50" r="45" fill="#dc3545" opacity="0.1" />
+            <line x1="30" y1="30" x2="70" y2="70" stroke="#dc3545" stroke-width="8" stroke-linecap="round" />
+            <line x1="70" y1="30" x2="30" y2="70" stroke="#dc3545" stroke-width="8" stroke-linecap="round" />
+        </svg>
+    </div>
+
+    <h2 class="text-danger mb-3 fw-bold">Order Cancelled</h2>
+    <p class="text-muted mb-4">Your order has been cancelled. If this was a mistake, please contact support.</p>
+
+    <div class="d-flex flex-column flex-sm-row justify-content-center gap-3 mt-4">
+        <a href="/orders" class="btn btn-danger px-4 py-2 rounded-pill fw-bold">
+            <i class="bi bi-arrow-counterclockwise me-2"></i>Review Orders
+        </a>
+        <a href="/" class="btn btn-outline-danger px-4 py-2 rounded-pill">
+            <i class="bi bi-house me-2"></i>Return Home
+        </a>
+    </div>
+</div>

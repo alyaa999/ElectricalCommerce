@@ -11,6 +11,7 @@ export interface OrderDto {
   basketId: string;
 
   deliveryMethodId: number;
+  isCredit : boolean ;
 
   shippingAddress: AddressDto;
 }

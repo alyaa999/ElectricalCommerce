@@ -9,6 +9,7 @@ import { FormsModule, PristineChangeEvent } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 import { single } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-order',
@@ -20,10 +21,21 @@ import { single } from 'rxjs';
 export class ConfirmOrderComponent implements OnInit{
   selectedPaymentMethod: 'cash' | 'card' | null = null;
 
- 
+  Order : OrderDto ={
+    basketId: "",
+    deliveryMethodId: 0,
+    isCredit : false ,
+    shippingAddress: {
+      street: "",
+      firstName: '',
+      lastName: '',
+      city: '',
+      country: ''
+    },
+  }
  
  constructor( private router : Router,
-  private checkoutService : CheckoutService,private stripeService : StripeService) {
+  private checkoutService : CheckoutService,private stripeService : StripeService,private sharedService : SharedServiceService,) {
  
   
  }
@@ -33,24 +45,34 @@ export class ConfirmOrderComponent implements OnInit{
   selectPayment(selectMethod : 'cash' | 'card' | null)
   {
     this.selectedPaymentMethod = selectMethod;
+    
 
+  }
+
+
+  async confirmOrder() {
+    this.Order = this.sharedService.Order;
+    this.Order.isCredit= true;
+
+    console.log(this.Order)
+  
+    try {
+      // ✅ Ensure the order is created first
+      await lastValueFrom(this.checkoutService.CreateOrder(this.Order));
+  
+      if (this.selectedPaymentMethod === 'cash') {
+        this.router.navigate(['/thankyou']);
+      } else {
+        this.checkoutService.Credit(this.Order.basketId).subscribe((res) => {
+          location.href= res.url;
+          console.log('Redirecting to Stripe:', res);
+        });
+      }
+  
+    } catch (err) {
+      console.error('Failed to create order:', err);
+      // Show user-friendly error
+    }
   }
   
-  confirmOrder()
-  {
-    if(this.selectedPaymentMethod == 'cash')
-    {  
-          this.router.navigate(['/thankyou']);
-    }
-    else 
-    {
-        this.checkoutService.Credit().subscribe((res) => {
-          window.open(res, '_blank');
-          console.log(res);
-        });
-    }
-   
-
-    
-  }
 }
