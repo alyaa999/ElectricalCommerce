@@ -11,6 +11,9 @@ import { WishingList, WishingListItems } from '../../Interfaces/Cart/Cart.models
 import { WishinglistService } from '../../Service/wishinglist.service';
 import { AuthService } from '../../Service/auth.service';
 
+import { CartService } from '../../Service/cart.service';
+import { CartData, CartItems } from '../../Interfaces/Cart/Cart.models';
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -54,6 +57,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private cartWishingService: CartWishingDataService,
     private wishingService: WishinglistService,
     private Auth: AuthService
+    private filterService: FilterService,
+    private cartService:CartService,
+    private cartWishingService:CartWishingDataService
   ) {}
 
   ngOnInit(): void {
@@ -140,6 +146,24 @@ export class ProductsComponent implements OnInit, OnDestroy {
     return this.wishingList.some(item => item.id === product.id);
   }
 
+  addProductToCart(p:Product){
+    const item: CartItems={
+      id: p.id,
+      productName: p.name,
+      pictureUrl: p.pictureUrl,
+      description : p.description,
+      brand: p.brand,
+      type: p.type,
+      price: p.price,
+      quantity: 1
+    }
+    this.cartService.addToCart(item).subscribe({
+      next:(response)=>{
+        this.cartWishingService.cartItems.set(response.items);
+        this.cartWishingService.cartItemsCount.set(response.items.length);
+      }
+    })
+  }
   toggleWishlist(product: Product) {
     this.wishingListItems = {
       pictureUrl: product.pictureUrl,
