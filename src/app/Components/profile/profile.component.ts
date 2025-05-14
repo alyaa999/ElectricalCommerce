@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
   customerAddress:CustomerAddress={street:"",city:"",country:"",  firstName:"",lastName:""}
 
   constructor(private profileService:ProfileService) { }
-  ngOnInit(): void { 
+  ngOnInit(): void {
       this.selectedTab=0
       this.IsupdateAddress=false
     this.profileService.GetCustomerInfo().subscribe({
@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit {
       next:(res)=>{
           this.customerAddress=res;
       }
-    })          
+    })
     console.log(this.userInfo)
     console.log(this.customerAddress)
   }
@@ -44,7 +44,7 @@ export class ProfileComponent implements OnInit {
       country:new FormControl(this.customerAddress.country,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       firstName:new FormControl(this.customerAddress.firstName,[Validators.required,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
       lastName:new FormControl(this.customerAddress.lastName,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
-      
+
    })
 
    clickProfileTab(){
@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
    }
 
   onUpdate(){
-    this.IsupdateAddress=true;  
+    this.IsupdateAddress=true;
     this.FrmValidation.patchValue({
       street: this.customerAddress.street,
       city: this.customerAddress.city,
@@ -66,17 +66,17 @@ export class ProfileComponent implements OnInit {
   }
 
   onSubmitAddress(){
-    if(this.FrmValidation.valid){ 
+    if(this.FrmValidation.valid){
       this.customerAddress={
         street:this.FrmValidation.value.street ,
         city:this.FrmValidation.value.city ,
-        country:this.FrmValidation.value.country,  
+        country:this.FrmValidation.value.country,
         firstName:this.FrmValidation.value.firstName,
         lastName:this.FrmValidation.value.lastName,
       }
       this.profileService.UpdateCustomerAddress(this.FrmValidation.value).subscribe({
         next:(res)=>{
-        }       
+        }
       })
       this.IsupdateAddress=false;
     }

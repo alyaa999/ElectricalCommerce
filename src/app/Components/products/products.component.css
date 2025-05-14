@@ -44,6 +44,7 @@
 
 /* Pagination */
 .pagination-controls {
+  background: linear-gradient(135deg, #ece9e6, #ffffff);;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,9 +243,13 @@
   transform: scale(1.1);
 }
 
+.quick-view-btn{
+  text-decoration: none;
+}
+
 .quick-view-btn:hover {
   color: white;
-  background-color: #717fe0;
+  background: #717fe0;
 }
 
 /* Responsive Adjustments */

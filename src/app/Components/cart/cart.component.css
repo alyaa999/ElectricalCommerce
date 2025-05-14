@@ -148,7 +148,7 @@
 
 /* Buttons */
 .btn-custom {
-  background-color: var(--primary-color);
+  background-color: black;
   border-color: var(--primary-color);
   color: white;
   font-weight: 600;
@@ -161,7 +161,7 @@
 }
 
 .btn-custom:hover {
-  background-color: var(--primary-hover);
+  background-color: #717fe0;
   border-color: var(--primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(113, 127, 224, 0.3);
@@ -394,7 +394,7 @@
   padding: 1.75rem;
   position: sticky;
   top: 20px;
-  background: whitesmoke;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
   border-radius: var(--radius-lg);
   box-shadow: 0 12px 18px rgba(0, 1, 8, 0.1);
   border: 1px solid var(--border-color);
@@ -556,6 +556,10 @@
   text-align: center;
   color: #717fe0;
   margin-top: 1.5rem;
+}
+
+.continue-shopping a {
+  text-decoration: none;
 }
 
 .text-link {

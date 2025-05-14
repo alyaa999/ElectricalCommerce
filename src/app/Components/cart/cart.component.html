@@ -37,9 +37,6 @@
                 <i class="bi bi-cart3 me-2"></i>Your Cart
                 <span class="badge">{{Cart().items.length}} items</span>
               </h4>
-              <button class="btn btn-clear">
-                <i class="bi bi-trash"></i> Clear Cart
-              </button>
             </div>
 
             <div class="table-responsive">
@@ -58,7 +55,7 @@
                   @for (item of Cart().items; track item.id; let i = $index) {
                   <tr class="animate-fadeIn cart-item-row" [style.animation-delay.ms]="i*100">
                     <td class="product-image">
-                      <img [src]="item.pictureUrl || 'assets/images/placeholder-product.jpg'" 
+                      <img [src]="item.pictureUrl || 'assets/images/placeholder-product.jpg'"
                           [alt]="item.productName"
                           class="img-fluid">
                     </td>
@@ -68,8 +65,8 @@
                     <td class="product-price text-end">{{item.price | number:'1.2-2'}} L.E</td>
                     <td class="product-quantity text-center">
                       <div class="quantity-control">
-                        <button class="btn btn-qty minus" 
-                                (click)="adjustQuantity(item, -1)" 
+                        <button class="btn btn-qty minus"
+                                (click)="adjustQuantity(item, -1)"
                                 [disabled]="item.quantity <= 1"
                                 [class.btn-qty-disabled]="item.quantity <= 1">
                           <i class="bi bi-dash-lg"></i>
