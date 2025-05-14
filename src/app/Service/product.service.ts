@@ -59,7 +59,7 @@ export class ProductService {
   public addProductToWishList(product: Product): void {
     if(!this.authService.IsAuthenticated()){
         return ;
-    }   
+    }
     this.http.post(`${this.apiUrl}/Baskets/favourite`, product).subscribe();
   }
 
@@ -73,9 +73,6 @@ export class ProductService {
 
 
   public getProductByID(id: number): Observable<Product> {
-    if(!this.authService.IsAuthenticated()){
-        return EMPTY;
-    }
     return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
   }
 
