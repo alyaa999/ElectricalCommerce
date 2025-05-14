@@ -7,12 +7,12 @@ import { AboutComponent } from './Components/about/about.component';
 import { ShopComponent } from './Components/shop/shop.component';
 import { UserComponent } from './Layouts/user/user.component';
 import { DashboardComponent } from './Layouts/dashboard/dashboard.component';
-import { AppDataComponent } from './Components/dashboard/app-data/app-data.component';
 import { BrandsComponent } from './Components/dashboard/brands/brands.component';
 import { CreateAdminComponent } from './Components/dashboard/create-admin/create-admin.component';
 import { TypesComponent } from './Components/dashboard/types/types.component';
 import { UsersComponent } from './Components/dashboard/users/users.component';
 import { DashboardLoginComponent } from './Components/dashboard/dashboard-login/dashboard-login.component';
+import { DashboardOrdersComponent } from './Components/dashboard/dashboard-orders/dashboard-orders.component';
 
 export const routes: Routes = [
   {
@@ -42,7 +42,7 @@ export const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: "login", component: DashboardLoginComponent, title: 'Login' },
-      { path: "data", component: AppDataComponent, title: 'Website Data' },
+      { path: "orders", component: DashboardOrdersComponent, title: 'All Orders' },
       { path: "brands", component: BrandsComponent, title: 'Brands' },
       { path: "types", component: TypesComponent, title: 'Types' },
       { path: "users", component: UsersComponent, title: 'Users' },
