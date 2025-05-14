@@ -16,9 +16,9 @@
     
     <div class="sidebar-menu flex-grow-1 py-3">
       <a class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
-         [class.active]="isActive('/dashboard')" routerLink="data">
+         [class.active]="isActive('/dashboard')" routerLink="orders">
         <i class="fas fa-tachometer-alt me-2"></i>
-        <span *ngIf="!sidebarCollapsed">All Data</span>
+        <span *ngIf="!sidebarCollapsed">Orders</span>
       </a>
       <a class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
          [class.active]="isActive('/users')" routerLink="users">
@@ -46,7 +46,6 @@
          [class.justify-content-between]="!sidebarCollapsed" 
          [class.justify-content-center]="sidebarCollapsed">
       <div class="user-profile d-flex align-items-center gap-2">
-        <img src="assets/images/admin-avatar.jpg" alt="Admin" class="rounded-circle" width="40" height="40">
         <div class="user-info" *ngIf="!sidebarCollapsed">
           <div class="name fw-medium text-white">currentUser?.name</div>
           <div class="role small text-white text-opacity-75">Super Admin</div>
