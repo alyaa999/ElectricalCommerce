@@ -3,6 +3,7 @@ import { OrdersService } from '../../Service/orders.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Route } from '@angular/router';
 import { OrderDetail } from '../../Interfaces/Orders/Order.models';
+import { environment } from '../../../environments/enviroment';
 
 @Component({
   selector: 'app-order-detail',
@@ -23,13 +24,22 @@ export class OrderDetailComponent implements OnInit {
     total: 0,
     paymentIntentId: ""
   }
-  constructor(private orderService:OrdersService,private router:ActivatedRoute){   
+  constructor(private orderService:OrdersService,private router:ActivatedRoute){
   }
   ngOnInit(): void {
     this.orderService.GetCustomerOrderDetail(this.router.snapshot.paramMap.get('id')).subscribe(
       {
         next:(res)=>{
-          this.orderDetail = res
+        this.orderDetail = {
+          ...res,
+          items: res.items.map((o) => ({
+            ...o,
+            pictureUrl: o.pictureUrl.replace(
+              environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
+              ''
+            )
+          }))
+        };
           console.log(this.orderDetail)
         }
       }

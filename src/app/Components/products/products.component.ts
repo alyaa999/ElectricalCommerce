@@ -6,7 +6,13 @@ import { environment } from '../../../environments/enviroment';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../Service/filter.service';
 import { Subscription } from 'rxjs';
- 
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+import { WishingListItems } from '../../Interfaces/Cart/Cart.models';
+import { WishinglistService } from '../../Service/wishinglist.service';
+import { AuthService } from '../../Service/auth.service';
+import { CartService } from '../../Service/cart.service';
+import { CartItems } from '../../Interfaces/Cart/Cart.models';
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -20,7 +26,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public itemsPerPage = 9;
   public totalItems = 0;
   public totalPages = 0;
- 
+  public qnty: number = 1;
+  public wishingListItems: WishingListItems =
+  {
+    id: 0,
+    productName: "",
+    pictureUrl: "",
+    description : "",
+    brand: "",
+    type: "",
+    price: 0
+  }
+  public wishingList: WishingListItems[] =[];
+
     // Loading state
   public isLoading = false;
 
@@ -29,14 +47,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
     brandId?: number | any,
     price?: number | any
   } = {};
- 
+
   private filterSubscription: Subscription | null = null;
- 
+
   constructor(
     private productService: ProductService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private wishingService: WishinglistService,
+    private Auth: AuthService,
+    private cartService:CartService,
+    private cartWishingService:CartWishingDataService
   ) {}
- 
+
   ngOnInit(): void {
     this.filterSubscription = this.filterService.getFilterObservable().subscribe(
       (params) => {
@@ -45,14 +67,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.loadProducts();
       }
     );
+    if(this.Auth.isLoggedIn())
+    {
+        this.wishingService.getWishinglist().subscribe({
+        next: (response) =>
+        {
+          this.wishingList = response.items;
+        }
+      })
+    }
   }
- 
+
   ngOnDestroy(): void {
     if (this.filterSubscription) {
       this.filterSubscription.unsubscribe();
     }
   }
- 
+
   loadProducts(): void {
     this.isLoading = true;
 
@@ -67,35 +98,31 @@ export class ProductsComponent implements OnInit, OnDestroy {
         // التعديل الرئيسي هنا - استخدام response.data مباشرة أو response.value.data إذا كانت موجودة
         const productsData = response.value?.data || response.data || [];
         const totalCount = response.value?.count || response.count || 0;
- 
+
         this.products = productsData.map((p: Product) => ({
           ...p,
           pictureUrl: p.pictureUrl.replace(
             environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length-3),
             ''
-          ),
-          isFavourited: localStorage.getItem(`fav_${p.id}`) === 'true'
+          )
         }));
-       
+
         this.totalItems = totalCount;
         this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-      },
-      error: (err) => {
-        console.error('Error loading products:', err);
       },
         complete: () => {
           this.isLoading = false;
         }
     });
   }
- 
+
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
       this.loadProducts();
     }
   }
- 
+
   getPages(): number[] {
     const pagesToShow = 5;
     const pages: number[] = [];
@@ -111,13 +138,60 @@ export class ProductsComponent implements OnInit, OnDestroy {
     return pages;
   }
 
+  isInWishLit(product: Product) : boolean
+  {
+    return this.wishingList.some(item => item.id === product.id);
+  }
+
+  addProductToCart(p:Product){
+    const item: CartItems={
+      id: p.id,
+      productName: p.name,
+      pictureUrl: p.pictureUrl,
+      description : p.description,
+      brand: p.brand,
+      type: p.type,
+      price: p.price,
+      quantity: 1
+    }
+    this.cartService.addToCart(item).subscribe({
+      next:(response)=>{
+        this.cartWishingService.cartItems.set(response.items);
+        this.cartWishingService.cartItemsCount.set(response.items.length);
+      }
+    })
+  }
   toggleWishlist(product: Product) {
-    product.isFavourited = !product.isFavourited;
-    localStorage.setItem(`fav_${product.id}`, String(product.isFavourited));
-    if(product.isFavourited) {
-      this.productService.addProductToWishList(product);
-    } else {
-      this.productService.removeProductFromWishList(product.id);
+    this.wishingListItems = {
+      pictureUrl: product.pictureUrl,
+      brand: product.brand,
+      description: product.description,
+      id: product.id,
+      price: product.price,
+      productName: product.name,
+      type: product.type
+    }
+
+    if(this.isInWishLit(product))
+    {
+      this.wishingService.removeFromWishingList(this.wishingListItems.id).subscribe({
+        next: () => {
+          // Directly update the signal (if using local state)
+          this.cartWishingService.wishingItems.update(items =>
+            items.filter(item => item.id !== this.wishingListItems.id)
+          );
+          this.cartWishingService.wishlistItemsCount.update(count => count - 1);
+          this.wishingList = this.wishingList.filter(item => item.id !== product.id);
+        }});
+    }
+    else
+    {
+      this.wishingService.addToWishingList(this.wishingListItems).subscribe({
+        next: (response) => {
+          this.cartWishingService.wishingItems.set(response.items)
+          this.cartWishingService.wishlistItemsCount.set(response.items.length)
+          this.wishingList = response.items;
+        }});
     }
   }
 }

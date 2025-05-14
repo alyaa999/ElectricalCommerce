@@ -30,15 +30,15 @@
           <span class="product-price">{{ p.price }} L.E</span>
 
           <a class="icon-link nav-click position-relative">
-            <i class="zmdi zmdi-shopping-cart fs-5"></i>
+            <i class="zmdi zmdi-shopping-cart fs-5" (click)="addProductToCart(p)"></i>
           </a>
 
           <button class="wishlist-button">
             <!-- <img src="Icons/icon-heart-01.png" alt="Add to wishlist" class="heart-icon"> -->
             <i class="bi fs-5 ms-3"
-              [class.bi-heart]="!p.isFavourited"
-              [class.bi-heart-fill]="p.isFavourited"
-              [class.text-danger]="p.isFavourited"
+              [class.bi-heart]="!isInWishLit(p)"
+              [class.bi-heart-fill]="isInWishLit(p)"
+              [class.text-danger]="isInWishLit(p)"
               (click)="toggleWishlist(p)">
             </i>
           </button>

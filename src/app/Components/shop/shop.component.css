@@ -6,17 +6,17 @@
 
 #filter {
   width: 100%;
-} 
+}
 
 @media (min-width: 768px) {
   #container {
     flex-direction: row;
   }
-  
+
   #filter {
     flex: 0 0 280px;
   }
-  
+
   #prod {
     flex: 1;
   }

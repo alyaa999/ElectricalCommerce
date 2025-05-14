@@ -1,7 +1,7 @@
 /* General Styles */
 .filters-container {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #ffffff;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
   max-width: 100%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   border-radius: 8px;
