@@ -33,6 +33,7 @@ export class WishinglistService {
 
     addToWishingList(item: WishingListItems): Observable<WishingList> {
       if(!this.authService.IsAuthenticated()){
+        console.log("ia not auth");
         return EMPTY;
       }
       return this.http.post<WishingList>(`${this.apiUrl}`, item);
