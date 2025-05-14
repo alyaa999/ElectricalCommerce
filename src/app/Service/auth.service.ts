@@ -42,6 +42,8 @@ export class AuthService  {
         if (Response&&Response.token) {
           localStorage.setItem('token', Response.token);  
           localStorage.setItem('userName', Response.displayName);
+          localStorage.setItem('role', Response.role);  
+
           this.isLoggIn.next(true) ;   
           this.userName.next(this.GetUserName())                
         }
@@ -60,6 +62,9 @@ export class AuthService  {
   }
   GetUserName():string{
     return localStorage.getItem('userName')||""
+  }
+  GetUserRole():string{
+    return  localStorage.getItem('role')||"";
   }
   public IsAuthenticated(): boolean {
     if (!this.isLoggIn.value) {
