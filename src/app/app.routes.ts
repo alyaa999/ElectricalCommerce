@@ -13,6 +13,7 @@ import { TypesComponent } from './Components/dashboard/types/types.component';
 import { UsersComponent } from './Components/dashboard/users/users.component';
 import { DashboardLoginComponent } from './Components/dashboard/dashboard-login/dashboard-login.component';
 import { DashboardOrdersComponent } from './Components/dashboard/dashboard-orders/dashboard-orders.component';
+import { LoginComponent } from './Components/login/login.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,11 @@ export const routes: Routes = [
       { path: "users", component: UsersComponent, title: 'Users' },
       { path: "create-admin", component: CreateAdminComponent, title: 'Add Admin' },
     ]
+  },
+  {
+    path: "adminLogin",
+    component: DashboardLoginComponent, 
+    title:'admin login'
   },
   { path: '**', component: ErrorComponent, title: 'Error' }
 ];
