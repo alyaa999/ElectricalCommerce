@@ -49,7 +49,7 @@ label {
   display: flex;
   gap: 20px; /* Space between columns */
   justify-content: space-between;
-  margin-bottom: 20px;
+
 }
 
 .form-group {

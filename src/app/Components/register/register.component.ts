@@ -14,8 +14,12 @@ interface userRegisteration{
   Email:string,
   Password:string,
   ConfirmPassword:string,
-  phoneNumber:string
+  phoneNumber:string,
+  Street:string,
+  City:string,
+  Country:string
 }
+
 @Component({
   selector: 'app-register',
   imports: [FormsModule,ReactiveFormsModule,CommonModule,RouterModule],
@@ -24,7 +28,7 @@ interface userRegisteration{
 })
 
 export class RegisterComponent {
-   user:userRegisteration={FirstName:"",LastName:"",Email:"",phoneNumber:"",Password:"",ConfirmPassword:""};
+   user:userRegisteration={FirstName:"",LastName:"",Email:"",phoneNumber:"",Password:"",ConfirmPassword:"",Street:"",City:"",Country:""};
      errorResponceMsg:String=""
 
    constructor(private router:Router,private authService:AuthService){
@@ -36,7 +40,10 @@ export class RegisterComponent {
       phoneNumber:new FormControl(this.user.phoneNumber,Validators.required),
       Email:new FormControl (this.user.Email ,[Validators.required ,Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")] ),
       Password:new FormControl(this.user.Password,Validators.required),
+      Street:new FormControl(this.user.Street,Validators.required),
       ConfirmPassword:new FormControl(this.user.ConfirmPassword,Validators.required),
+       City:new FormControl(this.user.City,[Validators.required,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
+      Country:new FormControl(this.user.Country,[Validators.required ,Validators.pattern("[a-zA-Z-' ]{1,49}$")]),
    },{validators:passwordMatchValidator()})
 
    onSubmit(){
@@ -48,10 +55,13 @@ export class RegisterComponent {
         Email:this.user.Email,
         DisplayName:this.user.FirstName+ ' ' +this.user.LastName,
         PhoneNumber:this.user.phoneNumber,
+        Street:this.user.Street,
+        City:this.user.City,
+        Country:this.user.Country,
         Password:this.user.Password
       }
-        this.authService.register(data).subscribe({
-            next: (Response: any)=>{
+      this.authService.register(data).subscribe({
+            next: (Response: any)=>{     
               console.log(Response)
               this.router.navigate(['/login']);
             },

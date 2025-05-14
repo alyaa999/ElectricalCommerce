@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../../environments/enviroment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService  {
   public isLoggIn:BehaviorSubject<boolean>=new BehaviorSubject<boolean>( this.isLoggedIn());
   public userName :BehaviorSubject<string>=new BehaviorSubject<string>("");
 
-  constructor(private httpClient:HttpClient) { 
+  constructor(private httpClient:HttpClient,private router:Router) { 
     this.isLoggIn.next(this.isLoggedIn());
     this.userName.next(this.GetUserName())
     console.log(this.userName.value)
@@ -59,6 +60,13 @@ export class AuthService  {
   }
   GetUserName():string{
     return localStorage.getItem('userName')||""
+  }
+  public IsAuthenticated(): boolean {
+    if (!this.isLoggIn.value) {
+      this.router.navigate(['login'], { queryParams: { returnUrl: this.router.url } });
+      return false;
+    }
+    return true;
   }
 
 }

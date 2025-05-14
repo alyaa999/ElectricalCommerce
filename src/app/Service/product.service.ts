@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/enviroment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { Product } from '../Interfaces/Product/Product.models';
+import { AuthService } from './auth.service';
 
 interface ProductApiResponse {
   data?: Product[];
@@ -21,7 +22,7 @@ interface ProductApiResponse {
 export class ProductService {
   private apiUrl = `${environment.apiBaseUrl}`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private authService:AuthService) {}
 
 
   public getProducts(
@@ -56,20 +57,34 @@ export class ProductService {
 
 
   public addProductToWishList(product: Product): void {
+    if(!this.authService.IsAuthenticated()){
+        return ;
+    }   
     this.http.post(`${this.apiUrl}/Baskets/favourite`, product).subscribe();
   }
 
 
   public removeProductFromWishList(productId: number): void {
+    if(!this.authService.IsAuthenticated()){
+        return ;
+    }
     this.http.delete(`${this.apiUrl}/Baskets/favourite/${productId}`).subscribe();
   }
 
 
   public getProductByID(id: number): Observable<Product> {
+    if(!this.authService.IsAuthenticated()){
+        return EMPTY;
+    }
     return this.http.get<Product>(`${this.apiUrl}/Products/${id}`);
   }
 
   public addToCart(product: Product, quantity: number): Observable<any> {
+
+    if(!this.authService.IsAuthenticated()){
+      console.log("not authorize");
+      return EMPTY;
+    }
     const payload = {
       id: product.id,
       productName: product.name,
