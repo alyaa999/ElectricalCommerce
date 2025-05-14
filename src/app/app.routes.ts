@@ -13,6 +13,7 @@ import { TypesComponent } from './Components/dashboard/types/types.component';
 import { UsersComponent } from './Components/dashboard/users/users.component';
 import { DashboardLoginComponent } from './Components/dashboard/dashboard-login/dashboard-login.component';
 import { DashboardOrdersComponent } from './Components/dashboard/dashboard-orders/dashboard-orders.component';
+import { DashboardProductComponent } from './Components/dashboard/dashboard-product/dashboard-product.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,7 @@ export const routes: Routes = [
       { path: "", redirectTo: "orders", pathMatch: 'full' },
       { path: "login", component: DashboardLoginComponent, title: 'Login' },
       { path: "orders", component: DashboardOrdersComponent, title: 'All Orders' },
+      { path: "products", component: DashboardProductComponent, title: 'Products' },
       { path: "brands", component: BrandsComponent, title: 'Brands' },
       { path: "types", component: TypesComponent, title: 'Types' },
       { path: "users", component: UsersComponent, title: 'Users' },

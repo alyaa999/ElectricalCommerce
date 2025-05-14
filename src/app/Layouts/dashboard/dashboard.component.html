@@ -25,6 +25,13 @@
         <i class="fas fa-users me-2"></i>
         <span *ngIf="!sidebarCollapsed">Users</span>
       </a>
+
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/products')" routerLink="products">
+        <i class="fas fa-tags me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Products</span>
+      </a>
+
       <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
          [class.active]="isActive('/brands')" routerLink="brands">
         <i class="fas fa-tags me-2"></i>
@@ -62,12 +69,13 @@
 
   <!-- Main Content -->
   <div class="main-content flex-grow-1" [class.collapsed]="sidebarCollapsed">
-    <div class="top-bar bg-white shadow-sm d-flex justify-content-between align-items-center px-4 py-3">
+    <!-- <div class="top-bar bg-white shadow-sm d-flex justify-content-between align-items-center px-4 py-3">
       <div class="search-bar bg-light rounded-pill d-flex align-items-center px-3" style="width: 100%;">
         <i class="fas fa-search text-muted me-2"></i>
         <input type="text" class="form-control border-0 bg-transparent" placeholder="Search...">
       </div>
-    </div>
+    </div> -->
+    <div class="mb-5"></div>
     
     <div class="content-wrapper p-4">
       <app-details></app-details>
