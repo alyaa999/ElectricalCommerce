@@ -11,3 +11,10 @@ export interface Product {
   typeId: number,
   isFavourited: boolean
 }
+
+export interface DashboardProductApiResponse {
+  pageSize: 0,
+  pageIndex: 0,
+  count: 0,
+  data: Product[],
+}

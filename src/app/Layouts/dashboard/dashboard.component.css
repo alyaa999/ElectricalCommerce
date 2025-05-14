@@ -80,7 +80,7 @@
 .main-content {
   transition: var(--sidebar-transition);
   will-change: margin-left, width;
-  margin-left: calc(300px - var(--sidebar-width));
+  margin-left: calc(280px - var(--sidebar-width));
   width: calc(100% - var(--sidebar-width));
 }
 
