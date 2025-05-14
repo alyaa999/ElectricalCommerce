@@ -220,14 +220,6 @@
                     <div class="detail-label">Name</div>
                     <div class="detail-value">{{orderDetail.shippingAddress.firstName+' '+orderDetail.shippingAddress.lastName}}</div>
                 </div>
-                <div class="detail-item">
-                    <div class="detail-label">Payment ID</div>
-                    <div class="detail-value">{{orderDetail.paymentIntentId}}</div>
-                </div>
-                <div class="detail-item">
-                    <div class="detail-label">Delivery Method</div>
-                    <div class="detail-value">{{orderDetail.deliveryMethod}}</div>
-                </div>
             </div>
         </div>
         
@@ -252,19 +244,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    @for(item of orderDetail.items; track item.productId){
-                        <tr>
-                            <td data-label="Product" class="product-cell">
-                                <img [src]="item.pictureUrl" alt="Product" class="product-image">
-                                <div>{{item.productName}}</div>
-                            </td>
-                            <td data-label="Quantity">{{item.price}}</td>
-                            <td data-label="Price">{{item.quantity}}</td>
-                            <td data-label="Total">{{item.price*item.quantity}}</td>
-                        </tr>
-                    }
 
+                @for(item of orderDetail.items; track item.productId){
+                    <tr>
+                        <td data-label="Product" class="product-cell">
+                            <img [src]="item.pictureUrl" alt="Product" class="product-image">
+                            <div>{{item.productName}}</div>
+                        </td>
+                        <td data-label="Quantity">{{item.price}}</td>
+                        <td data-label="Price">{{item.quantity}}</td>
+                        <td data-label="Total">{{item.price*item.quantity}}</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>

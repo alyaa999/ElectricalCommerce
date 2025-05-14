@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Router } from '@angular/router';
+import {RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../Service/auth.service';
 
 
@@ -23,7 +23,7 @@ export class LoginComponent {
   userlogin: userLogin={Email:"" , Password:"",RememberMe:false}
   errorResponceMsg:String=""
 
-  constructor(private router:Router,private authService:AuthService){
+  constructor(private router:Router,private route: ActivatedRoute,private authService:AuthService){
 
   }
   FrmValidation:FormGroup=new FormGroup({
@@ -37,7 +37,8 @@ export class LoginComponent {
       next:(res)=>{
         console.log(res)
         this.errorResponceMsg = ""
-        this.router.navigate(['/home']);
+        const url =  this.route.snapshot.queryParams['returnUrl']||'/';
+        this.router.navigate([url]);
       },
       error:(res)=>{
           this.errorResponceMsg = res.error.message

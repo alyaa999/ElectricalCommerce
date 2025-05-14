@@ -6,9 +6,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Service/product.service';
 import { Product } from '../../Interfaces/Product/Product.models';
-import { AuthService } from '../../Service/auth.service';
-import { ManageUnAuthUserService } from '../../Service/manage-un-auth-user.service';
-import { CartItems } from '../../Interfaces/Cart/Cart.models';
 
 @Component({
   selector: 'app-product-details',
@@ -21,9 +18,7 @@ import { CartItems } from '../../Interfaces/Cart/Cart.models';
 })
 export class ProductDetailsComponent  implements OnInit 
 {
-
-  public isLogin: boolean = false;
-
+  
 selectedTab: 'description' | 'info' = 'description';
 product:Product=
 {
@@ -53,7 +48,7 @@ plus()
   this.counter.update((old)=>++old)
 }
 
-constructor(private service:ProductService,private unAthuUser:ManageUnAuthUserService,private authService:AuthService  , private route: ActivatedRoute)
+constructor(private service:ProductService,   private route: ActivatedRoute)
 {
 
 } 
@@ -71,14 +66,7 @@ ngOnInit(): void {
           console.log("Product received:", this.product);
         }
       );
-    }
-    this.authService.isLoggIn.subscribe(
-        {
-          next: (behaviorvalue) => {
-            this.isLogin = behaviorvalue;
-          }
-        }
-      ) 
+    } 
   }
 
   Add()
@@ -88,29 +76,15 @@ ngOnInit(): void {
     alert('please Add Valid Quantity');
     return;
   }
-    if(this.isLogin){
-      this.service.addToCart(this.product,qty).subscribe
-        ( {
-            next: () => {
-            alert('SucessFull');
-            }
-          }
-        );          
+    
+    this.service.addToCart(this.product,qty).subscribe
+    ({
+      next: () => {
+      alert('SucessFull');
     }
-    else{
-      const newProduct: CartItems={
-        id:this.product.id,
-        productName:this.product.name,
-        pictureUrl:this.product.pictureUrl,
-        description:this.product.description,
-        brand: this.product.brand,
-        type: this.product.type,
-        price: this.product.price,
-        quantity: qty
-      }
-      this.unAthuUser.AddProductToCart(newProduct);
     }
-
+    
+    );
 
 
   }
