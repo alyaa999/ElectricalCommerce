@@ -1,0 +1,85 @@
+<div class="admin-dashboard d-flex min-vh-100 bg-light">
+  <!-- Sidebar with #4361ee color -->
+  <div class="sidebar" 
+       [class.collapsed]="sidebarCollapsed" 
+       [class.show]="!sidebarCollapsed && isMobile">
+    
+    <div class="sidebar-header d-flex justify-content-between align-items-center p-3 border-bottom border-light border-opacity-10">
+      <div class="logo d-flex align-items-center gap-2">
+        <i class="fas fa-shield-alt fs-4 text-white"></i>
+        <span class="fs-5 fw-bold text-white" *ngIf="!sidebarCollapsed">AdminPanel</span>
+      </div>
+      <button class="sidebar-toggle btn text-white" (click)="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    
+    <div class="sidebar-menu flex-grow-1 py-3">
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/dashboard')" routerLink="orders">
+        <i class="fas fa-tachometer-alt me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Orders</span>
+      </a>
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/users')" routerLink="users">
+        <i class="fas fa-users me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Users</span>
+      </a>
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/brands')" routerLink="brands">
+        <i class="fas fa-tags me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Brands</span>
+      </a>
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/types')" routerLink="types">
+        <i class="fas fa-layer-group me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Types</span>
+      </a>
+      <a routerLinkActive="active" class="menu-item d-flex align-items-center p-3 text-white text-opacity-75 text-decoration-none" 
+         [class.active]="isActive('/create-admin')" routerLink="create-admin">
+        <i class="fas fa-user-plus me-2"></i>
+        <span *ngIf="!sidebarCollapsed">Create Admin</span>
+      </a>
+    </div>
+    
+    <div class="sidebar-footer p-3 border-top border-light border-opacity-10 d-flex align-items-center" 
+         [class.justify-content-between]="!sidebarCollapsed" 
+         [class.justify-content-center]="sidebarCollapsed">
+      <div class="user-profile d-flex align-items-center gap-2">
+        <div class="user-info" *ngIf="!sidebarCollapsed">
+          <div class="name fw-medium text-white">currentUser?.name</div>
+          <div class="role small text-white text-opacity-75">Super Admin</div>
+        </div>
+      </div>
+      <button class="logout-btn btn text-white text-opacity-75" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" (click)="toggleSidebar()" *ngIf="isMobile && !sidebarCollapsed"></div>
+
+  <!-- Main Content -->
+  <div class="main-content flex-grow-1" [class.collapsed]="sidebarCollapsed">
+    <div class="top-bar bg-white shadow-sm d-flex justify-content-between align-items-center px-4 py-3">
+      <div class="search-bar bg-light rounded-pill d-flex align-items-center px-3" style="width: 100%;">
+        <i class="fas fa-search text-muted me-2"></i>
+        <input type="text" class="form-control border-0 bg-transparent" placeholder="Search...">
+      </div>
+    </div>
+    
+    <div class="content-wrapper p-4">
+      <app-details></app-details>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <!-- Mobile Toggle Button -->
+  <button class="sidebar-mobile-toggle btn btn-primary rounded-circle position-fixed" 
+          (click)="toggleSidebar()"
+          *ngIf="isMobile"
+          style="bottom: 20px; right: 20px; width: 50px; height: 50px; z-index: 999;">
+    <i class="fas text-white" [class.fa-bars]="sidebarCollapsed" [class.fa-times]="!sidebarCollapsed"></i>
+  </button>
+</div>

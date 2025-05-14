@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
    constructor(private cartservice : CartService ,
     private checkoutService : CheckoutService,private fb: FormBuilder, private sharedService: SharedServiceService) {
     this.OrderForm = this.fb.group({
-     
+
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
         street: ['', [Validators.required]],
@@ -48,7 +48,7 @@ export class CheckoutComponent implements OnInit {
     console.log(this.DeliveryMethods);
     this.sharedService.SubTotal.subscribe(i=>this.SubTotal = i);
 
-    
+
   }
   onSubmit(): void {
     if (this.OrderForm.valid) {
@@ -68,15 +68,15 @@ export class CheckoutComponent implements OnInit {
         deliveryMethodId:formValues.deliveryMethodId,
         shippingAddress :shippingAddress,
       }
-    
+
       this.sharedService.Order.next(Order) ;
 
-      
+
     }
 
 
   }
 
-    
+
 
 }

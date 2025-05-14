@@ -1,45 +1,44 @@
+<!-- checkout.component.html -->
 <div class="checkout-page bg-light py-5">
     <div class="container">
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
             <!-- Cart Overview (Left Column) -->
             <div class="col-lg-5">
-                <div class="cart-summary bg-white p-4 rounded-3 shadow-sm h-100">
+                <div class="cart-summary bg-white p-4 rounded-3 shadow-sm animate-fadeIn" style="max-width: 500px; margin: 0 auto;">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0 fw-bold text-primary">Your Order</h4>
-                        <span class="badge bg-primary rounded-pill">{{cart.items.length}} items</span>
+                        <h4 class="mb-0 fw-bold" style="color: #717fe0;">Your Order</h4>
+                        <span class="badge rounded-pill" style="background-color: #717fe0;">{{cart.items.length}} items</span>
                     </div>
 
-                    <!-- Product Carousel -->
-                    <!-- Product Carousel - Enhanced Version -->
+                    <!-- Enhanced Product Carousel -->
                     <div id="cartSlider" class="carousel slide mb-4" data-bs-ride="carousel">
-                        <div class="carousel-inner rounded-3 overflow-hidden shadow-sm"
-                            style="border: 1px solid rgba(0,0,0,0.1);">
-                            <div *ngFor="let item of cart.items; let i = index" class="carousel-item"
-                                [class.active]="i === 0">
-                                <div class="position-relative">
-                                    <!-- Improved Image with Fallback and Loading State -->
-                                    <div class="ratio ratio-16x9 bg-light">
-                                        <img [src]="item.pictureUrl" class="d-block w-100 object-fit-cover"
+                        <div class="carousel-inner rounded-3 overflow-hidden shadow-sm product-carousel" style="border: 1px solid rgba(0,0,0,0.1);">
+                            <div *ngFor="let item of cart.items; let i = index" class="carousel-item" [class.active]="i === 0">
+                                <div class="product-card position-relative">
+                                    <!-- Product title on top with gradient overlay -->
+                                    <div class="product-title-overlay">
+                                        <h6 class="mb-0 fw-bold text-truncate">{{item.productName || 'Product'}}</h6>
+                                    </div>
+
+                                    <!-- Fully visible image with fixed height -->
+                                    <div class="product-image bg-light" style="height: 250px; display: flex; align-items: center; justify-content: center;">
+                                        <img [src]="item.pictureUrl" class="d-block img-fluid mh-100 mw-100"
+                                            style="max-height: 250px; object-fit: contain;"
                                             alt="{{item.productName || 'Product image'}}"
                                             onerror="this.src='https://via.placeholder.com/800x450?text=Product+Image';"
                                             loading="lazy" />
                                     </div>
 
-                                    <!-- Enhanced Caption -->
-                                    <div class="carousel-caption bg-dark bg-opacity-85 rounded-bottom p-3 text-start">
+                                    <!-- Enhanced caption with better styling -->
+                                    <div class="product-info-overlay">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
-                                                <h6 class="mb-0 fw-bold text-truncate">{{item.productName || 'Product'}}
-                                                </h6>
                                                 <p class="mb-0 small">
                                                     <span class="text-white-50">Qty: {{item.quantity || 1}}</span>
                                                     <span class="mx-2">•</span>
-                                                    <span class="text-warning">${{item.price | number:'1.2-2'}}</span>
+                                                    <span class="text-warning">{{item.price | number:'1.2-2'}} L.E</span>
                                                 </p>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-light rounded-circle">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -47,16 +46,12 @@
                         </div>
 
                         <!-- Enhanced Carousel Controls -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#cartSlider"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon bg-dark bg-opacity-75 rounded-circle p-2"
-                                aria-hidden="true"></span>
+                        <button class="carousel-control-prev control-btn" type="button" data-bs-target="#cartSlider" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-dark bg-opacity-75 rounded-circle p-2" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#cartSlider"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon bg-dark bg-opacity-75 rounded-circle p-2"
-                                aria-hidden="true"></span>
+                        <button class="carousel-control-next control-btn" type="button" data-bs-target="#cartSlider" data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-dark bg-opacity-75 rounded-circle p-2" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
 
@@ -64,7 +59,7 @@
                         <div class="carousel-indicators position-static mt-3">
                             <button *ngFor="let item of cart.items; let i = index" type="button"
                                 data-bs-target="#cartSlider" [attr.data-bs-slide-to]="i" [class.active]="i === 0"
-                                class="rounded-circle" style="width: 10px; height: 10px; border: 1px solid #ddd;">
+                                class="indicator-dot rounded-circle" style="width: 10px; height: 10px; border: 1px solid #ddd;">
                             </button>
                         </div>
                     </div>
@@ -74,7 +69,7 @@
                         <h5 class="mb-3 fw-bold border-bottom pb-2">Order Summary</h5>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Subtotal:</span>
-                            <span>${{SubTotal| number:'1.2-2'}}</span>
+                            <span>{{SubTotal| number:'1.2-2'}} L.E</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Shipping:</span>
@@ -82,11 +77,11 @@
                         </div>
                         <div class="d-flex justify-content-between mb-2">
                             <span>Tax:</span>
-                            <span>${{cart.deliveryMethodId| number:'1.2-2'}}</span>
+                            <span>{{cart.deliveryMethodId| number:'1.2-2'}} L.E</span>
                         </div>
                         <div class="d-flex justify-content-between mt-3 pt-2 border-top fw-bold fs-5">
                             <span>Total:</span>
-                            <span class="text-primary">${{cart.clientSecret| number:'1.2-2'}}</span>
+                            <span style="color: #717fe0;">{{cart.clientSecret| number:'1.2-2'}} L.E</span>
                         </div>
                     </div>
                 </div>
@@ -95,13 +90,13 @@
             <!-- Checkout Form (Right Column) -->
             <div class="col-lg-7">
                 <form [formGroup]="OrderForm" (ngSubmit)="onSubmit()"
-                    class="checkout-form bg-white p-4 rounded-3 shadow-sm">
-                    <h4 class="mb-4 fw-bold text-primary">Shipping Information</h4>
+                    class="checkout-form bg-white p-4 rounded-3 shadow-sm animate-slideUp">
+                    <h4 class="mb-4 fw-bold" style="color: #717fe0;">Shipping Information</h4>
 
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="text" id="firstName" formControlName="firstName" class="form-control"
+                                <input type="text" id="firstName" formControlName="firstName" class="form-control animated-input"
                                     placeholder="First Name"
                                     [class.is-invalid]="OrderForm.get('firstName')?.invalid && (OrderForm.get('firstName')?.dirty || OrderForm.get('firstName')?.touched)" />
                                 <label for="firstName">First Name</label>
@@ -114,7 +109,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="text" id="lastName" formControlName="lastName" class="form-control"
+                                <input type="text" id="lastName" formControlName="lastName" class="form-control animated-input"
                                     placeholder="Last Name"
                                     [class.is-invalid]="OrderForm.get('lastName')?.invalid && (OrderForm.get('lastName')?.dirty || OrderForm.get('lastName')?.touched)"
                                     required />
@@ -130,7 +125,7 @@
                         <!-- Address Information -->
                         <div class="col-12">
                             <div class="form-floating mb-3">
-                                <input type="text" id="street" formControlName="street" class="form-control"
+                                <input type="text" id="street" formControlName="street" class="form-control animated-input"
                                     placeholder="Street Address"
                                     [class.is-invalid]="OrderForm.get('street')?.invalid && (OrderForm.get('street')?.dirty || OrderForm.get('street')?.touched)"
                                     required />
@@ -144,8 +139,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="text" id="city" formControlName="city" class="form-control"
-                                    placeholder="City" 
+                                <input type="text" id="city" formControlName="city" class="form-control animated-input"
+                                    placeholder="City"
                                     [class.is-invalid]="OrderForm.get('city')?.invalid && (OrderForm.get('city')?.dirty || OrderForm.get('city')?.touched)"
                                     required />
                                 <label for="city">City</label>
@@ -158,10 +153,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating mb-3">
-                                <input type="text" id="country" formControlName="country" class="form-control"
+                                <input type="text" id="country" formControlName="country" class="form-control animated-input"
                                     placeholder="Country"
                                     [class.is-invalid]="OrderForm.get('country')?.invalid && (OrderForm.get('country')?.dirty || OrderForm.get('country')?.touched)"
-                                     required />
+                                    required />
                                 <label for="country">Country</label>
                                 <div *ngIf="OrderForm.get('country')?.invalid && (OrderForm.get('country')?.dirty || OrderForm.get('country')?.touched)"
                                     class="invalid-feedback">
@@ -174,15 +169,15 @@
 
                     <!-- Delivery Methods -->
                     <div class="mt-4">
-                        <h5 class="mb-3 fw-bold text-primary">Delivery Options</h5>
+                        <h5 class="mb-3 fw-bold" style="color: #717fe0;">Delivery Options</h5>
                         <div class="delivery-options">
-                            <div class="form-check mb-3 p-3 border rounded-3" *ngFor="let method of DeliveryMethods">
+                            <div class="form-check delivery-option mb-3 p-3 border rounded-3" *ngFor="let method of DeliveryMethods">
                                 <input class="form-check-input mt-2" type="radio" [id]="method.id"
                                     formControlName="deliveryMethodId" [value]="method.id" required />
                                 <label class="form-check-label ms-3 w-100" [for]="method.shortName">
                                     <div class="d-flex justify-content-between">
                                         <strong class="d-block">{{method.description}}</strong>
-                                        <span class="text-primary fw-bold">${{method.cost | number:'1.2-2'}}</span>
+                                        <span class="fw-bold me-3" style="color: #717fe0;">{{method.cost | number:'1.2-2'}} L.E</span>
                                     </div>
                                     <small class="text-muted">Estimated delivery: {{method.deliveryTime}}</small>
                                 </label>
@@ -194,8 +189,8 @@
                     <div class="text-center mt-4 pt-3">
                         <button type="submit" routerLink="/confirmOrder" [disabled]="OrderForm.invalid"
                             [class.disabled]="OrderForm.invalid"
-                            class="btn btn-primary btn-lg px-5 py-3 fw-bold rounded-pill w-100">
-                            <i class="bi bi-lock-fill me-2"></i> continue to confirm Order
+                            class="btn-checkout btn btn-lg px-5 py-3 fw-bold rounded-pill w-100" style="background-color: #717fe0; color: white;">
+                            <i class="bi bi-lock-fill me-2"></i> Continue to Confirm Order
                         </button>
                         <p class="text-muted small mt-2">
                             <i class="bi bi-shield-lock me-1"></i> Your information is secure and encrypted
