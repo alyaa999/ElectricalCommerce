@@ -7,12 +7,11 @@ import { FormsModule } from '@angular/forms';
 import { FilterService } from '../../Service/filter.service';
 import { Subscription } from 'rxjs';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
-import { WishingList, WishingListItems } from '../../Interfaces/Cart/Cart.models';
+import { WishingListItems } from '../../Interfaces/Cart/Cart.models';
 import { WishinglistService } from '../../Service/wishinglist.service';
 import { AuthService } from '../../Service/auth.service';
-
 import { CartService } from '../../Service/cart.service';
-import { CartData, CartItems } from '../../Interfaces/Cart/Cart.models';
+import { CartItems } from '../../Interfaces/Cart/Cart.models';
 
 @Component({
   selector: 'app-products',
@@ -54,10 +53,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private filterService: FilterService,
-    private cartWishingService: CartWishingDataService,
     private wishingService: WishinglistService,
-    private Auth: AuthService
-    private filterService: FilterService,
+    private Auth: AuthService,
     private cartService:CartService,
     private cartWishingService:CartWishingDataService
   ) {}
