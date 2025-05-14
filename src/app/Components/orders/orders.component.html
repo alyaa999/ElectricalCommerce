@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders Summary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Your Orders</h1>
+        </div>
+        
+        <!-- Orders List -->
+        <ul  class="orders-list">
+            
+            <!-- Order 1 -->
+            <li *ngFor="let order of orderIndexArr" class="order-card">
+                <div class="order-header">
+                    <div>
+                        <span class="order-id">Order #{{order.id}}</span>
+                        <span class="order-date"> - {{order.date}}</span>
+                    </div>
+                    @if(order.status=='Pending'){
+                        <span class="order-status status-pending">{{order.status}}</span>
+                    }
+                    @else if(order.status=='Received') {
+                        <span class="order-status status-Received">{{order.status}}</span>
+                     }
+                     @else {
+                        <span class="order-status status-fail">{{order.status}}</span>
+                     }
+                </div>
+                <div class="order-summary">
+                    <span class="order-items-count">{{order.cntItems}} items</span>
+                    <span class="order-total">${{order.totalCost}}</span>
+                </div>
+                <div class="order-actions">
+                    <a routerLink="/order/{{order.id}}" class="view-btn">View Order</a>
+                </div>
+            </li>
+        </ul> 
+
+        <!-- Empty State (hidden by default) -->
+        <div *ngIf="orderIndexArr.length==0" class="empty-state">
+            <i class="far fa-box-open"></i>
+            <h3>No Orders Yet</h3>
+            <p>You haven't placed any orders. Start shopping to see orders here.</p>
+        </div>
+    </div>
+</body>
+</html>

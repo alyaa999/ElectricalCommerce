@@ -8,7 +8,7 @@ import { CartSidebarComponent } from "./Components/cart-sidebar/cart-sidebar.com
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, BackToTopComponent, CartSidebarComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

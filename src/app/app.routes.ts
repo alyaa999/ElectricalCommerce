@@ -7,8 +7,17 @@ import { ErrorComponent } from './Components/error/error.component';
 import { AboutComponent } from './Components/about/about.component';
 import { FilterComponent } from './Components/filter/filter.component';
 import { ShopComponent } from './Components/shop/shop.component';
+import { ProfileComponent } from './Components/profile/profile.component';
+import { OrdersComponent } from './Components/orders/orders.component';
+import { UserComponent } from './Layouts/user/user.component';
+import { AdminComponent } from './Layouts/admin/admin.component';
+import { AdminHomeComponent } from './Components/admin-home/admin-home.component';
 
 export const routes: Routes = [
+ {
+  path: "",
+  component: UserComponent,
+  children: [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {path: 'home', component: HomeComponent, title: 'Home'},
     {path: 'products', component: ShopComponent, title: 'Products'},
@@ -24,6 +33,15 @@ export const routes: Routes = [
     {path: 'profile', loadComponent: () => import('./Components/profile/profile.component').then(m => m.ProfileComponent), title: 'Profile', canActivate: [authGuard] },
     {path: 'confirmOrder', loadComponent: () => import('./Components/confirm-order/confirm-order.component').then(m => m.ConfirmOrderComponent), title: 'confirmOrder', canActivate: [authGuard] },
     {path: 'thankyou', loadComponent: () => import('./Components/thankyou/thankyou.component').then(m => m.ThankyouComponent), title: 'thanks you', canActivate: [authGuard] },
-
-    {path: '**', component: ErrorComponent, title: 'Error' }
+    {path: 'order/:id', loadComponent: () => import('./Components/order-detail/order-detail.component').then(m => m.OrderDetailComponent), title: 'Order', canActivate: [authGuard] },
+  ]
+},  
+{
+  path: "admin",
+  component: AdminComponent, 
+  children: [
+    { path: "home", component: AdminHomeComponent, title: 'Admin Home' }
+  ]
+},
+{path: '**', component: ErrorComponent, title: 'Error' }
 ];

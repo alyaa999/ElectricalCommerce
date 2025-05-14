@@ -273,7 +273,6 @@
     padding-bottom: 100%; /* Square images on mobile */
   }
 }
-
 @media (max-width: 360px) {
   .product-grid {
     grid-template-columns: 1fr;

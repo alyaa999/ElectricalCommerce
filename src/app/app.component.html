@@ -1,13 +1,2 @@
-<div class="d-flex flex-column min-vh-100">
-  <app-header (toggleCart)="toggleCart()"></app-header>
-
-  <main style="min-height: 300px;">
-    <router-outlet class="p-4"></router-outlet>
-  </main>
-
-  <app-cart-sidebar [isOpen]="isCartOpen" (closeCart)="toggleCart()"></app-cart-sidebar>
-
-  <app-footer class="bg-light text-center mt-4"></app-footer>
-
-  <app-back-to-top></app-back-to-top>
-</div>
+ 
+<router-outlet ></router-outlet>
