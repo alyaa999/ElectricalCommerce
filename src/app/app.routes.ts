@@ -41,6 +41,7 @@ export const routes: Routes = [
     path: "dashboard",
     component: DashboardComponent,
     children: [
+      { path: "", redirectTo: "orders", pathMatch: 'full' },
       { path: "login", component: DashboardLoginComponent, title: 'Login' },
       { path: "orders", component: DashboardOrdersComponent, title: 'All Orders' },
       { path: "brands", component: BrandsComponent, title: 'Brands' },
