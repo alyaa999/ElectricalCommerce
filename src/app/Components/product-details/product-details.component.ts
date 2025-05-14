@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../Service/product.service';
 import { Product } from '../../Interfaces/Product/Product.models';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+import { CartService } from '../../Service/cart.service';
+import { CartItems } from '../../Interfaces/Cart/Cart.models';
 
 @Component({
   selector: 'app-product-details',
@@ -34,21 +37,30 @@ product:Product=
   typeId: 0,
   isFavourited: false
 }
+cartItem: CartItems = {
+  id: 0,
+  productName: "",
+  pictureUrl: "",
+  description :  "",
+  brand:  "",
+  type:  "",
+  price: 0,
+  quantity: 0
+}
 counter=signal<number>(0)
 
 minus()
 {
-   if(this.counter()>0){
+  if(this.counter()>0){
   this.counter.update((old)=>--old)
-   }
+}
 }
 plus()
 {
- 
   this.counter.update((old)=>++old)
 }
 
-constructor(private service:ProductService,   private route: ActivatedRoute)
+constructor(private service:ProductService,   private route: ActivatedRoute, private cartWishingService: CartWishingDataService, private cartService: CartService)
 {
 
 } 
@@ -69,30 +81,48 @@ ngOnInit(): void {
     } 
   }
 
-  Add()
-  {
+    isLoading: boolean = false;
+    isButtonDisabled: boolean = false;
+    buttonText: string = 'Add To Cart'
+
+  Add() {
+    // Set loading state
+    this.isLoading = true;
+    this.isButtonDisabled = true;
+    this.buttonText = 'Adding...';
+
     const qty = this.counter();
-  if (qty < 1) {
-    alert('please Add Valid Quantity');
-    return;
-  }
-    
-    this.service.addToCart(this.product,qty).subscribe
-    ({
-      next: () => {
-      alert('SucessFull');
+    this.cartItem = {
+      id: this.product.id,
+      productName: this.product.name,
+      pictureUrl: this.product.pictureUrl,
+      description :  this.product.description,
+      brand:  this.product.brand,
+      type:  this.product.type,
+      price: this.product.price,
+      quantity: qty
     }
-    }
-    
-    );
 
+    this.cartService.addToCart(this.cartItem).subscribe({
+      next: (response) => {
+        this.cartWishingService.cartItems.set(response.items);
+        this.cartWishingService.cartItemsCount.set(response.items.length);
 
+        // Success state
+        this.buttonText = '✓ Added!';
+        setTimeout(() => {
+          this.buttonText = 'ADD TO CART';
+          this.isButtonDisabled = false;
+          this.isLoading = false;
+        }, 2000);
+      },
+      error: () => {
+        // Error state
+        this.buttonText = 'Try Again';
+        this.isButtonDisabled = false;
+        this.isLoading = false;
+      }
+    });
   }
-
-
-
-
 }
-
- 
 

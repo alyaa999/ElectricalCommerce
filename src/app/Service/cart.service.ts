@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CustomerBasket } from '../Interfaces/Cart/Cart.models';
 import { AuthService } from './auth.service';
 import { EMPTY } from 'rxjs';
+import { CartWishingDataService } from './cart-wishing-data.service';
 
 
 @Injectable({
@@ -35,6 +36,7 @@ export class CartService {
     console.log("thisauth");
     if(!this.authService.IsAuthenticated)
         return EMPTY
+    console.log(item);
     return this.http.post<CartData>(`${this.apiUrl}`, item );
   }
 
