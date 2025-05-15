@@ -13,8 +13,8 @@ export class CheckoutService {
   constructor( private http : HttpClient) { 
 
   }
-    CreateOrder(orderData : OrderDto) {
-          return this.http.post(`${this.apiUrl}/Order`, orderData); 
+    CreateOrder(orderData : OrderDto) :Observable<OrderDto> {
+          return this.http.post<OrderDto>(`${this.apiUrl}/Order`, orderData); 
   }
   DeleteOrder(id: string  | null) {
     return this.http.delete(`${this.apiUrl}/Order?id=${id}`);
@@ -26,8 +26,8 @@ export class CheckoutService {
      return this.http.get<DeliveryMethods[]>(`${this.apiUrl}/Order/DeliveryMethods`);
   }
 
-  Credit(basketId :string ) :Observable<any> {
-    return this.http.post(`${this.apiUrl}/Payments/create-checkout-session?orderId=${basketId}` , {});
+  Credit(orderId :number ) :Observable<any> {
+    return this.http.post(`${this.apiUrl}/Payments/create-checkout-session?orderId=${orderId}` , {});
     
       
   }

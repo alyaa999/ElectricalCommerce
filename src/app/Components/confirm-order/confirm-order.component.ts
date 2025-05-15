@@ -23,6 +23,7 @@ export class ConfirmOrderComponent implements OnInit{
 
   Order : OrderDto ={
     basketId: "",
+    id :0,
     deliveryMethodId: 0,
     isCredit : false ,
     shippingAddress: {
@@ -58,12 +59,13 @@ export class ConfirmOrderComponent implements OnInit{
   
     try {
       // ✅ Ensure the order is created first
-      await lastValueFrom(this.checkoutService.CreateOrder(this.Order));
+     var returnOrder =  await lastValueFrom(this.checkoutService.CreateOrder(this.Order));
+     this.Order.id =  returnOrder.id;
   
       if (this.selectedPaymentMethod === 'cash') {
         this.router.navigate(['/thankyou']);
       } else {
-        this.checkoutService.Credit(this.Order.basketId).subscribe((res) => {
+        this.checkoutService.Credit(this.Order.id).subscribe((res) => {
           location.href= res.url;
           console.log('Redirecting to Stripe:', res);
         });
