@@ -1,0 +1,39 @@
+/* Custom modal backdrop */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Button spacing */
+.btn {
+  margin-right: 5px;
+}
+
+/* Responsive table */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Modal transitions */
+.modal-content {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading spinner */
+.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+/* Detail view styling */
+.modal-body .row {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-body .row:last-child {
+  border-bottom: none;
+}
