@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core'; 
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, signal , AfterViewInit ,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core'; 
+import { ActivatedRoute ,Router} from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/enviroment';
 import { CommonModule } from '@angular/common';
@@ -10,17 +10,25 @@ import { CartWishingDataService } from '../../Service/cart-wishing-data.service'
 import { CartService } from '../../Service/cart.service';
 import { CartItems } from '../../Interfaces/Cart/Cart.models';
 
+
 @Component({
   selector: 'app-product-details',
   imports: [
     RouterModule,CommonModule,
     FormsModule
   ],
+
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css'
 })
-export class ProductDetailsComponent  implements OnInit 
+
+
+export class ProductDetailsComponent  implements OnInit  
 {
+
+  
+public products: Product[] = []; // Initialize as empty array    
+
   
 selectedTab: 'description' | 'info' = 'description';
 product:Product=
@@ -60,26 +68,41 @@ plus()
   this.counter.update((old)=>++old)
 }
 
-constructor(private service:ProductService,   private route: ActivatedRoute, private cartWishingService: CartWishingDataService, private cartService: CartService)
+constructor(private service:ProductService  ,private route:Router, private router: ActivatedRoute, private cartWishingService: CartWishingDataService, private cartService: CartService)
 {
 
 } 
 ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.service.getProductByID(id).subscribe(
-        (data) => {
-          data.pictureUrl = data.pictureUrl.replace(
-            environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
-            ''
-          );
-          this.product = data;
-
-          console.log("Product received:", this.product);
-        }
+  const id = Number(this.router.snapshot.paramMap.get('id'));
+  if (id) {
+    this.service.getProductByID(id).subscribe((data) => {
+      data.pictureUrl = data.pictureUrl.replace(
+        environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
+        ''
       );
-    } 
+      this.product = data;
+
+      // Load related products AFTER product is set
+this.service.getProductsByType(this.product.typeId).subscribe((res: any) => {
+  const data = res.value;
+
+  const productsArray = Array.isArray(data.data) ? data.data : [];
+
+  this.products = productsArray.map((product: any) => ({
+    ...product,
+    pictureUrl: product.pictureUrl.replace(
+      environment.apiBaseUrl.substring(0, environment.apiBaseUrl.length - 3),
+      ''
+    )
+  }));
+
+  console.log(this.products);
+});
+
+  })
   }
+  }
+
 
     isLoading: boolean = false;
     isButtonDisabled: boolean = false;
@@ -124,5 +147,15 @@ ngOnInit(): void {
       }
     });
   }
+
+  gotodetails(id:number)
+  {
+  this.route.navigate([`/products/${id}`]);
+
+  }
+  
+  
 }
+
+
 

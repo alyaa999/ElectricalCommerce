@@ -94,5 +94,10 @@ export class ProductService {
 
     return this.http.post(`${environment.apiBaseUrl}/Baskets/basket`, payload);
   }
+getProductsByType(typeId: number): Observable<Product[]> {
+  let params = new HttpParams()
+    .set('typeId', typeId.toString());
 
+  return this.http.get<Product[]>(`${this.apiUrl}/products`, { params });
+}
 }
