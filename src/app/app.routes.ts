@@ -37,6 +37,8 @@ export const routes: Routes = [
       { path: 'confirmOrder', loadComponent: () => import('./Components/confirm-order/confirm-order.component').then(m => m.ConfirmOrderComponent), title: 'confirmOrder', canActivate: [authGuard] },
       { path: 'thankyou', loadComponent: () => import('./Components/thankyou/thankyou.component').then(m => m.ThankyouComponent), title: 'thanks you', canActivate: [authGuard] },
       { path: 'order/:id', loadComponent: () => import('./Components/order-detail/order-detail.component').then(m => m.OrderDetailComponent), title: 'Order', canActivate: [authGuard] },
+      {path: 'cancelOrder', loadComponent: () => import('./Components/cancel-order/cancel-order.component').then(m => m.CancelOrderComponent), title: 'cancel Order', canActivate: [authGuard] },
+
     ]
   },
   {

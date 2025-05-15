@@ -13,17 +13,22 @@ export class CheckoutService {
   constructor( private http : HttpClient) { 
 
   }
-    CreateOrder(orderData : OrderDto) {
-          return this.http.post(`${this.apiUrl}/Order`, orderData); 
+    CreateOrder(orderData : OrderDto) :Observable<OrderDto> {
+          return this.http.post<OrderDto>(`${this.apiUrl}/Order`, orderData); 
   }
+  DeleteOrder(id: string  | null) {
+    return this.http.delete(`${this.apiUrl}/Order?id=${id}`);
+  }
+  
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 
   {
      return this.http.get<DeliveryMethods[]>(`${this.apiUrl}/Order/DeliveryMethods`);
   }
 
-  Credit() :Observable<any> {
-    return this.http.post<{ id: string }>('/api/create-checkout-session', {});
+  Credit(orderId :number ) :Observable<any> {
+    return this.http.post(`${this.apiUrl}/Payments/create-checkout-session?orderId=${orderId}` , {});
+    
       
   }
 }

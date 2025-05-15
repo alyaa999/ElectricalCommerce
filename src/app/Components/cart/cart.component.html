@@ -28,70 +28,69 @@
         </nav>
       </div>
 
-      <div class="row g-4">
-        <!-- Cart Items -->
-        <div class="col-lg-8">
-          <div class="cart-card animate-fadeInLeft">
-            <div class="cart-header">
-              <h4>
-                <i class="bi bi-cart3 me-2"></i>Your Cart
-                <span class="badge">{{Cart().items.length}} items</span>
-              </h4>
-            </div>
+        <div class="row g-4">
+            <!-- Cart Items -->
+            <div class="col-lg-8">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0 fw-bold text-primary">
+                            <i class="bi bi-cart3 me-2"></i>Your Cart
+                            <span class="badge bg-primary rounded-pill ms-2">{{Cart.items.length}} items</span>
+                        </h4>
+                        <button class="btn btn-sm btn-outline-danger" (click)="ClearCart()">
+                            <i class="bi bi-trash"></i> Clear Cart
+                        </button>
+                    </div>
 
-            <div class="table-responsive">
-              <table class="table align-middle cart-table">
-                <thead>
-                  <tr>
-                    <th scope="col" style="width: 100px;">Product</th>
-                    <th scope="col">Details</th>
-                    <th scope="col" class="text-end">Price</th>
-                    <th scope="col" class="text-center">Quantity</th>
-                    <th scope="col" class="text-end">Total</th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (item of Cart().items; track item.id; let i = $index) {
-                  <tr class="animate-fadeIn cart-item-row" [style.animation-delay.ms]="i*100">
-                    <td class="product-image">
-                      <img [src]="item.pictureUrl || 'assets/images/placeholder-product.jpg'"
-                          [alt]="item.productName"
-                          class="img-fluid">
-                    </td>
-                    <td class="product-info">
-                      <h6 class="product-name">{{item.productName}}</h6>
-                    </td>
-                    <td class="product-price text-end">{{item.price | number:'1.2-2'}} L.E</td>
-                    <td class="product-quantity text-center">
-                      <div class="quantity-control">
-                        <button class="btn btn-qty minus"
-                                (click)="adjustQuantity(item, -1)"
-                                [disabled]="item.quantity <= 1"
-                                [class.btn-qty-disabled]="item.quantity <= 1">
-                          <i class="bi bi-dash-lg"></i>
-                        </button>
-                        <span class="quantity-display" [class.quantity-change]="item.quantity !== previousQuantities[item.id]">
-                          {{item.quantity}}
-                        </span>
-                        <button class="btn btn-qty plus" (click)="adjustQuantity(item, 1)">
-                          <i class="bi bi-plus-lg"></i>
-                        </button>
-                      </div>
-                    </td>
-                    <td class="product-total text-end">{{(item.quantity * item.price) | number:'1.2-2'}} L.E</td>
-                    <td class="product-remove">
-                      <button class="btn btn-remove">
-                        <i class="bi bi-x-lg"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  }
-                </tbody>
-              </table>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" style="width: 100px;">Product</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col" class="text-end">Price</th>
+                                    <th scope="col" class="text-center">Quantity</th>
+                                    <th scope="col" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of Cart.items">
+                                    <td>
+                                        <img [src]="item.pictureUrl" alt="{{item.productName}}"
+                                            class="img-fluid rounded border"
+                                            style="width: 80px; height: 80px; object-fit: cover;"
+                                            onerror="this.src='/Images/DSC08433.webp'">
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-1">{{item.productName}}</h6>
+                                        <small class="text-muted">SKU: {{item.brand}}</small>
+                                    </td>
+                                    <td class="text-end">${{item.price | number:'1.2-2'}}</td>
+                                    <td class="text-center">
+                                        <div class="input-group quantity-selector" style="max-width: 250px;">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                (click)="UpdateCart(item.quantity-1, item)">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <input type="text" class="form-control text-center w-20"
+                                                [(ngModel)]="item.quantity" [value]="item.quantity">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                (click)="UpdateCart(item.quantity+1 , item)"><i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td class="text-end fw-bold">${{(item.quantity * item.price) | number:'1.2-2'}}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-danger" (click)="UpdateCart(0, item)">
+                                            <i class="bi bi-x-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
         <!-- Order Summary -->
         <div class="col-lg-4">

@@ -1,11 +1,13 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CartService } from '../../Service/cart.service';
 import { EgyptShippingService } from '../../Service/egypt-shipping.service';
-import { BasketItem, CustomerBasket, shipping } from '../../Interfaces/Cart/Cart.models';
-import { SharedServiceService } from '../../Service/shared-service.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, PristineChangeEvent } from '@angular/forms';
+import { BasketItem, CartItems, CustomerBasket, shipping } from '../../Interfaces/Cart/Cart.models';
 import { RouterModule } from '@angular/router';
+import { SharedServiceService } from '../../Service/shared-service.service';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+
+
 
 @Component({
   selector: 'app-cart',
@@ -28,48 +30,97 @@ export class CartComponent implements OnInit {
   Total = computed(() => this.Subtotal() + this.SelectValue());
   EmptyCart = computed(() => this.Cart().items.length > 0);
 
-  constructor(
-    private cartService: CartService,
-    private ShippingService: EgyptShippingService,
-    private sharedService: SharedServiceService
-  ) {
-    this.Shipping = this.ShippingService.shipping;
-  }
+   
+    
 
-  ngOnInit(): void {
-    this.loadCart();
-  }
+    constructor ( private cartService : CartService ,private signal : CartWishingDataService , Shipping : EgyptShippingService , private sharedService : SharedServiceService)
+    {
+      this.Shipping = Shipping.shipping ;
+  
+    }
 
-  loadCart(): void {
-    this.cartService.getCart().subscribe({
-      next: (data) => {
-        this.Cart.set(data);
-        // Initialize previous quantities
-        data.items.forEach(item => {
-          this.previousQuantities[item.id] = item.quantity;
-        });
-        this.SelectValue.set(this.Shipping[0]?.price || 0);
-        this.sharedService.SubTotal.next(this.Subtotal());
-      },
-      error: (error) => console.error('Error loading cart:', error)
+    ngOnInit(): void {
+      
+        this.cartService.getCart().subscribe({next :(data) => {this.Cart = data,
+          this.Cart.items.forEach(x=> {
+            this.Subtotal += x.price * x.quantity;
+           });
+           this.sharedService.SubTotal.next(this.Subtotal);
+           if(this.Cart.items.length == 0)
+             this.EmptyCart= false;
+         }, 
+        error :(error)=>this.EmptyCart=false
+      });
+    
+       this.Total = this.Subtotal;
+      console.log(this.Cart);
+      //this.signal.cartItemsCount.set(this.Cart.items.length);
+
+      
+      
+    }
+   UpdateTotals()
+   {
+     
+    this.Total =  Number(this.Subtotal) + Number(this.SelectValue);
+    console.log(this.Total);
+   }
+   ClearCart()
+   {
+    this.Cart.items.forEach(element => {
+      this.cartService.removeFromCart(element.id).subscribe({next : (x)=> console.log(x)}) ;
+
     });
-  }
+    this.Cart.items=[];
+    this.recalculateTotals();
+    this.signal.cartItemsCount.set(this.signal.cartItems.length);
 
-  adjustQuantity(item: BasketItem, change: number): void {
-    // Store current quantity before changing
-    this.previousQuantities[item.id] = item.quantity;
-    
-    const newQuantity = item.quantity + change;
-    if (newQuantity < 1) return;
-    
-    // Update local state immediately for responsiveness
-    const updatedItems = this.Cart().items.map(i => 
-      i.id === item.id ? { ...i, quantity: newQuantity } : i
-    );
-    this.Cart.update(c => ({ ...c, items: updatedItems }));
-  }
 
-  UpdateTotals(): void {
-    this.sharedService.SubTotal.next(this.Subtotal());
+
+   }
+   UpdateCart(quantity: number , item : CartItems )
+   {
+      
+      
+      if(quantity == 0 )
+      {
+        // call delete item from cart ...
+         this.cartService.removeFromCart(item.id).subscribe({next : (x)=> console.log(x)}) ;
+         this.Cart.items = this.Cart.items.filter(x => x.id != item.id);
+           
+         this.recalculateTotals();
+
+      }
+      else 
+      {
+        item.quantity = quantity;
+        this.cartService.UpdateCart(item).subscribe({
+          next: cart=>
+          {
+            const index = cart.items.findIndex(x => x.id === item.id);
+            if (index > -1) {
+              this.Cart.items[index].quantity = quantity;
+            }
+            this.recalculateTotals();
+
+          },
+          error: (err) => console.error(err)
+      });
+      }
+      this.signal.cartItemsCount.set(this.Cart.items.length);
+
+
+
+   }
+   recalculateTotals() {
+    this.Subtotal = 0;
+    this.Cart.items.forEach(x => {
+      this.Subtotal += x.price * x.quantity;
+    });
+    this.sharedService.SubTotal.next(this.Subtotal);
+    this.EmptyCart = !(this.Cart.items.length === 0);
+    this.UpdateTotals();
   }
+  
+   
 }

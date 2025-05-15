@@ -9,8 +9,10 @@ export interface AddressDto {
 
 export interface OrderDto {
   basketId: string;
+  id :number ;
 
   deliveryMethodId: number;
+  isCredit : boolean ;
 
   shippingAddress: AddressDto;
 }

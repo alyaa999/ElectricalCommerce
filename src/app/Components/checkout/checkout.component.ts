@@ -63,13 +63,15 @@ export class CheckoutComponent implements OnInit {
         country: formValues.country
       };
       const Order :OrderDto={
-
+        id : 0,
         basketId:this.cart.id,
+        isCredit : false,
         deliveryMethodId:formValues.deliveryMethodId,
         shippingAddress :shippingAddress,
       }
-
-      this.sharedService.Order.next(Order) ;
+    
+      this.sharedService.Order = Order;
+      console.log(this.sharedService);
 
 
     }

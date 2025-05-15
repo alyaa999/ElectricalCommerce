@@ -7,6 +7,9 @@ import { StripeService } from '../../Service/stripe.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule, PristineChangeEvent } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
+import { single } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-order',
@@ -18,54 +21,60 @@ import { Router } from '@angular/router';
 export class ConfirmOrderComponent implements OnInit{
   selectedPaymentMethod: 'cash' | 'card' | null = null;
 
- Order : OrderDto =
-  {basketId: '', shippingAddress :{
-    firstName :"",
-    lastName:"",
-    street :"",
-    country:"",
-    city:"",
-   } , deliveryMethodId :1}
+  Order : OrderDto ={
+    basketId: "",
+    id :0,
+    deliveryMethodId: 0,
+    isCredit : false ,
+    shippingAddress: {
+      street: "",
+      firstName: '',
+      lastName: '',
+      city: '',
+      country: ''
+    },
+  }
  
- constructor( private sharedService : SharedServiceService , private router : Router,
-  private checkoutService : CheckoutService ,private stripeService : StripeService) {
+ constructor( private router : Router,
+  private checkoutService : CheckoutService,private stripeService : StripeService,private sharedService : SharedServiceService,) {
  
   
  }
   ngOnInit(): void {
-    this.sharedService.Order.subscribe((next) => {
-      this.Order = next;
-      console.log('Updated Order:', this.Order);
-    } );
-    console.log(this.Order);
+  
   }
   selectPayment(selectMethod : 'cash' | 'card' | null)
   {
     this.selectedPaymentMethod = selectMethod;
+    
 
+  }
+
+
+  async confirmOrder() {
+    this.Order = this.sharedService.Order;
+    this.Order.isCredit= true;
+
+    console.log(this.Order)
+  
+    try {
+      // ✅ Ensure the order is created first
+     var returnOrder =  await lastValueFrom(this.checkoutService.CreateOrder(this.Order));
+     this.Order.id =  returnOrder.id;
+  
+      if (this.selectedPaymentMethod === 'cash') {
+        this.router.navigate(['/thankyou']);
+      } else {
+        this.checkoutService.Credit(this.Order.id).subscribe((res) => {
+          location.href= res.url;
+          console.log('Redirecting to Stripe:', res);
+        });
+      }
+  
+    } catch (err) {
+      console.error('Failed to create order:', err);
+      // Show user-friendly error
+    }
   }
   
-  confirmOrder()
-  {
-    if(this.selectedPaymentMethod == 'cash')
-    {  
-      console.log(this.Order);
-               // call api to create a new order
-            this.checkoutService.CreateOrder(this.Order).subscribe(async response => {
-              console.log('Order created successfully:', response);
-              this.router.navigate(['/thankyou']);
-
-            }, error => {
-              console.error('Error creating order:', error);
-            });
-    }
-    else 
-    {
-        this.checkoutService.Credit().subscribe(async (res) => {
-          await this.stripeService.redirectToCheckout(res.id);
-          //save order after check success or failed
-          
-        });
-    }
-  }
 }

@@ -40,11 +40,14 @@ export class CartService {
     return this.http.post<CartData>(`${this.apiUrl}`, item );
   }
 
+  UpdateCart(item: CartItems): Observable<CartData> {
+    return this.http.post<CartData>(`${this.apiUrl}`,  item);
+  }
   removeFromCart(itemId: number): Observable<void> {
     if(!this.authService.IsAuthenticated())
         return EMPTY
     return this.http.delete<void>(`${this.apiUrl}/${itemId}`);
   }
 
-  
+ 
 }
