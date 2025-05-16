@@ -20,6 +20,11 @@ export class CheckoutService {
     return this.http.delete(`${this.apiUrl}/Order?id=${id}`);
   }
   
+  UpdateorderStatus(id: string | null) {
+    const numericId = Number(id);
+    return this.http.get(`${this.apiUrl}/Order/UpdateorderStatus?id=${numericId}`);
+  }
+  
 
   GetDeliveryMehtods():Observable<DeliveryMethods[]> 
   {

@@ -1,5 +1,6 @@
-import { Component, OnInit, signal, computed } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../Service/cart.service';
+import { CommonModule } from '@angular/common';
 import { EgyptShippingService } from '../../Service/egypt-shipping.service';
 import { FormsModule, PristineChangeEvent } from '@angular/forms';
 import { BasketItem, CartItems, CustomerBasket, shipping } from '../../Interfaces/Cart/Cart.models';
@@ -12,23 +13,19 @@ import { CartWishingDataService } from '../../Service/cart-wishing-data.service'
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule]
+  styleUrl: './cart.component.css',
+  imports:[CommonModule , FormsModule ,RouterModule]
 })
 export class CartComponent implements OnInit {
-  Cart = signal<CustomerBasket>({ id: "", items: [] });
-  Shipping: shipping[] = [];
-  SelectValue = signal<number>(0);
-  previousQuantities: Record<string, number> = {};
-  
-  Subtotal = computed(() => this.Cart().items.reduce(
-    (sum, item) => sum + (item.price * item.quantity), 
-    0
-  ));
-  
-  Total = computed(() => this.Subtotal() + this.SelectValue());
-  EmptyCart = computed(() => this.Cart().items.length > 0);
+     Cart: CustomerBasket ={
+       id: "",
+       items: []
+     }
+    Shipping : shipping[] ;
+    SelectValue: number=0;
+    Subtotal:number = 0;
+    Total : number = 0;
+    EmptyCart:boolean =true;
 
    
     

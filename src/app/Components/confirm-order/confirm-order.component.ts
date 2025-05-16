@@ -41,19 +41,24 @@ export class ConfirmOrderComponent implements OnInit{
   
  }
   ngOnInit(): void {
+    this.Order = this.sharedService.Order;
+
   
   }
   selectPayment(selectMethod : 'cash' | 'card' | null)
   {
     this.selectedPaymentMethod = selectMethod;
+    this.Order.isCredit = (this.selectedPaymentMethod == 'card');
+
     
 
   }
 
 
   async confirmOrder() {
-    this.Order = this.sharedService.Order;
-    this.Order.isCredit= true;
+  
+
+   
 
     console.log(this.Order)
   

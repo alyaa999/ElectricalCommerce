@@ -6,10 +6,11 @@ import { OrderDto } from '../../Interfaces/Checkout/checkout.models';
 import { CartWishingDataService } from '../../Service/cart-wishing-data.service';
 import { CustomerBasket } from '../../Interfaces/Cart/Cart.models';
 import { CartService } from '../../Service/cart.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-thankyou',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './thankyou.component.html',
   styleUrl: './thankyou.component.css'
 })

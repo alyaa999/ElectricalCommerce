@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CheckoutService } from '../../Service/checkout.service';
 
 @Component({
   selector: 'app-cancel-order',
+  imports :[RouterModule],
   templateUrl: './cancel-order.component.html',
   styleUrls: ['./cancel-order.component.css']
 })
 export class CancelOrderComponent implements OnInit {
   orderId: string | null = null;
 
-  constructor(private route: ActivatedRoute , private  checkout : CheckoutService) {}
+  constructor(private route: ActivatedRoute , private  checkout : CheckoutService,
+  ) {}
 
   ngOnInit(): void {
     this.orderId = this.route.snapshot.queryParamMap.get('orderId');
@@ -19,6 +21,7 @@ export class CancelOrderComponent implements OnInit {
       console.log('Canceling order with ID:', this.orderId);
     }
     this.checkout.DeleteOrder(this.orderId).subscribe({});
+    this.checkout.UpdateorderStatus(this.orderId).subscribe({});
       
     
   }
